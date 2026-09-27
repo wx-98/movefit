@@ -30,9 +30,7 @@ final class HealthKitAdapter: HealthDataProviding {
             HKObjectType.categoryType(forIdentifier: .sleepAnalysis),
             HKObjectType.workoutType()
         ]
-        if #available(iOS 14.0, *) {
-            requestedTypes.append(HKObjectType.electrocardiogramType())
-        }
+        requestedTypes.append(HKObjectType.electrocardiogramType())
         let types = Set(requestedTypes.compactMap { $0 })
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             store.requestAuthorization(toShare: [], read: types) { success, error in
@@ -172,7 +170,6 @@ final class HealthKitAdapter: HealthDataProviding {
 
     func electrocardiogramSummaries() async throws -> [ECGRecordSummary] {
         guard isAvailable else { return [] }
-        guard #available(iOS 14.0, *) else { return [] }
         let type = HKObjectType.electrocardiogramType()
         let samples: [HKElectrocardiogram] = try await withCheckedThrowingContinuation { continuation in
             let query = HKSampleQuery(
@@ -200,7 +197,7 @@ final class HealthKitAdapter: HealthDataProviding {
     }
 
     func electrocardiogramWaveform(for recordID: UUID) async throws -> ECGWaveform? {
-        guard isAvailable, #available(iOS 15.0, *) else { return nil }
+        guard isAvailable else { return nil }
         let type = HKObjectType.electrocardiogramType()
         let predicate = HKQuery.predicateForObject(with: recordID)
         let sample: HKElectrocardiogram? = try await withCheckedThrowingContinuation { continuation in
@@ -404,7 +401,6 @@ final class HealthKitAdapter: HealthDataProviding {
         return (type, unit, options, usesCumulativeSum)
     }
 
-    @available(iOS 14.0, *)
     private func ecgClassification(for sample: HKElectrocardiogram) -> ECGClassification {
         let description = String(describing: sample.classification)
         if description.contains("sinusRhythm") { return .sinusRhythm }
@@ -413,7 +409,7 @@ final class HealthKitAdapter: HealthDataProviding {
         return .unknown
     }
 
-    private func makeSleepSegment(from sample: HKCategorySample) -> SleepStageSegment? {
+    func makeSleepSegment(from sample: HKCategorySample) -> SleepStageSegment? {
         let stage: SleepStage
         switch sample.value {
         case 0: stage = .inBed
@@ -432,7 +428,7 @@ final class HealthKitAdapter: HealthDataProviding {
         )
     }
 
-    private func makeSleepSessions(
+    func makeSleepSessions(
         from segments: [SleepStageSegment]
     ) -> [[SleepStageSegment]] {
         var sessions: [[SleepStageSegment]] = []
@@ -447,7 +443,7 @@ final class HealthKitAdapter: HealthDataProviding {
         return sessions
     }
 
-    private func bedtimeDeviation(for sessions: [[SleepStageSegment]]) -> Double? {
+    func bedtimeDeviation(for sessions: [[SleepStageSegment]]) -> Double? {
         guard sessions.count > 1,
               let latestStart = sessions.last?.map(\.startDate).min() else { return nil }
         let latestMinutes = minutesSinceMidnight(latestStart)
@@ -484,7 +480,7 @@ final class HealthKitAdapter: HealthDataProviding {
         )
     }
 
-    private static func mapWorkoutType(_ type: HKWorkoutActivityType) -> WorkoutType {
+    static func mapWorkoutType(_ type: HKWorkoutActivityType) -> WorkoutType {
         switch type {
         case .running: return .running
         case .walking: return .walking

@@ -1,5 +1,6 @@
 import CoreLocation
 import Foundation
+@testable import MoveFit
 
 actor DemoWorkoutRepository: WorkoutRepository {
     private var records: [WorkoutRecord]

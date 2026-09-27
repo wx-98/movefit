@@ -70,8 +70,10 @@ final class AppModel: ObservableObject {
         locationProvider.authorizationStatus
     }
 
-    private let workoutRepository: WorkoutRepository
+    private let loadWorkoutsUseCase: LoadWorkoutsUseCase
+    private let saveWorkoutUseCase: SaveWorkoutUseCase
     private let healthProvider: HealthDataProviding
+    private let loadDailyHealthUseCase: LoadDailyHealthUseCase
     private let locationProvider: LocationProviding
     private let dateProvider: DateProviding
     private let uuidProvider: UUIDProviding
@@ -121,8 +123,10 @@ final class AppModel: ObservableObject {
         personalHealthRecordProvider: PersonalHealthRecordProviding? = nil,
         remoteFeatures: RemoteFeatureViewModel? = nil
     ) {
-        self.workoutRepository = workoutRepository
+        self.loadWorkoutsUseCase = LoadWorkoutsUseCase(repository: workoutRepository)
+        self.saveWorkoutUseCase = SaveWorkoutUseCase(repository: workoutRepository)
         self.healthProvider = healthProvider
+        self.loadDailyHealthUseCase = LoadDailyHealthUseCase(provider: healthProvider)
         self.locationProvider = locationProvider
         self.dateProvider = dateProvider
         self.uuidProvider = uuidProvider
@@ -150,7 +154,7 @@ final class AppModel: ObservableObject {
         loadError = nil
         defer { isLoading = false }
         do {
-            localWorkouts = try await workoutRepository.workouts()
+            localWorkouts = try await loadWorkoutsUseCase.execute()
             trainingPlans = try await trainingCatalogProvider.plans()
             mergeWorkouts()
             if let persistenceController {
@@ -837,8 +841,8 @@ final class AppModel: ObservableObject {
             route: []
         )
         do {
-            try await workoutRepository.save(record, operationID: uuidProvider.make())
-            localWorkouts = try await workoutRepository.workouts()
+            try await saveWorkoutUseCase.execute(record, operationID: uuidProvider.make())
+            localWorkouts = try await loadWorkoutsUseCase.execute()
             mergeWorkouts()
             updateDerivedData()
             await uploadWorkoutIfPossible(record, source: .manual)
@@ -864,8 +868,8 @@ final class AppModel: ObservableObject {
             route: locationSummary.route
         )
         do {
-            try await workoutRepository.save(record, operationID: uuidProvider.make())
-            localWorkouts = try await workoutRepository.workouts()
+            try await saveWorkoutUseCase.execute(record, operationID: uuidProvider.make())
+            localWorkouts = try await loadWorkoutsUseCase.execute()
             mergeWorkouts()
             updateDerivedData()
             await uploadWorkoutIfPossible(record, source: .moveFitRecorded)
@@ -891,7 +895,7 @@ final class AppModel: ObservableObject {
             return
         }
         do {
-            if let summary = try await healthProvider.dailySummary() {
+            if let summary = try await loadDailyHealthUseCase.execute() {
                 health = summary
                 healthStatus = .available
             } else {

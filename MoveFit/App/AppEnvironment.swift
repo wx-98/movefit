@@ -34,8 +34,8 @@ struct AppEnvironment: Equatable {
         }
     }
 
-    private static func url(for key: String, bundle: Bundle) throws -> URL {
-        guard let value = bundle.object(forInfoDictionaryKey: key) as? String,
+    static func url(for key: String, infoDictionary: [String: Any]) throws -> URL {
+        guard let value = infoDictionary[key] as? String,
               !value.isEmpty,
               !value.contains("$("),
               let url = URL(string: value),
@@ -47,6 +47,10 @@ struct AppEnvironment: Equatable {
         return url
     }
 
+    private static func url(for key: String, bundle: Bundle) throws -> URL {
+        try url(for: key, infoDictionary: bundle.infoDictionary ?? [:])
+    }
+
     private static func localURL(port: Int) -> URL {
         var components = URLComponents()
         components.scheme = "http"
@@ -55,20 +59,24 @@ struct AppEnvironment: Equatable {
         return components.url ?? URL(fileURLWithPath: "/")
     }
 
-    private static func googleRedirectURI(bundle: Bundle) -> URL? {
-        guard let value = bundle.object(forInfoDictionaryKey: "MoveFitGoogleRedirectURI") as? String,
+    static func googleRedirectURI(infoDictionary: [String: Any]) -> URL? {
+        guard let value = infoDictionary["MoveFitGoogleRedirectURI"] as? String,
               !value.contains("$("),
               let url = URL(string: value),
               let scheme = url.scheme,
               !["http", "https"].contains(scheme),
               !url.path.isEmpty,
-              let types = bundle.object(forInfoDictionaryKey: "CFBundleURLTypes") as? [[String: Any]],
+              let types = infoDictionary["CFBundleURLTypes"] as? [[String: Any]],
               types.contains(where: { type in
                   (type["CFBundleURLSchemes"] as? [String])?.contains(scheme) == true
               }) else {
             return nil
         }
         return url
+    }
+
+    private static func googleRedirectURI(bundle: Bundle) -> URL? {
+        googleRedirectURI(infoDictionary: bundle.infoDictionary ?? [:])
     }
 }
 
