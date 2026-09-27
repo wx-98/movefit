@@ -1,0 +1,161 @@
+:root {
+  /* MoveFit Primary Scale */
+  --movefit-primary-50: #fff1f3;
+  --movefit-primary-100: #ffd6dc;
+  --movefit-primary-200: #ffb3bd;
+  --movefit-primary-300: #ff7a8d;
+  --movefit-primary-400: #f53d5a;
+  --movefit-primary-500: #ba0034;
+  --movefit-primary-600: #97002b;
+  --movefit-primary-700: #740022;
+  --movefit-primary-800: #520018;
+  --movefit-primary-900: #31000e;
+
+  /* Neutral Scale (iOS System Grays) */
+  --movefit-neutral-50: #f2f2f7;
+  --movefit-neutral-100: #e5e5ea;
+  --movefit-neutral-200: #d1d1d6;
+  --movefit-neutral-300: #c7c7cc;
+  --movefit-neutral-400: #aeaeb2;
+  --movefit-neutral-500: #8e8e93;
+  --movefit-neutral-600: #636366;
+  --movefit-neutral-700: #48484a;
+  --movefit-neutral-800: #3a3a3c;
+  --movefit-neutral-900: #1c1c1e;
+
+  /* Semantic Health Colors */
+  --movefit-move: #f20540;
+  --movefit-exercise: #21c747;
+  --movefit-stand: #1ea8f2;
+  --movefit-sleep: #5945e0;
+  --movefit-challenge: #943fde;
+  --movefit-orange: #f57a1f;
+  --movefit-teal: #089e91;
+
+  /* State Colors */
+  --movefit-state-success: #21c747;
+  --movefit-state-warning: #f57a1f;
+  --movefit-state-error: #ff3b30;
+  --movefit-state-info: #1ea8f2;
+
+  /* Semantic Aliases */
+  --movefit-background: #f2f2f7;
+  --movefit-foreground: #1c1c1e;
+  --movefit-card: #ffffff;
+  --movefit-card-foreground: #1c1c1e;
+  --movefit-popover: #ffffff;
+  --movefit-popover-foreground: #1c1c1e;
+  --movefit-primary: #ba0034;
+  --movefit-primary-foreground: #ffffff;
+  --movefit-muted: #f2f2f7;
+  --movefit-muted-foreground: #8e8e93;
+  --movefit-border: rgba(0, 0, 0, 0.08);
+  --movefit-input: #ffffff;
+  --movefit-ring: #ba0034;
+  --movefit-radius-small: 8px;
+  --movefit-radius-medium: 12px;
+  --movefit-radius-large: 16px;
+  --movefit-radius-full: 9999px;
+}
+
+@theme inline {
+  --color-background: var(--movefit-background);
+  --color-foreground: var(--movefit-foreground);
+  --color-card: var(--movefit-card);
+  --color-card-foreground: var(--movefit-card-foreground);
+  --color-popover: var(--movefit-popover);
+  --color-popover-foreground: var(--movefit-popover-foreground);
+  --color-primary: var(--movefit-primary);
+  --color-primary-foreground: var(--movefit-primary-foreground);
+  --color-muted: var(--movefit-muted);
+  --color-muted-foreground: var(--movefit-muted-foreground);
+  --color-border: var(--movefit-border);
+  --color-input: var(--movefit-input);
+  --color-ring: var(--movefit-ring);
+  --radius-sm: var(--movefit-radius-small);
+  --radius-md: var(--movefit-radius-medium);
+  --radius-lg: var(--movefit-radius-large);
+  --radius-full: var(--movefit-radius-full);
+
+  /* Extended palette mapped for Tailwind utilities */
+  --color-move: var(--movefit-move);
+  --color-exercise: var(--movefit-exercise);
+  --color-stand: var(--movefit-stand);
+  --color-sleep: var(--movefit-sleep);
+  --color-challenge: var(--movefit-challenge);
+  --color-orange: var(--movefit-orange);
+  --color-teal: var(--movefit-teal);
+  --color-success: var(--movefit-state-success);
+  --color-warning: var(--movefit-state-warning);
+  --color-error: var(--movefit-state-error);
+  --color-info: var(--movefit-state-info);
+}
+
+/* Light mode base */
+html.light,
+:root {
+  --movefit-background: #f2f2f7;
+  --movefit-foreground: #1c1c1e;
+  --movefit-card: #ffffff;
+  --movefit-card-foreground: #1c1c1e;
+  --movefit-popover: #ffffff;
+  --movefit-popover-foreground: #1c1c1e;
+  --movefit-primary: #ba0034;
+  --movefit-primary-foreground: #ffffff;
+  --movefit-muted: #f2f2f7;
+  --movefit-muted-foreground: #8e8e93;
+  --movefit-border: rgba(0, 0, 0, 0.08);
+  --movefit-input: #ffffff;
+  --movefit-ring: #ba0034;
+}
+
+/* Dark mode base */
+html.dark {
+  --movefit-background: #000000;
+  --movefit-foreground: #ffffff;
+  --movefit-card: #1c1c1e;
+  --movefit-card-foreground: #ffffff;
+  --movefit-popover: #1c1c1e;
+  --movefit-popover-foreground: #ffffff;
+  --movefit-primary: #ff4d6d;
+  --movefit-primary-foreground: #1c1c1e;
+  --movefit-muted: #1c1c1e;
+  --movefit-muted-foreground: #8e8e93;
+  --movefit-border: rgba(255, 255, 255, 0.12);
+  --movefit-input: #1c1c1e;
+  --movefit-ring: #ff4d6d;
+}
+
+/* Typography */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-rounded {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Segoe UI", sans-serif;
+}
+
+.font-mono-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* iOS-style safe area utilities */
+.pt-safe { padding-top: env(safe-area-inset-top); }
+.pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+/* Hide scrollbar for horizontal scroll areas */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Subtle card shadow */
+.card-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+/* Floating layer shadow */
+.float-shadow {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}

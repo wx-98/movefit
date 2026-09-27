@@ -1,0 +1,30 @@
+# App Preferences Support
+
+## Purpose
+定义 MoveFit iOS 客户端的 app preferences support 行为。
+
+## Requirements
+
+### Requirement: 外观与语言偏好
+
+系统 MUST 支持跟随系统、浅色、深色外观并即时应用，且保存外观和语言偏好；仅可选择当前发布包实际支持的语言。
+
+#### Scenario: 切换深色外观
+- **WHEN** 用户选择深色
+- **THEN** 系统立即更新全部主界面并在重新启动后保持选择
+
+### Requirement: 帮助、隐私与关于
+
+系统 MUST 提供本地可用的常见问题、数据来源、权限说明、隐私政策、版本信息和问题排查入口。
+
+#### Scenario: 离线查看隐私政策
+- **WHEN** 设备无网络且用户打开隐私政策
+- **THEN** 系统完整展示随应用发布的中文隐私说明
+
+### Requirement: 账号绑定边界
+
+系统 SHALL 展示 Apple ID 与微信绑定状态和接入要求；远程认证未配置时不得显示绑定成功或保存模拟令牌。
+
+#### Scenario: 尝试绑定微信
+- **WHEN** 微信 SDK 或服务端回调未配置
+- **THEN** 系统展示暂不可用、所需配置和当前本地数据不受影响的说明

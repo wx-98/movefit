@@ -1,0 +1,1451 @@
+{
+  "schemaVersion": "1.0",
+  "skillProvenance": {
+    "name": "solo-design",
+    "version": "2026.08.06.19.15.08",
+    "release": "prompt-base-cloud-ssot-migration",
+    "version_source": "skill-release-manifest.json",
+    "read_status": "loaded"
+  },
+  "project": {
+    "operation": "create",
+    "resolvedLane": "complex_html_page",
+    "intentProfile": {
+      "caseFamily": "free_exploration",
+      "sourceType": "codebase_reference",
+      "deviceType": "mobile",
+      "language": "zh"
+    },
+    "selectedIntentWorkflowRead": true,
+    "contextRequirementsLoaded": [
+      {
+        "path": "shared-runtime/runtime-boundaries/lane-runtime-contracts.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "shared-runtime/agent-dispatch-runtime/lane-dispatch-index.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "shared-runtime/agent-dispatch-runtime/shared-page-rendering-kernel.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "delivery-quality/page-rendering-quality-gate.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "delivery-quality/design-artifact-validation.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "delivery-quality/delivery-evidence-contract.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "visual-experience/visual-experience-guidelines.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      },
+      {
+        "path": "visual-experience/visual-checkpoint-protocol.md",
+        "readStatus": "loaded",
+        "bodyRead": true
+      }
+    ],
+    "contextReadScope": "complex_html_page lane + shared rendering kernel + delivery quality gates + visual experience guidelines",
+    "readScopeLedger": [
+      {
+        "phase": "lane-selection",
+        "files": [
+          "intent-workflows/intent-project-complex-build/INTENT_WORKFLOW.md",
+          "shared-runtime/runtime-boundaries/lane-runtime-contracts.md"
+        ]
+      },
+      {
+        "phase": "intake",
+        "files": [
+          "intent-workflows/intent-project-complex-build/00-requirement-and-style-intake.md",
+          "shared-runtime/design-artifact-formats/design-project-file-format.md"
+        ]
+      },
+      {
+        "phase": "composition",
+        "files": [
+          "intent-workflows/intent-project-complex-build/02-page-composition.md"
+        ]
+      },
+      {
+        "actor": "page-sub-agent",
+        "lane": "complex_html_page",
+        "path": "intent-workflows/intent-project-complex-build/complex-page-runtime.md",
+        "reason": "page runtime guide",
+        "scopeClass": "page-runtime",
+        "declaredBeforeRead": true,
+        "recordedAt": "2026-08-16T03:17:12.064Z",
+        "nodeId": "page-home",
+        "htmlSrc": "pages/home.html"
+      },
+      {
+        "actor": "page-sub-agent",
+        "lane": "complex_html_page",
+        "path": "intent-workflows/intent-project-complex-build/complex-page-dispatch-contract.md",
+        "reason": "dispatch contract",
+        "scopeClass": "dispatch-contract",
+        "declaredBeforeRead": true,
+        "recordedAt": "2026-08-16T03:17:12.064Z",
+        "nodeId": "page-home",
+        "htmlSrc": "pages/home.html"
+      }
+    ],
+    "validationRunDiscipline": "run validate-design-workspace.mjs after all Sub-Agents complete; run validate-finish-readiness.mjs before final delivery",
+    "lowValueCallWatchdog": {
+      "applies": true,
+      "enabled": true,
+      "noProgressNextAction": "proceed to dispatch if project skeleton is complete; otherwise report blocked summary"
+    },
+    "sharedProjectShellContract": {
+      "mobileNavigation": {
+        "applies": true,
+        "type": "bottom-tab",
+        "items": [
+          {
+            "key": "home",
+            "label": "首页",
+            "icon": "home"
+          },
+          {
+            "key": "challenges",
+            "label": "挑战",
+            "icon": "trophy"
+          },
+          {
+            "key": "workouts",
+            "label": "运动",
+            "icon": "dumbbell"
+          },
+          {
+            "key": "history",
+            "label": "历史",
+            "icon": "bar-chart-2"
+          },
+          {
+            "key": "profile",
+            "label": "我的",
+            "icon": "user"
+          }
+        ],
+        "heightPx": 56,
+        "position": "flow-bottom",
+        "activeState": "primary icon+label color only; geometry stays identical",
+        "structure": {
+          "navTag": "nav",
+          "navClass": "fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)]",
+          "innerClass": "w-full max-w-md mx-auto grid grid-cols-5 h-full",
+          "itemTag": "a",
+          "itemClass": "min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full",
+          "iconClass": "w-5 h-5 shrink-0",
+          "labelClass": "text-[11px] leading-none whitespace-nowrap max-w-full truncate",
+          "activeRule": "only color/font-weight/data-active may change; no class changes that affect layout",
+          "markerAttr": "data-mobile-nav=\"global\"",
+          "canonicalHtmlByKey": {
+            "home": "<nav class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\" data-mobile-nav=\"global\">\n  <div class=\"w-full max-w-md mx-auto grid grid-cols-5 h-full\">\n    <a href=\"#\" data-nav-key=\"home\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-primary font-semibold transition-colors\">\n      <i data-lucide=\"home\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">首页</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"challenges\" data-dom-id=\"nav-challenges\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"trophy\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">挑战</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"workouts\" data-dom-id=\"nav-workouts\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"dumbbell\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">运动</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"history\" data-dom-id=\"nav-history\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"bar-chart-2\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">历史</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"profile\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"user\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">我的</span>\n    </a>\n  </div>\n</nav>",
+            "challenges": "<nav class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\" data-mobile-nav=\"global\">\n  <div class=\"w-full max-w-md mx-auto grid grid-cols-5 h-full\">\n    <a href=\"#\" data-nav-key=\"home\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"home\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">首页</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"challenges\" data-dom-id=\"nav-challenges\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-primary font-semibold transition-colors\">\n      <i data-lucide=\"trophy\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">挑战</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"workouts\" data-dom-id=\"nav-workouts\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"dumbbell\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">运动</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"history\" data-dom-id=\"nav-history\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"bar-chart-2\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">历史</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"profile\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"user\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">我的</span>\n    </a>\n  </div>\n</nav>",
+            "workouts": "<nav class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\" data-mobile-nav=\"global\">\n  <div class=\"w-full max-w-md mx-auto grid grid-cols-5 h-full\">\n    <a href=\"#\" data-nav-key=\"home\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"home\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">首页</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"challenges\" data-dom-id=\"nav-challenges\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"trophy\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">挑战</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"workouts\" data-dom-id=\"nav-workouts\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-primary font-semibold transition-colors\">\n      <i data-lucide=\"dumbbell\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">运动</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"history\" data-dom-id=\"nav-history\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"bar-chart-2\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">历史</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"profile\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"user\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">我的</span>\n    </a>\n  </div>\n</nav>",
+            "history": "<nav class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\" data-mobile-nav=\"global\">\n  <div class=\"w-full max-w-md mx-auto grid grid-cols-5 h-full\">\n    <a href=\"#\" data-nav-key=\"home\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"home\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">首页</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"challenges\" data-dom-id=\"nav-challenges\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"trophy\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">挑战</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"workouts\" data-dom-id=\"nav-workouts\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"dumbbell\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">运动</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"history\" data-dom-id=\"nav-history\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-primary font-semibold transition-colors\">\n      <i data-lucide=\"bar-chart-2\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">历史</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"profile\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"user\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">我的</span>\n    </a>\n  </div>\n</nav>",
+            "profile": "<nav class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\" data-mobile-nav=\"global\">\n  <div class=\"w-full max-w-md mx-auto grid grid-cols-5 h-full\">\n    <a href=\"#\" data-nav-key=\"home\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"home\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">首页</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"challenges\" data-dom-id=\"nav-challenges\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"trophy\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">挑战</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"workouts\" data-dom-id=\"nav-workouts\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"dumbbell\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">运动</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"history\" data-dom-id=\"nav-history\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"bar-chart-2\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">历史</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"profile\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-primary font-semibold transition-colors\">\n      <i data-lucide=\"user\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">我的</span>\n    </a>\n  </div>\n</nav>"
+          }
+        }
+      },
+      "surfaceDepthModel": "static surfaces are border/surface-led; only floating layers use shadow alpha > 0.05",
+      "radiusScale": {
+        "sm": "8px",
+        "md": "12px",
+        "lg": "16px",
+        "full": "9999px"
+      },
+      "typographySystem": {
+        "title": "-apple-system / SF Pro",
+        "body": "-apple-system / SF Pro Text",
+        "numeric": "-apple-system / SF Pro Rounded"
+      },
+      "continuityAnchors": [
+        "shared bottom tab bar",
+        "card radius 16px / hero radius 16px",
+        "system font + tabular numeric data"
+      ]
+    },
+    "projectName": "MoveFit iOS 界面",
+    "deviceType": "mobile",
+    "designRead": "iOS health-fitness app / active-lifestyle users / Apple Health-inspired, card-driven, metric-forward / medium-high density / avoid Android Material chrome",
+    "designDials": {
+      "layoutVariance": 2,
+      "motionIntensity": 2,
+      "visualDensity": 4
+    },
+    "styleConstraints": {
+      "radiusMax": 16,
+      "staticShadowAlphaMax": 0.05
+    },
+    "cssPreflightEvidence": {
+      "command": "node apply-html-head-contract.mjs colors_and_type.css .preflight/preflight.html --title=\"Preflight\" --lang=zh --prefix=movefit",
+      "exitCode": 0,
+      "generated": ".preflight/preflight.html",
+      "checks": {
+        "themeVars": true,
+        "semanticFallback": true,
+        "tailwindAtTheme": true,
+        "htmlClass": true
+      }
+    },
+    "mobileNavigation": {
+      "applies": true,
+      "type": "bottom-tab",
+      "items": [
+        {
+          "key": "home",
+          "label": "首页",
+          "icon": "home"
+        },
+        {
+          "key": "challenges",
+          "label": "挑战",
+          "icon": "trophy"
+        },
+        {
+          "key": "workouts",
+          "label": "运动",
+          "icon": "dumbbell"
+        },
+        {
+          "key": "history",
+          "label": "历史",
+          "icon": "bar-chart-2"
+        },
+        {
+          "key": "profile",
+          "label": "我的",
+          "icon": "user"
+        }
+      ],
+      "heightPx": 56,
+      "position": "flow-bottom",
+      "activeState": "primary icon+label color only; geometry stays identical",
+      "structure": {
+        "navTag": "nav",
+        "navClass": "fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)]",
+        "innerClass": "w-full max-w-md mx-auto grid grid-cols-5 h-full",
+        "itemTag": "a",
+        "itemClass": "min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full",
+        "iconClass": "w-5 h-5 shrink-0",
+        "labelClass": "text-[11px] leading-none whitespace-nowrap max-w-full truncate",
+        "activeRule": "only color/font-weight/data-active may change; no class changes that affect layout",
+        "markerAttr": "data-mobile-nav=\"global\"",
+        "canonicalHtmlByKey": {
+          "home": "<nav class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\" data-mobile-nav=\"global\">\n  <div class=\"w-full max-w-md mx-auto grid grid-cols-5 h-full\">\n    <a href=\"#\" data-nav-key=\"home\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-primary font-semibold transition-colors\">\n      <i data-lucide=\"home\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">首页</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"challenges\" data-dom-id=\"nav-challenges\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"trophy\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">挑战</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"workouts\" data-dom-id=\"nav-workouts\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"dumbbell\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">运动</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"history\" data-dom-id=\"nav-history\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"bar-chart-2\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">历史</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"profile\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"user\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">我的</span>\n    </a>\n  </div>\n</nav>",
+          "challenges": "<nav class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\" data-mobile-nav=\"global\">\n  <div class=\"w-full max-w-md mx-auto grid grid-cols-5 h-full\">\n    <a href=\"#\" data-nav-key=\"home\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"home\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">首页</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"challenges\" data-dom-id=\"nav-challenges\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-primary font-semibold transition-colors\">\n      <i data-lucide=\"trophy\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">挑战</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"workouts\" data-dom-id=\"nav-workouts\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"dumbbell\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">运动</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"history\" data-dom-id=\"nav-history\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"bar-chart-2\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">历史</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"profile\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"user\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">我的</span>\n    </a>\n  </div>\n</nav>",
+          "workouts": "<nav class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\" data-mobile-nav=\"global\">\n  <div class=\"w-full max-w-md mx-auto grid grid-cols-5 h-full\">\n    <a href=\"#\" data-nav-key=\"home\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"home\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">首页</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"challenges\" data-dom-id=\"nav-challenges\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"trophy\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">挑战</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"workouts\" data-dom-id=\"nav-workouts\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-primary font-semibold transition-colors\">\n      <i data-lucide=\"dumbbell\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">运动</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"history\" data-dom-id=\"nav-history\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"bar-chart-2\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">历史</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"profile\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"user\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">我的</span>\n    </a>\n  </div>\n</nav>",
+          "history": "<nav class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\" data-mobile-nav=\"global\">\n  <div class=\"w-full max-w-md mx-auto grid grid-cols-5 h-full\">\n    <a href=\"#\" data-nav-key=\"home\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"home\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">首页</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"challenges\" data-dom-id=\"nav-challenges\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"trophy\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">挑战</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"workouts\" data-dom-id=\"nav-workouts\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"dumbbell\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">运动</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"history\" data-dom-id=\"nav-history\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-primary font-semibold transition-colors\">\n      <i data-lucide=\"bar-chart-2\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">历史</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"profile\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"user\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">我的</span>\n    </a>\n  </div>\n</nav>",
+          "profile": "<nav class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\" data-mobile-nav=\"global\">\n  <div class=\"w-full max-w-md mx-auto grid grid-cols-5 h-full\">\n    <a href=\"#\" data-nav-key=\"home\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"home\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">首页</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"challenges\" data-dom-id=\"nav-challenges\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"trophy\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">挑战</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"workouts\" data-dom-id=\"nav-workouts\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"dumbbell\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">运动</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"history\" data-dom-id=\"nav-history\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors\">\n      <i data-lucide=\"bar-chart-2\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">历史</span>\n    </a>\n    <a href=\"#\" data-nav-key=\"profile\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-primary font-semibold transition-colors\">\n      <i data-lucide=\"user\" class=\"w-5 h-5 shrink-0\"></i>\n      <span class=\"text-[11px] leading-none whitespace-nowrap max-w-full truncate\">我的</span>\n    </a>\n  </div>\n</nav>"
+        }
+      }
+    },
+    "generationTree": {
+      "root": {
+        "nodeId": "gen-project-root",
+        "kind": "project-shell",
+        "pageIds": [
+          "page-home",
+          "page-challenges",
+          "page-workouts",
+          "page-history",
+          "page-profile",
+          "page-wellness"
+        ],
+        "output": null,
+        "sharedRegions": [
+          "mobile bottom tab navigation"
+        ],
+        "privateRegions": [
+          "page header",
+          "page body content"
+        ],
+        "mutableSlots": [
+          "activeNavItem"
+        ],
+        "status": "planned",
+        "children": [
+          {
+            "nodeId": "gen-page-home",
+            "kind": "page-leaf",
+            "pageIds": [
+              "page-home"
+            ],
+            "output": "pages/home.html",
+            "status": "generated",
+            "children": []
+          },
+          {
+            "nodeId": "gen-page-challenges",
+            "kind": "page-leaf",
+            "pageIds": [
+              "page-challenges"
+            ],
+            "output": "pages/challenges.html",
+            "status": "generated",
+            "children": []
+          },
+          {
+            "nodeId": "gen-page-workouts",
+            "kind": "page-leaf",
+            "pageIds": [
+              "page-workouts"
+            ],
+            "output": "pages/workouts.html",
+            "status": "generated",
+            "children": []
+          },
+          {
+            "nodeId": "gen-page-history",
+            "kind": "page-leaf",
+            "pageIds": [
+              "page-history"
+            ],
+            "output": "pages/history.html",
+            "status": "generated",
+            "children": []
+          },
+          {
+            "nodeId": "gen-page-profile",
+            "kind": "page-leaf",
+            "pageIds": [
+              "page-profile"
+            ],
+            "output": "pages/profile.html",
+            "status": "generated",
+            "children": []
+          },
+          {
+            "nodeId": "gen-page-wellness",
+            "kind": "page-leaf",
+            "pageIds": [
+              "page-wellness"
+            ],
+            "output": "pages/wellness.html",
+            "status": "generated",
+            "children": []
+          }
+        ]
+      }
+    },
+    "dispatchPreflightManifest": [
+      {
+        "recorded_at": "2026-08-16T03:17:12.064Z",
+        "generatedBy": "build-page-dispatch-manifest.mjs",
+        "packetType": "ComplexPagePacket",
+        "laneContract": {
+          "resolvedLane": "complex_html_page",
+          "packetType": "ComplexPagePacket",
+          "pageRuntimeGuide": "intent-workflows/intent-project-complex-build/complex-page-runtime.md",
+          "dispatchContract": "intent-workflows/intent-project-complex-build/complex-page-dispatch-contract.md"
+        },
+        "taskLinePresent": true,
+        "outputPathPresent": true,
+        "sharedTemplate": "intent-workflows/intent-project-complex-build/complex-page-runtime.md",
+        "nodeId": "page-home",
+        "htmlSrc": "pages/home.html",
+        "supplementaryReads": [],
+        "allowedWritePaths": [
+          "pages/home.html",
+          "assets/"
+        ],
+        "forbiddenWriteRoots": [
+          "*.design",
+          "runtime-orchestration-summary.json",
+          "validation-report.json",
+          "finish-readiness-report.json",
+          "restore-contract-report.json",
+          "page-generation-summary.json"
+        ],
+        "toolPolicy": {
+          "todoWriteAllowed": false,
+          "validationScriptsAllowed": false,
+          "previewAllowed": false,
+          "helperScriptsAllowed": false,
+          "designFileWriteAllowed": false,
+          "allowedWritePaths": [
+            "pages/home.html",
+            "assets/"
+          ]
+        },
+        "skillRuntime": {
+          "skillDir": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design",
+          "deterministicToolDir": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling",
+          "toolPaths": {
+            "applyHtmlHeadContract": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/apply-html-head-contract.mjs",
+            "recordDispatchCompletion": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/record-dispatch-completion.mjs",
+            "buildPageDispatchManifest": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/build-page-dispatch-manifest.mjs",
+            "validateDesignWorkspace": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-design-workspace.mjs",
+            "validateFinishReadiness": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-finish-readiness.mjs",
+            "validateRestoreContract": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-restore-contract.mjs"
+          },
+          "requiredForPageSubAgent": [
+            "applyHtmlHeadContract",
+            "recordDispatchCompletion"
+          ],
+          "pathInjection": "absolute",
+          "pathContract": "Do not use {SKILL_DIR} placeholders inside Page Sub-Agent packets; use toolPaths.* absolute paths.",
+          "commandTemplates": {
+            "recordDispatchCompletion": "node '/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/record-dispatch-completion.mjs' '/Volumes/E/code/codex/movefit/movefit-ios-design' --node-id='page-home' --html-src='pages/home.html' --status=completed --changed-files=<comma-separated-project-relative-files> --trace-digest=<main-agent-runtime-trace-digest> --tool-ledger-json=<tool-ledger-json-or-file>"
+          }
+        },
+        "cssFilePath": "/Volumes/E/code/codex/movefit/movefit-ios-design/colors_and_type.css",
+        "htmlFilePath": "/Volumes/E/code/codex/movefit/movefit-ios-design/pages/home.html",
+        "brandPrefix": "movefit",
+        "aestheticsMode": "free-explore",
+        "toolDisciplineBlockPresent": true,
+        "fillHtmlHeadCommand": "node '/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/apply-html-head-contract.mjs' '/Volumes/E/code/codex/movefit/movefit-ios-design/colors_and_type.css' '/Volumes/E/code/codex/movefit/movefit-ios-design/pages/home.html' --title='首页' --lang='zh-CN' --prefix='movefit'",
+        "headFillMode": "skeleton-first",
+        "viewportMode": null,
+        "completionSchemaExpected": "full",
+        "restoreFields": null,
+        "restoreContractStatus": null,
+        "restoreCompactPacket": null,
+        "deterministicCommands": null,
+        "sourceAuthorityLock": null,
+        "preDispatchFileHashes": {
+          "movefit-ios-design.design": "f78ab4e97e51e3e95d1474ad4df07433b84a54694b44d0e082e9c1f49101897c"
+        },
+        "contextPreflight": {
+          "workflowPath": "intent-workflows/intent-project-complex-build/INTENT_WORKFLOW.md",
+          "requiredContextFiles": [
+            "shared-runtime/runtime-boundaries/lane-runtime-contracts.md",
+            "shared-runtime/agent-dispatch-runtime/lane-dispatch-index.md",
+            "shared-runtime/agent-dispatch-runtime/shared-page-rendering-kernel.md",
+            "delivery-quality/page-rendering-quality-gate.md",
+            "delivery-quality/design-artifact-validation.md",
+            "delivery-quality/delivery-evidence-contract.md",
+            "visual-experience/visual-experience-guidelines.md",
+            "visual-experience/visual-checkpoint-protocol.md"
+          ],
+          "optionalContextFiles": [],
+          "passed": true
+        },
+        "pageSliceOnly": true,
+        "requiredFieldsPresent": true,
+        "missingFields": [],
+        "fillHtmlHeadCommandValid": true,
+        "mobileNavigation": {
+          "required": true,
+          "appliesToThisPage": true,
+          "activeKey": "home",
+          "contractPresent": true,
+          "structurePresent": true,
+          "canonicalHtmlIncluded": true,
+          "canonicalHtmlSource": "sharedProjectShellContract.mobileNavigation.structure.canonicalHtmlByKey.home",
+          "structureHash": "da1abf83a6d4540d34b955a01b47c20587250026477338b65f8a17fa00d265eb",
+          "missingFields": []
+        },
+        "persistedToSummary": true,
+        "taskQueryAudited": false,
+        "proofSource": "summary-only",
+        "largeWorkflowFilesInTaskQuery": null
+      },
+      {
+        "recorded_at": "2026-08-16T03:17:12.064Z",
+        "generatedBy": "build-page-dispatch-manifest.mjs",
+        "packetType": "ComplexPagePacket",
+        "laneContract": {
+          "resolvedLane": "complex_html_page",
+          "packetType": "ComplexPagePacket",
+          "pageRuntimeGuide": "intent-workflows/intent-project-complex-build/complex-page-runtime.md",
+          "dispatchContract": "intent-workflows/intent-project-complex-build/complex-page-dispatch-contract.md"
+        },
+        "taskLinePresent": true,
+        "outputPathPresent": true,
+        "sharedTemplate": "intent-workflows/intent-project-complex-build/complex-page-runtime.md",
+        "nodeId": "page-challenges",
+        "htmlSrc": "pages/challenges.html",
+        "supplementaryReads": [],
+        "allowedWritePaths": [
+          "pages/challenges.html",
+          "assets/"
+        ],
+        "forbiddenWriteRoots": [
+          "*.design",
+          "runtime-orchestration-summary.json",
+          "validation-report.json",
+          "finish-readiness-report.json",
+          "restore-contract-report.json",
+          "page-generation-summary.json"
+        ],
+        "toolPolicy": {
+          "todoWriteAllowed": false,
+          "validationScriptsAllowed": false,
+          "previewAllowed": false,
+          "helperScriptsAllowed": false,
+          "designFileWriteAllowed": false,
+          "allowedWritePaths": [
+            "pages/challenges.html",
+            "assets/"
+          ]
+        },
+        "skillRuntime": {
+          "skillDir": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design",
+          "deterministicToolDir": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling",
+          "toolPaths": {
+            "applyHtmlHeadContract": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/apply-html-head-contract.mjs",
+            "recordDispatchCompletion": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/record-dispatch-completion.mjs",
+            "buildPageDispatchManifest": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/build-page-dispatch-manifest.mjs",
+            "validateDesignWorkspace": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-design-workspace.mjs",
+            "validateFinishReadiness": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-finish-readiness.mjs",
+            "validateRestoreContract": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-restore-contract.mjs"
+          },
+          "requiredForPageSubAgent": [
+            "applyHtmlHeadContract",
+            "recordDispatchCompletion"
+          ],
+          "pathInjection": "absolute",
+          "pathContract": "Do not use {SKILL_DIR} placeholders inside Page Sub-Agent packets; use toolPaths.* absolute paths.",
+          "commandTemplates": {
+            "recordDispatchCompletion": "node '/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/record-dispatch-completion.mjs' '/Volumes/E/code/codex/movefit/movefit-ios-design' --node-id='page-challenges' --html-src='pages/challenges.html' --status=completed --changed-files=<comma-separated-project-relative-files> --trace-digest=<main-agent-runtime-trace-digest> --tool-ledger-json=<tool-ledger-json-or-file>"
+          }
+        },
+        "cssFilePath": "/Volumes/E/code/codex/movefit/movefit-ios-design/colors_and_type.css",
+        "htmlFilePath": "/Volumes/E/code/codex/movefit/movefit-ios-design/pages/challenges.html",
+        "brandPrefix": "movefit",
+        "aestheticsMode": "free-explore",
+        "toolDisciplineBlockPresent": true,
+        "fillHtmlHeadCommand": "node '/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/apply-html-head-contract.mjs' '/Volumes/E/code/codex/movefit/movefit-ios-design/colors_and_type.css' '/Volumes/E/code/codex/movefit/movefit-ios-design/pages/challenges.html' --title='挑战' --lang='zh-CN' --prefix='movefit'",
+        "headFillMode": "skeleton-first",
+        "viewportMode": null,
+        "completionSchemaExpected": "full",
+        "restoreFields": null,
+        "restoreContractStatus": null,
+        "restoreCompactPacket": null,
+        "deterministicCommands": null,
+        "sourceAuthorityLock": null,
+        "preDispatchFileHashes": {
+          "movefit-ios-design.design": "f78ab4e97e51e3e95d1474ad4df07433b84a54694b44d0e082e9c1f49101897c"
+        },
+        "contextPreflight": {
+          "workflowPath": "intent-workflows/intent-project-complex-build/INTENT_WORKFLOW.md",
+          "requiredContextFiles": [
+            "shared-runtime/runtime-boundaries/lane-runtime-contracts.md",
+            "shared-runtime/agent-dispatch-runtime/lane-dispatch-index.md",
+            "shared-runtime/agent-dispatch-runtime/shared-page-rendering-kernel.md",
+            "delivery-quality/page-rendering-quality-gate.md",
+            "delivery-quality/design-artifact-validation.md",
+            "delivery-quality/delivery-evidence-contract.md",
+            "visual-experience/visual-experience-guidelines.md",
+            "visual-experience/visual-checkpoint-protocol.md"
+          ],
+          "optionalContextFiles": [],
+          "passed": true
+        },
+        "pageSliceOnly": true,
+        "requiredFieldsPresent": true,
+        "missingFields": [],
+        "fillHtmlHeadCommandValid": true,
+        "mobileNavigation": {
+          "required": true,
+          "appliesToThisPage": true,
+          "activeKey": "challenges",
+          "contractPresent": true,
+          "structurePresent": true,
+          "canonicalHtmlIncluded": true,
+          "canonicalHtmlSource": "sharedProjectShellContract.mobileNavigation.structure.canonicalHtmlByKey.challenges",
+          "structureHash": "da1abf83a6d4540d34b955a01b47c20587250026477338b65f8a17fa00d265eb",
+          "missingFields": []
+        },
+        "persistedToSummary": true,
+        "taskQueryAudited": false,
+        "proofSource": "summary-only",
+        "largeWorkflowFilesInTaskQuery": null
+      },
+      {
+        "recorded_at": "2026-08-16T03:17:12.064Z",
+        "generatedBy": "build-page-dispatch-manifest.mjs",
+        "packetType": "ComplexPagePacket",
+        "laneContract": {
+          "resolvedLane": "complex_html_page",
+          "packetType": "ComplexPagePacket",
+          "pageRuntimeGuide": "intent-workflows/intent-project-complex-build/complex-page-runtime.md",
+          "dispatchContract": "intent-workflows/intent-project-complex-build/complex-page-dispatch-contract.md"
+        },
+        "taskLinePresent": true,
+        "outputPathPresent": true,
+        "sharedTemplate": "intent-workflows/intent-project-complex-build/complex-page-runtime.md",
+        "nodeId": "page-workouts",
+        "htmlSrc": "pages/workouts.html",
+        "supplementaryReads": [],
+        "allowedWritePaths": [
+          "pages/workouts.html",
+          "assets/"
+        ],
+        "forbiddenWriteRoots": [
+          "*.design",
+          "runtime-orchestration-summary.json",
+          "validation-report.json",
+          "finish-readiness-report.json",
+          "restore-contract-report.json",
+          "page-generation-summary.json"
+        ],
+        "toolPolicy": {
+          "todoWriteAllowed": false,
+          "validationScriptsAllowed": false,
+          "previewAllowed": false,
+          "helperScriptsAllowed": false,
+          "designFileWriteAllowed": false,
+          "allowedWritePaths": [
+            "pages/workouts.html",
+            "assets/"
+          ]
+        },
+        "skillRuntime": {
+          "skillDir": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design",
+          "deterministicToolDir": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling",
+          "toolPaths": {
+            "applyHtmlHeadContract": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/apply-html-head-contract.mjs",
+            "recordDispatchCompletion": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/record-dispatch-completion.mjs",
+            "buildPageDispatchManifest": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/build-page-dispatch-manifest.mjs",
+            "validateDesignWorkspace": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-design-workspace.mjs",
+            "validateFinishReadiness": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-finish-readiness.mjs",
+            "validateRestoreContract": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-restore-contract.mjs"
+          },
+          "requiredForPageSubAgent": [
+            "applyHtmlHeadContract",
+            "recordDispatchCompletion"
+          ],
+          "pathInjection": "absolute",
+          "pathContract": "Do not use {SKILL_DIR} placeholders inside Page Sub-Agent packets; use toolPaths.* absolute paths.",
+          "commandTemplates": {
+            "recordDispatchCompletion": "node '/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/record-dispatch-completion.mjs' '/Volumes/E/code/codex/movefit/movefit-ios-design' --node-id='page-workouts' --html-src='pages/workouts.html' --status=completed --changed-files=<comma-separated-project-relative-files> --trace-digest=<main-agent-runtime-trace-digest> --tool-ledger-json=<tool-ledger-json-or-file>"
+          }
+        },
+        "cssFilePath": "/Volumes/E/code/codex/movefit/movefit-ios-design/colors_and_type.css",
+        "htmlFilePath": "/Volumes/E/code/codex/movefit/movefit-ios-design/pages/workouts.html",
+        "brandPrefix": "movefit",
+        "aestheticsMode": "free-explore",
+        "toolDisciplineBlockPresent": true,
+        "fillHtmlHeadCommand": "node '/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/apply-html-head-contract.mjs' '/Volumes/E/code/codex/movefit/movefit-ios-design/colors_and_type.css' '/Volumes/E/code/codex/movefit/movefit-ios-design/pages/workouts.html' --title='运动' --lang='zh-CN' --prefix='movefit'",
+        "headFillMode": "skeleton-first",
+        "viewportMode": null,
+        "completionSchemaExpected": "full",
+        "restoreFields": null,
+        "restoreContractStatus": null,
+        "restoreCompactPacket": null,
+        "deterministicCommands": null,
+        "sourceAuthorityLock": null,
+        "preDispatchFileHashes": {
+          "movefit-ios-design.design": "f78ab4e97e51e3e95d1474ad4df07433b84a54694b44d0e082e9c1f49101897c"
+        },
+        "contextPreflight": {
+          "workflowPath": "intent-workflows/intent-project-complex-build/INTENT_WORKFLOW.md",
+          "requiredContextFiles": [
+            "shared-runtime/runtime-boundaries/lane-runtime-contracts.md",
+            "shared-runtime/agent-dispatch-runtime/lane-dispatch-index.md",
+            "shared-runtime/agent-dispatch-runtime/shared-page-rendering-kernel.md",
+            "delivery-quality/page-rendering-quality-gate.md",
+            "delivery-quality/design-artifact-validation.md",
+            "delivery-quality/delivery-evidence-contract.md",
+            "visual-experience/visual-experience-guidelines.md",
+            "visual-experience/visual-checkpoint-protocol.md"
+          ],
+          "optionalContextFiles": [],
+          "passed": true
+        },
+        "pageSliceOnly": true,
+        "requiredFieldsPresent": true,
+        "missingFields": [],
+        "fillHtmlHeadCommandValid": true,
+        "mobileNavigation": {
+          "required": true,
+          "appliesToThisPage": true,
+          "activeKey": "workouts",
+          "contractPresent": true,
+          "structurePresent": true,
+          "canonicalHtmlIncluded": true,
+          "canonicalHtmlSource": "sharedProjectShellContract.mobileNavigation.structure.canonicalHtmlByKey.workouts",
+          "structureHash": "da1abf83a6d4540d34b955a01b47c20587250026477338b65f8a17fa00d265eb",
+          "missingFields": []
+        },
+        "persistedToSummary": true,
+        "taskQueryAudited": false,
+        "proofSource": "summary-only",
+        "largeWorkflowFilesInTaskQuery": null
+      },
+      {
+        "recorded_at": "2026-08-16T03:17:12.064Z",
+        "generatedBy": "build-page-dispatch-manifest.mjs",
+        "packetType": "ComplexPagePacket",
+        "laneContract": {
+          "resolvedLane": "complex_html_page",
+          "packetType": "ComplexPagePacket",
+          "pageRuntimeGuide": "intent-workflows/intent-project-complex-build/complex-page-runtime.md",
+          "dispatchContract": "intent-workflows/intent-project-complex-build/complex-page-dispatch-contract.md"
+        },
+        "taskLinePresent": true,
+        "outputPathPresent": true,
+        "sharedTemplate": "intent-workflows/intent-project-complex-build/complex-page-runtime.md",
+        "nodeId": "page-history",
+        "htmlSrc": "pages/history.html",
+        "supplementaryReads": [],
+        "allowedWritePaths": [
+          "pages/history.html",
+          "assets/"
+        ],
+        "forbiddenWriteRoots": [
+          "*.design",
+          "runtime-orchestration-summary.json",
+          "validation-report.json",
+          "finish-readiness-report.json",
+          "restore-contract-report.json",
+          "page-generation-summary.json"
+        ],
+        "toolPolicy": {
+          "todoWriteAllowed": false,
+          "validationScriptsAllowed": false,
+          "previewAllowed": false,
+          "helperScriptsAllowed": false,
+          "designFileWriteAllowed": false,
+          "allowedWritePaths": [
+            "pages/history.html",
+            "assets/"
+          ]
+        },
+        "skillRuntime": {
+          "skillDir": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design",
+          "deterministicToolDir": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling",
+          "toolPaths": {
+            "applyHtmlHeadContract": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/apply-html-head-contract.mjs",
+            "recordDispatchCompletion": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/record-dispatch-completion.mjs",
+            "buildPageDispatchManifest": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/build-page-dispatch-manifest.mjs",
+            "validateDesignWorkspace": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-design-workspace.mjs",
+            "validateFinishReadiness": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-finish-readiness.mjs",
+            "validateRestoreContract": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-restore-contract.mjs"
+          },
+          "requiredForPageSubAgent": [
+            "applyHtmlHeadContract",
+            "recordDispatchCompletion"
+          ],
+          "pathInjection": "absolute",
+          "pathContract": "Do not use {SKILL_DIR} placeholders inside Page Sub-Agent packets; use toolPaths.* absolute paths.",
+          "commandTemplates": {
+            "recordDispatchCompletion": "node '/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/record-dispatch-completion.mjs' '/Volumes/E/code/codex/movefit/movefit-ios-design' --node-id='page-history' --html-src='pages/history.html' --status=completed --changed-files=<comma-separated-project-relative-files> --trace-digest=<main-agent-runtime-trace-digest> --tool-ledger-json=<tool-ledger-json-or-file>"
+          }
+        },
+        "cssFilePath": "/Volumes/E/code/codex/movefit/movefit-ios-design/colors_and_type.css",
+        "htmlFilePath": "/Volumes/E/code/codex/movefit/movefit-ios-design/pages/history.html",
+        "brandPrefix": "movefit",
+        "aestheticsMode": "free-explore",
+        "toolDisciplineBlockPresent": true,
+        "fillHtmlHeadCommand": "node '/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/apply-html-head-contract.mjs' '/Volumes/E/code/codex/movefit/movefit-ios-design/colors_and_type.css' '/Volumes/E/code/codex/movefit/movefit-ios-design/pages/history.html' --title='历史' --lang='zh-CN' --prefix='movefit'",
+        "headFillMode": "skeleton-first",
+        "viewportMode": null,
+        "completionSchemaExpected": "full",
+        "restoreFields": null,
+        "restoreContractStatus": null,
+        "restoreCompactPacket": null,
+        "deterministicCommands": null,
+        "sourceAuthorityLock": null,
+        "preDispatchFileHashes": {
+          "movefit-ios-design.design": "f78ab4e97e51e3e95d1474ad4df07433b84a54694b44d0e082e9c1f49101897c"
+        },
+        "contextPreflight": {
+          "workflowPath": "intent-workflows/intent-project-complex-build/INTENT_WORKFLOW.md",
+          "requiredContextFiles": [
+            "shared-runtime/runtime-boundaries/lane-runtime-contracts.md",
+            "shared-runtime/agent-dispatch-runtime/lane-dispatch-index.md",
+            "shared-runtime/agent-dispatch-runtime/shared-page-rendering-kernel.md",
+            "delivery-quality/page-rendering-quality-gate.md",
+            "delivery-quality/design-artifact-validation.md",
+            "delivery-quality/delivery-evidence-contract.md",
+            "visual-experience/visual-experience-guidelines.md",
+            "visual-experience/visual-checkpoint-protocol.md"
+          ],
+          "optionalContextFiles": [],
+          "passed": true
+        },
+        "pageSliceOnly": true,
+        "requiredFieldsPresent": true,
+        "missingFields": [],
+        "fillHtmlHeadCommandValid": true,
+        "mobileNavigation": {
+          "required": true,
+          "appliesToThisPage": true,
+          "activeKey": "history",
+          "contractPresent": true,
+          "structurePresent": true,
+          "canonicalHtmlIncluded": true,
+          "canonicalHtmlSource": "sharedProjectShellContract.mobileNavigation.structure.canonicalHtmlByKey.history",
+          "structureHash": "da1abf83a6d4540d34b955a01b47c20587250026477338b65f8a17fa00d265eb",
+          "missingFields": []
+        },
+        "persistedToSummary": true,
+        "taskQueryAudited": false,
+        "proofSource": "summary-only",
+        "largeWorkflowFilesInTaskQuery": null
+      },
+      {
+        "recorded_at": "2026-08-16T03:17:12.064Z",
+        "generatedBy": "build-page-dispatch-manifest.mjs",
+        "packetType": "ComplexPagePacket",
+        "laneContract": {
+          "resolvedLane": "complex_html_page",
+          "packetType": "ComplexPagePacket",
+          "pageRuntimeGuide": "intent-workflows/intent-project-complex-build/complex-page-runtime.md",
+          "dispatchContract": "intent-workflows/intent-project-complex-build/complex-page-dispatch-contract.md"
+        },
+        "taskLinePresent": true,
+        "outputPathPresent": true,
+        "sharedTemplate": "intent-workflows/intent-project-complex-build/complex-page-runtime.md",
+        "nodeId": "page-profile",
+        "htmlSrc": "pages/profile.html",
+        "supplementaryReads": [],
+        "allowedWritePaths": [
+          "pages/profile.html",
+          "assets/"
+        ],
+        "forbiddenWriteRoots": [
+          "*.design",
+          "runtime-orchestration-summary.json",
+          "validation-report.json",
+          "finish-readiness-report.json",
+          "restore-contract-report.json",
+          "page-generation-summary.json"
+        ],
+        "toolPolicy": {
+          "todoWriteAllowed": false,
+          "validationScriptsAllowed": false,
+          "previewAllowed": false,
+          "helperScriptsAllowed": false,
+          "designFileWriteAllowed": false,
+          "allowedWritePaths": [
+            "pages/profile.html",
+            "assets/"
+          ]
+        },
+        "skillRuntime": {
+          "skillDir": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design",
+          "deterministicToolDir": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling",
+          "toolPaths": {
+            "applyHtmlHeadContract": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/apply-html-head-contract.mjs",
+            "recordDispatchCompletion": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/record-dispatch-completion.mjs",
+            "buildPageDispatchManifest": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/build-page-dispatch-manifest.mjs",
+            "validateDesignWorkspace": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-design-workspace.mjs",
+            "validateFinishReadiness": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-finish-readiness.mjs",
+            "validateRestoreContract": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-restore-contract.mjs"
+          },
+          "requiredForPageSubAgent": [
+            "applyHtmlHeadContract",
+            "recordDispatchCompletion"
+          ],
+          "pathInjection": "absolute",
+          "pathContract": "Do not use {SKILL_DIR} placeholders inside Page Sub-Agent packets; use toolPaths.* absolute paths.",
+          "commandTemplates": {
+            "recordDispatchCompletion": "node '/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/record-dispatch-completion.mjs' '/Volumes/E/code/codex/movefit/movefit-ios-design' --node-id='page-profile' --html-src='pages/profile.html' --status=completed --changed-files=<comma-separated-project-relative-files> --trace-digest=<main-agent-runtime-trace-digest> --tool-ledger-json=<tool-ledger-json-or-file>"
+          }
+        },
+        "cssFilePath": "/Volumes/E/code/codex/movefit/movefit-ios-design/colors_and_type.css",
+        "htmlFilePath": "/Volumes/E/code/codex/movefit/movefit-ios-design/pages/profile.html",
+        "brandPrefix": "movefit",
+        "aestheticsMode": "free-explore",
+        "toolDisciplineBlockPresent": true,
+        "fillHtmlHeadCommand": "node '/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/apply-html-head-contract.mjs' '/Volumes/E/code/codex/movefit/movefit-ios-design/colors_and_type.css' '/Volumes/E/code/codex/movefit/movefit-ios-design/pages/profile.html' --title='我的' --lang='zh-CN' --prefix='movefit'",
+        "headFillMode": "skeleton-first",
+        "viewportMode": null,
+        "completionSchemaExpected": "full",
+        "restoreFields": null,
+        "restoreContractStatus": null,
+        "restoreCompactPacket": null,
+        "deterministicCommands": null,
+        "sourceAuthorityLock": null,
+        "preDispatchFileHashes": {
+          "movefit-ios-design.design": "f78ab4e97e51e3e95d1474ad4df07433b84a54694b44d0e082e9c1f49101897c"
+        },
+        "contextPreflight": {
+          "workflowPath": "intent-workflows/intent-project-complex-build/INTENT_WORKFLOW.md",
+          "requiredContextFiles": [
+            "shared-runtime/runtime-boundaries/lane-runtime-contracts.md",
+            "shared-runtime/agent-dispatch-runtime/lane-dispatch-index.md",
+            "shared-runtime/agent-dispatch-runtime/shared-page-rendering-kernel.md",
+            "delivery-quality/page-rendering-quality-gate.md",
+            "delivery-quality/design-artifact-validation.md",
+            "delivery-quality/delivery-evidence-contract.md",
+            "visual-experience/visual-experience-guidelines.md",
+            "visual-experience/visual-checkpoint-protocol.md"
+          ],
+          "optionalContextFiles": [],
+          "passed": true
+        },
+        "pageSliceOnly": true,
+        "requiredFieldsPresent": true,
+        "missingFields": [],
+        "fillHtmlHeadCommandValid": true,
+        "mobileNavigation": {
+          "required": true,
+          "appliesToThisPage": true,
+          "activeKey": "profile",
+          "contractPresent": true,
+          "structurePresent": true,
+          "canonicalHtmlIncluded": true,
+          "canonicalHtmlSource": "sharedProjectShellContract.mobileNavigation.structure.canonicalHtmlByKey.profile",
+          "structureHash": "da1abf83a6d4540d34b955a01b47c20587250026477338b65f8a17fa00d265eb",
+          "missingFields": []
+        },
+        "persistedToSummary": true,
+        "taskQueryAudited": false,
+        "proofSource": "summary-only",
+        "largeWorkflowFilesInTaskQuery": null
+      },
+      {
+        "recorded_at": "2026-08-16T03:17:12.064Z",
+        "generatedBy": "build-page-dispatch-manifest.mjs",
+        "packetType": "ComplexPagePacket",
+        "laneContract": {
+          "resolvedLane": "complex_html_page",
+          "packetType": "ComplexPagePacket",
+          "pageRuntimeGuide": "intent-workflows/intent-project-complex-build/complex-page-runtime.md",
+          "dispatchContract": "intent-workflows/intent-project-complex-build/complex-page-dispatch-contract.md"
+        },
+        "taskLinePresent": true,
+        "outputPathPresent": true,
+        "sharedTemplate": "intent-workflows/intent-project-complex-build/complex-page-runtime.md",
+        "nodeId": "page-wellness",
+        "htmlSrc": "pages/wellness.html",
+        "supplementaryReads": [],
+        "allowedWritePaths": [
+          "pages/wellness.html",
+          "assets/"
+        ],
+        "forbiddenWriteRoots": [
+          "*.design",
+          "runtime-orchestration-summary.json",
+          "validation-report.json",
+          "finish-readiness-report.json",
+          "restore-contract-report.json",
+          "page-generation-summary.json"
+        ],
+        "toolPolicy": {
+          "todoWriteAllowed": false,
+          "validationScriptsAllowed": false,
+          "previewAllowed": false,
+          "helperScriptsAllowed": false,
+          "designFileWriteAllowed": false,
+          "allowedWritePaths": [
+            "pages/wellness.html",
+            "assets/"
+          ]
+        },
+        "skillRuntime": {
+          "skillDir": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design",
+          "deterministicToolDir": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling",
+          "toolPaths": {
+            "applyHtmlHeadContract": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/apply-html-head-contract.mjs",
+            "recordDispatchCompletion": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/record-dispatch-completion.mjs",
+            "buildPageDispatchManifest": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/build-page-dispatch-manifest.mjs",
+            "validateDesignWorkspace": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-design-workspace.mjs",
+            "validateFinishReadiness": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-finish-readiness.mjs",
+            "validateRestoreContract": "/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-restore-contract.mjs"
+          },
+          "requiredForPageSubAgent": [
+            "applyHtmlHeadContract",
+            "recordDispatchCompletion"
+          ],
+          "pathInjection": "absolute",
+          "pathContract": "Do not use {SKILL_DIR} placeholders inside Page Sub-Agent packets; use toolPaths.* absolute paths.",
+          "commandTemplates": {
+            "recordDispatchCompletion": "node '/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/record-dispatch-completion.mjs' '/Volumes/E/code/codex/movefit/movefit-ios-design' --node-id='page-wellness' --html-src='pages/wellness.html' --status=completed --changed-files=<comma-separated-project-relative-files> --trace-digest=<main-agent-runtime-trace-digest> --tool-ledger-json=<tool-ledger-json-or-file>"
+          }
+        },
+        "cssFilePath": "/Volumes/E/code/codex/movefit/movefit-ios-design/colors_and_type.css",
+        "htmlFilePath": "/Volumes/E/code/codex/movefit/movefit-ios-design/pages/wellness.html",
+        "brandPrefix": "movefit",
+        "aestheticsMode": "free-explore",
+        "toolDisciplineBlockPresent": true,
+        "fillHtmlHeadCommand": "node '/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/apply-html-head-contract.mjs' '/Volumes/E/code/codex/movefit/movefit-ios-design/colors_and_type.css' '/Volumes/E/code/codex/movefit/movefit-ios-design/pages/wellness.html' --title='养护建议' --lang='zh-CN' --prefix='movefit'",
+        "headFillMode": "skeleton-first",
+        "viewportMode": null,
+        "completionSchemaExpected": "full",
+        "restoreFields": null,
+        "restoreContractStatus": null,
+        "restoreCompactPacket": null,
+        "deterministicCommands": null,
+        "sourceAuthorityLock": null,
+        "preDispatchFileHashes": {
+          "movefit-ios-design.design": "f78ab4e97e51e3e95d1474ad4df07433b84a54694b44d0e082e9c1f49101897c"
+        },
+        "contextPreflight": {
+          "workflowPath": "intent-workflows/intent-project-complex-build/INTENT_WORKFLOW.md",
+          "requiredContextFiles": [
+            "shared-runtime/runtime-boundaries/lane-runtime-contracts.md",
+            "shared-runtime/agent-dispatch-runtime/lane-dispatch-index.md",
+            "shared-runtime/agent-dispatch-runtime/shared-page-rendering-kernel.md",
+            "delivery-quality/page-rendering-quality-gate.md",
+            "delivery-quality/design-artifact-validation.md",
+            "delivery-quality/delivery-evidence-contract.md",
+            "visual-experience/visual-experience-guidelines.md",
+            "visual-experience/visual-checkpoint-protocol.md"
+          ],
+          "optionalContextFiles": [],
+          "passed": true
+        },
+        "pageSliceOnly": true,
+        "requiredFieldsPresent": true,
+        "missingFields": [],
+        "fillHtmlHeadCommandValid": true,
+        "mobileNavigation": {
+          "required": false,
+          "appliesToThisPage": false,
+          "omitReason": "secondary detail page reached from profile; no shared bottom tab navigation",
+          "canonicalHtmlIncluded": false,
+          "missingFields": []
+        },
+        "persistedToSummary": true,
+        "taskQueryAudited": false,
+        "proofSource": "summary-only",
+        "largeWorkflowFilesInTaskQuery": null
+      }
+    ],
+    "validationHistory": [],
+    "validationRepairLedger": [],
+    "validationSnapshot": {},
+    "artifactReadinessEvidence": {},
+    "expectedDispatches": [
+      {
+        "nodeId": "page-home",
+        "pageId": "page-home",
+        "targetPageId": "page-home",
+        "htmlSrc": "pages/home.html",
+        "packetType": "ComplexPagePacket",
+        "status": "completed",
+        "changedFiles": [
+          "pages/home.html"
+        ],
+        "toolCallLedger": {
+          "source": "main-agent-runtime-trace",
+          "traceDigest": "76b8579586899afa4a520de0fd275caab23b4ada5cdb132b1569644c211da9a5",
+          "todoWriteCalls": 0,
+          "previewCalls": 0,
+          "validationScriptCalls": 0,
+          "helperScriptWrites": 0
+        },
+        "recordedAt": "2026-08-16T03:33:01.200Z",
+        "source": "record-dispatch-completion.mjs"
+      },
+      {
+        "nodeId": "page-challenges",
+        "pageId": "page-challenges",
+        "targetPageId": "page-challenges",
+        "htmlSrc": "pages/challenges.html",
+        "packetType": "ComplexPagePacket",
+        "status": "completed",
+        "changedFiles": [
+          "pages/challenges.html"
+        ],
+        "toolCallLedger": {
+          "source": "main-agent-runtime-trace",
+          "traceDigest": "d93ebc823d4d7ea514acb61bcdc24a5c63ccfc7b5da50286d0e10ff09630d321",
+          "todoWriteCalls": 0,
+          "previewCalls": 0,
+          "validationScriptCalls": 0,
+          "helperScriptWrites": 0
+        },
+        "recordedAt": "2026-08-16T03:33:01.225Z",
+        "source": "record-dispatch-completion.mjs"
+      },
+      {
+        "nodeId": "page-workouts",
+        "pageId": "page-workouts",
+        "targetPageId": "page-workouts",
+        "htmlSrc": "pages/workouts.html",
+        "packetType": "ComplexPagePacket",
+        "status": "completed",
+        "changedFiles": [
+          "pages/workouts.html"
+        ],
+        "toolCallLedger": {
+          "source": "main-agent-runtime-trace",
+          "traceDigest": "6a09a4e60e075176cab399f6946edff2fd14433bcd04cfc446cdc45c56bf83fd",
+          "todoWriteCalls": 0,
+          "previewCalls": 0,
+          "validationScriptCalls": 0,
+          "helperScriptWrites": 0
+        },
+        "recordedAt": "2026-08-16T03:33:01.249Z",
+        "source": "record-dispatch-completion.mjs"
+      },
+      {
+        "nodeId": "page-history",
+        "pageId": "page-history",
+        "targetPageId": "page-history",
+        "htmlSrc": "pages/history.html",
+        "packetType": "ComplexPagePacket",
+        "status": "completed",
+        "changedFiles": [
+          "pages/history.html"
+        ],
+        "toolCallLedger": {
+          "source": "main-agent-runtime-trace",
+          "traceDigest": "440931959187a11888cd8e2bccf3bb5544a1c26944e0f2dd965989c7c727060c",
+          "todoWriteCalls": 0,
+          "previewCalls": 0,
+          "validationScriptCalls": 0,
+          "helperScriptWrites": 0
+        },
+        "recordedAt": "2026-08-16T03:33:01.273Z",
+        "source": "record-dispatch-completion.mjs"
+      },
+      {
+        "nodeId": "page-profile",
+        "pageId": "page-profile",
+        "targetPageId": "page-profile",
+        "htmlSrc": "pages/profile.html",
+        "packetType": "ComplexPagePacket",
+        "status": "completed",
+        "changedFiles": [
+          "pages/profile.html"
+        ],
+        "toolCallLedger": {
+          "source": "main-agent-runtime-trace",
+          "traceDigest": "98e5052d265d84fe47a0072f273bc5d79d4694a4ac8a2abf28647cbebc433906",
+          "todoWriteCalls": 0,
+          "previewCalls": 0,
+          "validationScriptCalls": 0,
+          "helperScriptWrites": 0
+        },
+        "recordedAt": "2026-08-16T03:33:01.298Z",
+        "source": "record-dispatch-completion.mjs"
+      },
+      {
+        "nodeId": "page-wellness",
+        "pageId": "page-wellness",
+        "targetPageId": "page-wellness",
+        "htmlSrc": "pages/wellness.html",
+        "packetType": "ComplexPagePacket",
+        "status": "completed",
+        "changedFiles": [
+          "pages/wellness.html"
+        ],
+        "toolCallLedger": {
+          "source": "main-agent-runtime-trace",
+          "traceDigest": "c28b28d5efebe524817ab4d328324b095d28602107372a25673484e961d73d9f",
+          "todoWriteCalls": 0,
+          "previewCalls": 0,
+          "validationScriptCalls": 0,
+          "helperScriptWrites": 0
+        },
+        "recordedAt": "2026-08-16T03:33:01.374Z",
+        "source": "record-dispatch-completion.mjs"
+      }
+    ],
+    "mainAgentPostDispatchMutations": [
+      {
+        "path": "movefit-ios-design.design",
+        "reason": "registered page interactions and image asset after page generation",
+        "owner": "main-agent",
+        "recordedAt": "2026-08-16T03:33:01.200Z",
+        "source": "record-dispatch-completion.mjs"
+      }
+    ]
+  },
+  "designSource": {
+    "operatingMode": "free-explore",
+    "styleDefinitionBrief": "Apple Health 风格的健康健身应用，卡片式、大圆角、柔和阴影、渐变英雄区、SF Symbols 图标",
+    "cssFilePath": "colors_and_type.css",
+    "brandPrefix": "movefit",
+    "designLibrary": null
+  },
+  "pages": [
+    {
+      "nodeId": "page-home",
+      "title": "首页",
+      "htmlSrc": "pages/home.html",
+      "pageIndex": 1,
+      "mobileNavigationActiveKey": "home",
+      "visualNorthStar": "Apple Health 仪表盘：顶部大标题 + 今日活动三环 + 健康趋势卡片 + 快速开始水平滚动",
+      "compositionPattern": "vertical card stack with hero gradient cards, 2-column metric grids, horizontal quick-start scroll",
+      "continuityAnchors": [
+        "shared bottom tab bar",
+        "card radius 16px / hero radius 16px",
+        "system font + tabular numeric data"
+      ],
+      "componentPlan": [
+        "page header",
+        "activity rings card",
+        "health trend card",
+        "sleep gradient card",
+        "metric 2x2 grid",
+        "health management 2x2 grid",
+        "quick start horizontal scroll"
+      ],
+      "imagePlan": [],
+      "chartsRequired": [
+        "activity rings SVG",
+        "step trend bar chart"
+      ]
+    },
+    {
+      "nodeId": "page-challenges",
+      "title": "挑战",
+      "htmlSrc": "pages/challenges.html",
+      "pageIndex": 2,
+      "mobileNavigationActiveKey": "challenges",
+      "visualNorthStar": "成就中心：摘要统计 + 精选挑战英雄卡片 + 类别筛选 + 挑战网格 + 徽章墙",
+      "compositionPattern": "summary hero card, filter chips, 2-column catalog grid, badge grid",
+      "continuityAnchors": [
+        "shared bottom tab bar",
+        "card radius 16px / hero radius 16px",
+        "system font + tabular numeric data"
+      ],
+      "componentPlan": [
+        "page header",
+        "challenge summary card",
+        "featured challenge gradient card",
+        "category filter chips",
+        "challenge catalog grid",
+        "badge grid",
+        "leaderboard placeholder"
+      ],
+      "imagePlan": [],
+      "chartsRequired": []
+    },
+    {
+      "nodeId": "page-workouts",
+      "title": "运动",
+      "htmlSrc": "pages/workouts.html",
+      "pageIndex": 3,
+      "mobileNavigationActiveKey": "workouts",
+      "visualNorthStar": "训练发现页：搜索 + 快速操作渐变卡片 + 分类网格 + 推荐方案水平滚动",
+      "compositionPattern": "search input, dual action gradient cards, category grid, horizontal recommendation scroll, list sections",
+      "continuityAnchors": [
+        "shared bottom tab bar",
+        "card radius 16px / hero radius 16px",
+        "system font + tabular numeric data"
+      ],
+      "componentPlan": [
+        "page header",
+        "search bar",
+        "quick start + manual record action cards",
+        "exercise catalog row",
+        "workout category grid",
+        "recommended plans horizontal scroll",
+        "cardio specialty list"
+      ],
+      "imagePlan": [],
+      "chartsRequired": []
+    },
+    {
+      "nodeId": "page-history",
+      "title": "历史",
+      "htmlSrc": "pages/history.html",
+      "pageIndex": 4,
+      "mobileNavigationActiveKey": "history",
+      "visualNorthStar": "历史回顾页：周期选择器 + 运动汇总渐变卡片 + 步数趋势图 + 最近运动列表",
+      "compositionPattern": "segmented period selector, summary gradient card, interactive trend chart, bucket detail, recent list",
+      "continuityAnchors": [
+        "shared bottom tab bar",
+        "card radius 16px / hero radius 16px",
+        "system font + tabular numeric data"
+      ],
+      "componentPlan": [
+        "page header",
+        "period segmented control",
+        "workout summary gradient card",
+        "step trend chart card",
+        "selected bucket detail",
+        "route map placeholder",
+        "recent workout list"
+      ],
+      "imagePlan": [],
+      "chartsRequired": [
+        "step trend bar chart"
+      ]
+    },
+    {
+      "nodeId": "page-profile",
+      "title": "我的",
+      "htmlSrc": "pages/profile.html",
+      "pageIndex": 5,
+      "mobileNavigationActiveKey": "profile",
+      "visualNorthStar": "个人中心：资料头部 + 身体指标卡片 + 运动成就卡片 + 分组设置列表",
+      "compositionPattern": "profile header card, metric cards, achievement card, grouped settings list",
+      "continuityAnchors": [
+        "shared bottom tab bar",
+        "card radius 16px / hero radius 16px",
+        "system font + tabular numeric data"
+      ],
+      "componentPlan": [
+        "page header",
+        "profile header with avatar",
+        "body metrics card",
+        "activity & achievements card",
+        "account settings group",
+        "support settings group"
+      ],
+      "imagePlan": [],
+      "chartsRequired": []
+    },
+    {
+      "nodeId": "page-wellness",
+      "title": "养护建议",
+      "htmlSrc": "pages/wellness.html",
+      "pageIndex": 6,
+      "mobileNavigationApplies": false,
+      "mobileNavigationOmitReason": "secondary detail page reached from profile; no shared bottom tab navigation",
+      "mobileNavigationActiveKey": null,
+      "visualNorthStar": "养护建议页：今日建议列表 + 收藏文章列表 + 免责声明",
+      "compositionPattern": "back navigation header, list sections with cards, disclaimer footer",
+      "continuityAnchors": [
+        "card radius 16px",
+        "system font",
+        "iOS grouped list style"
+      ],
+      "componentPlan": [
+        "back navigation header",
+        "today's suggestions list",
+        "saved articles list",
+        "disclaimer text"
+      ],
+      "imagePlan": [],
+      "chartsRequired": []
+    }
+  ],
+  "assets": [],
+  "wiringPlan": [
+    {
+      "from": "page-home",
+      "to": "page-challenges",
+      "domId": "nav-challenges",
+      "hideEdge": true
+    },
+    {
+      "from": "page-home",
+      "to": "page-workouts",
+      "domId": "nav-workouts",
+      "hideEdge": true
+    },
+    {
+      "from": "page-home",
+      "to": "page-history",
+      "domId": "nav-history",
+      "hideEdge": true
+    },
+    {
+      "from": "page-home",
+      "to": "page-profile",
+      "domId": "nav-profile",
+      "hideEdge": true
+    },
+    {
+      "from": "page-challenges",
+      "to": "page-home",
+      "domId": "nav-home",
+      "hideEdge": true
+    },
+    {
+      "from": "page-challenges",
+      "to": "page-workouts",
+      "domId": "nav-workouts",
+      "hideEdge": true
+    },
+    {
+      "from": "page-challenges",
+      "to": "page-history",
+      "domId": "nav-history",
+      "hideEdge": true
+    },
+    {
+      "from": "page-challenges",
+      "to": "page-profile",
+      "domId": "nav-profile",
+      "hideEdge": true
+    },
+    {
+      "from": "page-workouts",
+      "to": "page-home",
+      "domId": "nav-home",
+      "hideEdge": true
+    },
+    {
+      "from": "page-workouts",
+      "to": "page-challenges",
+      "domId": "nav-challenges",
+      "hideEdge": true
+    },
+    {
+      "from": "page-workouts",
+      "to": "page-history",
+      "domId": "nav-history",
+      "hideEdge": true
+    },
+    {
+      "from": "page-workouts",
+      "to": "page-profile",
+      "domId": "nav-profile",
+      "hideEdge": true
+    },
+    {
+      "from": "page-history",
+      "to": "page-home",
+      "domId": "nav-home",
+      "hideEdge": true
+    },
+    {
+      "from": "page-history",
+      "to": "page-challenges",
+      "domId": "nav-challenges",
+      "hideEdge": true
+    },
+    {
+      "from": "page-history",
+      "to": "page-workouts",
+      "domId": "nav-workouts",
+      "hideEdge": true
+    },
+    {
+      "from": "page-history",
+      "to": "page-profile",
+      "domId": "nav-profile",
+      "hideEdge": true
+    },
+    {
+      "from": "page-profile",
+      "to": "page-home",
+      "domId": "nav-home",
+      "hideEdge": true
+    },
+    {
+      "from": "page-profile",
+      "to": "page-challenges",
+      "domId": "nav-challenges",
+      "hideEdge": true
+    },
+    {
+      "from": "page-profile",
+      "to": "page-workouts",
+      "domId": "nav-workouts",
+      "hideEdge": true
+    },
+    {
+      "from": "page-profile",
+      "to": "page-history",
+      "domId": "nav-history",
+      "hideEdge": true
+    },
+    {
+      "from": "page-profile",
+      "to": "page-wellness",
+      "domId": "row-wellness",
+      "hideEdge": false
+    }
+  ],
+  "hiddenInteractionPlan": []
+}

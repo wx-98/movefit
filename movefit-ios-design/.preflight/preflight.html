@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preflight</title>
+    <style id="theme-vars">
+:root {
+  /* MoveFit Primary Scale */
+  --movefit-primary-50: #fff1f3;
+  --movefit-primary-100: #ffd6dc;
+  --movefit-primary-200: #ffb3bd;
+  --movefit-primary-300: #ff7a8d;
+  --movefit-primary-400: #f53d5a;
+  --movefit-primary-500: #ba0034;
+  --movefit-primary-600: #97002b;
+  --movefit-primary-700: #740022;
+  --movefit-primary-800: #520018;
+  --movefit-primary-900: #31000e;
+
+  /* Neutral Scale (iOS System Grays) */
+  --movefit-neutral-50: #f2f2f7;
+  --movefit-neutral-100: #e5e5ea;
+  --movefit-neutral-200: #d1d1d6;
+  --movefit-neutral-300: #c7c7cc;
+  --movefit-neutral-400: #aeaeb2;
+  --movefit-neutral-500: #8e8e93;
+  --movefit-neutral-600: #636366;
+  --movefit-neutral-700: #48484a;
+  --movefit-neutral-800: #3a3a3c;
+  --movefit-neutral-900: #1c1c1e;
+
+  /* Semantic Health Colors */
+  --movefit-move: #f20540;
+  --movefit-exercise: #21c747;
+  --movefit-stand: #1ea8f2;
+  --movefit-sleep: #5945e0;
+  --movefit-challenge: #943fde;
+  --movefit-orange: #f57a1f;
+  --movefit-teal: #089e91;
+
+  /* State Colors */
+  --movefit-state-success: #21c747;
+  --movefit-state-warning: #f57a1f;
+  --movefit-state-error: #ff3b30;
+  --movefit-state-info: #1ea8f2;
+
+  /* Semantic Aliases */
+  --movefit-background: #f2f2f7;
+  --movefit-foreground: #1c1c1e;
+  --movefit-card: #ffffff;
+  --movefit-card-foreground: #1c1c1e;
+  --movefit-popover: #ffffff;
+  --movefit-popover-foreground: #1c1c1e;
+  --movefit-primary: #ba0034;
+  --movefit-primary-foreground: #ffffff;
+  --movefit-muted: #f2f2f7;
+  --movefit-muted-foreground: #8e8e93;
+  --movefit-border: rgba(0, 0, 0, 0.08);
+  --movefit-input: #ffffff;
+  --movefit-ring: #ba0034;
+  --movefit-radius-small: 8px;
+  --movefit-radius-medium: 12px;
+  --movefit-radius-large: 16px;
+  --movefit-radius-full: 9999px;
+}
+
+@theme inline {
+  --color-background: var(--movefit-background);
+  --color-foreground: var(--movefit-foreground);
+  --color-card: var(--movefit-card);
+  --color-card-foreground: var(--movefit-card-foreground);
+  --color-popover: var(--movefit-popover);
+  --color-popover-foreground: var(--movefit-popover-foreground);
+  --color-primary: var(--movefit-primary);
+  --color-primary-foreground: var(--movefit-primary-foreground);
+  --color-muted: var(--movefit-muted);
+  --color-muted-foreground: var(--movefit-muted-foreground);
+  --color-border: var(--movefit-border);
+  --color-input: var(--movefit-input);
+  --color-ring: var(--movefit-ring);
+  --radius-sm: var(--movefit-radius-small);
+  --radius-md: var(--movefit-radius-medium);
+  --radius-lg: var(--movefit-radius-large);
+  --radius-full: var(--movefit-radius-full);
+
+  /* Extended palette mapped for Tailwind utilities */
+  --color-move: var(--movefit-move);
+  --color-exercise: var(--movefit-exercise);
+  --color-stand: var(--movefit-stand);
+  --color-sleep: var(--movefit-sleep);
+  --color-challenge: var(--movefit-challenge);
+  --color-orange: var(--movefit-orange);
+  --color-teal: var(--movefit-teal);
+  --color-success: var(--movefit-state-success);
+  --color-warning: var(--movefit-state-warning);
+  --color-error: var(--movefit-state-error);
+  --color-info: var(--movefit-state-info);
+}
+
+/* Light mode base */
+html.light,
+:root {
+  --movefit-background: #f2f2f7;
+  --movefit-foreground: #1c1c1e;
+  --movefit-card: #ffffff;
+  --movefit-card-foreground: #1c1c1e;
+  --movefit-popover: #ffffff;
+  --movefit-popover-foreground: #1c1c1e;
+  --movefit-primary: #ba0034;
+  --movefit-primary-foreground: #ffffff;
+  --movefit-muted: #f2f2f7;
+  --movefit-muted-foreground: #8e8e93;
+  --movefit-border: rgba(0, 0, 0, 0.08);
+  --movefit-input: #ffffff;
+  --movefit-ring: #ba0034;
+}
+
+/* Dark mode base */
+html.dark {
+  --movefit-background: #000000;
+  --movefit-foreground: #ffffff;
+  --movefit-card: #1c1c1e;
+  --movefit-card-foreground: #ffffff;
+  --movefit-popover: #1c1c1e;
+  --movefit-popover-foreground: #ffffff;
+  --movefit-primary: #ff4d6d;
+  --movefit-primary-foreground: #1c1c1e;
+  --movefit-muted: #1c1c1e;
+  --movefit-muted-foreground: #8e8e93;
+  --movefit-border: rgba(255, 255, 255, 0.12);
+  --movefit-input: #1c1c1e;
+  --movefit-ring: #ff4d6d;
+}
+
+/* Typography */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-rounded {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Segoe UI", sans-serif;
+}
+
+.font-mono-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* iOS-style safe area utilities */
+.pt-safe { padding-top: env(safe-area-inset-top); }
+.pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+/* Hide scrollbar for horizontal scroll areas */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Subtle card shadow */
+.card-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+/* Floating layer shadow */
+.float-shadow {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--movefit-background);
+    --color-foreground: var(--movefit-foreground);
+    --color-card: var(--movefit-card);
+    --color-card-foreground: var(--movefit-card-foreground);
+    --color-popover: var(--movefit-popover);
+    --color-popover-foreground: var(--movefit-popover-foreground);
+    --color-primary: var(--movefit-primary);
+    --color-primary-foreground: var(--movefit-primary-foreground);
+    --color-muted: var(--movefit-muted);
+    --color-muted-foreground: var(--movefit-muted-foreground);
+    --color-border: var(--movefit-border);
+    --color-input: var(--movefit-input);
+    --color-ring: var(--movefit-ring);
+    --color-move: var(--movefit-move);
+    --color-exercise: var(--movefit-exercise);
+    --color-stand: var(--movefit-stand);
+    --color-sleep: var(--movefit-sleep);
+    --color-challenge: var(--movefit-challenge);
+    --color-orange: var(--movefit-orange);
+    --color-teal: var(--movefit-teal);
+    --color-success: var(--movefit-state-success);
+    --color-warning: var(--movefit-state-warning);
+    --color-error: var(--movefit-state-error);
+    --color-info: var(--movefit-state-info);
+    --radius-sm: var(--movefit-radius-small);
+    --radius-md: var(--movefit-radius-medium);
+    --radius-lg: var(--movefit-radius-large);
+    --radius-full: var(--movefit-radius-full);
+  }
+  @layer base {
+    body { background: var(--movefit-background); color: var(--movefit-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--movefit-background); }
+      .text-background { color: var(--movefit-background); }
+      .border-background { border-color: var(--movefit-background); }
+      .ring-background { --tw-ring-color: var(--movefit-background); }
+      .bg-foreground { background-color: var(--movefit-foreground); }
+      .text-foreground { color: var(--movefit-foreground); }
+      .border-foreground { border-color: var(--movefit-foreground); }
+      .ring-foreground { --tw-ring-color: var(--movefit-foreground); }
+      .bg-card { background-color: var(--movefit-card); }
+      .text-card { color: var(--movefit-card); }
+      .border-card { border-color: var(--movefit-card); }
+      .ring-card { --tw-ring-color: var(--movefit-card); }
+      .bg-card-foreground { background-color: var(--movefit-card-foreground); }
+      .text-card-foreground { color: var(--movefit-card-foreground); }
+      .border-card-foreground { border-color: var(--movefit-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--movefit-card-foreground); }
+      .bg-popover { background-color: var(--movefit-popover); }
+      .text-popover { color: var(--movefit-popover); }
+      .border-popover { border-color: var(--movefit-popover); }
+      .ring-popover { --tw-ring-color: var(--movefit-popover); }
+      .bg-popover-foreground { background-color: var(--movefit-popover-foreground); }
+      .text-popover-foreground { color: var(--movefit-popover-foreground); }
+      .border-popover-foreground { border-color: var(--movefit-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--movefit-popover-foreground); }
+      .bg-primary { background-color: var(--movefit-primary); }
+      .text-primary { color: var(--movefit-primary); }
+      .border-primary { border-color: var(--movefit-primary); }
+      .ring-primary { --tw-ring-color: var(--movefit-primary); }
+      .bg-primary-foreground { background-color: var(--movefit-primary-foreground); }
+      .text-primary-foreground { color: var(--movefit-primary-foreground); }
+      .border-primary-foreground { border-color: var(--movefit-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--movefit-primary-foreground); }
+      .bg-muted { background-color: var(--movefit-muted); }
+      .text-muted { color: var(--movefit-muted); }
+      .border-muted { border-color: var(--movefit-muted); }
+      .ring-muted { --tw-ring-color: var(--movefit-muted); }
+      .bg-muted-foreground { background-color: var(--movefit-muted-foreground); }
+      .text-muted-foreground { color: var(--movefit-muted-foreground); }
+      .border-muted-foreground { border-color: var(--movefit-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--movefit-muted-foreground); }
+      .bg-border { background-color: var(--movefit-border); }
+      .text-border { color: var(--movefit-border); }
+      .border-border { border-color: var(--movefit-border); }
+      .ring-border { --tw-ring-color: var(--movefit-border); }
+      .bg-input { background-color: var(--movefit-input); }
+      .text-input { color: var(--movefit-input); }
+      .border-input { border-color: var(--movefit-input); }
+      .ring-input { --tw-ring-color: var(--movefit-input); }
+      .bg-ring { background-color: var(--movefit-ring); }
+      .text-ring { color: var(--movefit-ring); }
+      .border-ring { border-color: var(--movefit-ring); }
+      .ring-ring { --tw-ring-color: var(--movefit-ring); }
+      .bg-move { background-color: var(--movefit-move); }
+      .text-move { color: var(--movefit-move); }
+      .border-move { border-color: var(--movefit-move); }
+      .ring-move { --tw-ring-color: var(--movefit-move); }
+      .bg-exercise { background-color: var(--movefit-exercise); }
+      .text-exercise { color: var(--movefit-exercise); }
+      .border-exercise { border-color: var(--movefit-exercise); }
+      .ring-exercise { --tw-ring-color: var(--movefit-exercise); }
+      .bg-stand { background-color: var(--movefit-stand); }
+      .text-stand { color: var(--movefit-stand); }
+      .border-stand { border-color: var(--movefit-stand); }
+      .ring-stand { --tw-ring-color: var(--movefit-stand); }
+      .bg-sleep { background-color: var(--movefit-sleep); }
+      .text-sleep { color: var(--movefit-sleep); }
+      .border-sleep { border-color: var(--movefit-sleep); }
+      .ring-sleep { --tw-ring-color: var(--movefit-sleep); }
+      .bg-challenge { background-color: var(--movefit-challenge); }
+      .text-challenge { color: var(--movefit-challenge); }
+      .border-challenge { border-color: var(--movefit-challenge); }
+      .ring-challenge { --tw-ring-color: var(--movefit-challenge); }
+      .bg-orange { background-color: var(--movefit-orange); }
+      .text-orange { color: var(--movefit-orange); }
+      .border-orange { border-color: var(--movefit-orange); }
+      .ring-orange { --tw-ring-color: var(--movefit-orange); }
+      .bg-teal { background-color: var(--movefit-teal); }
+      .text-teal { color: var(--movefit-teal); }
+      .border-teal { border-color: var(--movefit-teal); }
+      .ring-teal { --tw-ring-color: var(--movefit-teal); }
+      .bg-success { background-color: var(--movefit-state-success); }
+      .text-success { color: var(--movefit-state-success); }
+      .border-success { border-color: var(--movefit-state-success); }
+      .ring-success { --tw-ring-color: var(--movefit-state-success); }
+      .bg-warning { background-color: var(--movefit-state-warning); }
+      .text-warning { color: var(--movefit-state-warning); }
+      .border-warning { border-color: var(--movefit-state-warning); }
+      .ring-warning { --tw-ring-color: var(--movefit-state-warning); }
+      .bg-error { background-color: var(--movefit-state-error); }
+      .text-error { color: var(--movefit-state-error); }
+      .border-error { border-color: var(--movefit-state-error); }
+      .ring-error { --tw-ring-color: var(--movefit-state-error); }
+      .bg-info { background-color: var(--movefit-state-info); }
+      .text-info { color: var(--movefit-state-info); }
+      .border-info { border-color: var(--movefit-state-info); }
+      .ring-info { --tw-ring-color: var(--movefit-state-info); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+    </main>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "success": true,
+  "repairedPages": [
+    {
+      "htmlSrc": "pages/home.html",
+      "action": "replace-data-mobile-nav-global",
+      "activeKey": "home"
+    },
+    {
+      "htmlSrc": "pages/challenges.html",
+      "action": "replace-data-mobile-nav-global",
+      "activeKey": "challenges"
+    },
+    {
+      "htmlSrc": "pages/workouts.html",
+      "action": "replace-data-mobile-nav-global",
+      "activeKey": "workouts"
+    },
+    {
+      "htmlSrc": "pages/history.html",
+      "action": "replace-data-mobile-nav-global",
+      "activeKey": "history"
+    },
+    {
+      "htmlSrc": "pages/profile.html",
+      "action": "replace-data-mobile-nav-global",
+      "activeKey": "profile"
+    }
+  ],
+  "skippedPages": [
+    {
+      "htmlSrc": "pages/wellness.html",
+      "reason": "secondary detail page reached from profile; no shared bottom tab navigation"
+    }
+  ],
+  "failedPages": [],
+  "repairCount": 5,
+  "previousFailedReportDetected": false,
+  "checkedAt": "2026-08-16T03:33:42.996Z"
+}

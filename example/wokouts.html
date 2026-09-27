@@ -1,0 +1,197 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "secondary": "#006c47", "tertiary-fixed": "#d8e2ff", "on-tertiary-container": "#fefcff", "primary-fixed": "#ffdada", "outline": "#916e6f", "tertiary-container": "#0070eb", "inverse-primary": "#ffb3b5", "on-primary-container": "#fffbff", "surface-container-low": "#f4f3f8", "on-background": "#1a1b1f", "on-primary-fixed-variant": "#920027", "outline-variant": "#e6bcbd", "surface-tint": "#be0036", "on-secondary": "#ffffff", "surface-container-highest": "#e3e2e7", "on-tertiary-fixed-variant": "#004493", "on-error": "#ffffff", "primary-container": "#e51245", "surface-container-lowest": "#ffffff", "on-primary": "#ffffff", "on-surface-variant": "#5d3f40", "error": "#ba1a1a", "inverse-surface": "#2f3034", "surface-dim": "#dad9df", "on-tertiary": "#ffffff", "inverse-on-surface": "#f1f0f5", "on-secondary-container": "#00714b", "tertiary": "#0058bc", "error-container": "#ffdad6", "surface-container": "#eeedf3", "surface-container-high": "#e9e7ed", "surface": "#faf9fe", "primary-fixed-dim": "#ffb3b5", "secondary-container": "#68f9b6", "on-error-container": "#93000a", "on-secondary-fixed-variant": "#005235", "tertiary-fixed-dim": "#adc6ff", "on-primary-fixed": "#40000c", "on-tertiary-fixed": "#001a41", "background": "#faf9fe", "on-secondary-fixed": "#002113", "secondary-fixed-dim": "#49df9f", "primary": "#ba0034", "on-surface": "#1a1b1f", "secondary-fixed": "#6bfcb9", "surface-bright": "#faf9fe", "surface-variant": "#e3e2e7" }, "borderRadius": { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, "spacing": { "grid-gutter": "0.75rem", "stack-gap": "1rem", "section-margin": "2rem", "element-padding": "1rem", "container-margin": "1.25rem" }, "fontFamily": { "headline-md": ["Inter"], "body-sm": ["Inter"], "label-caps": ["Inter"], "body-lg": ["Inter"], "numeric-data": ["Inter"], "headline-sm": ["Inter"], "display-lg-mobile": ["Inter"], "display-lg": ["Inter"] } } } }</script><style>@layer base { body { -webkit-tap-highlight-color: transparent; } .pb-safe { padding-bottom: env(safe-area-inset-bottom); } .pt-safe { padding-top: env(safe-area-inset-top); } } ::-webkit-scrollbar { display: none; }</style></head><body class="bg-background font-body-lg text-on-background"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-container-margin flex items-center justify-between"><div class="w-10"></div><div class="flex items-center gap-2"><img alt="VitalPulse Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL3F92g6ii1z_tcQm54SfDtBRf4Vyescn2DoqqJ5P_kSAFfytWRnK6-3LL0iIR9SpNRxN_kW1-ejr-qa4lxkqN2muBvNnNdkvGGspGvMk25Uz6MVWnPHNYXD0pbL_oCXh0xhZKe-pCTEhxJFqEC2rLHumn3J4BoLNnW6pvpWMCxwvHQ9UNcGFD7FApf426qR3ZQHs_LjptMP4XnF92DUQ3qrKOSf9TuY0IOI52-NH9BBHwVZBd6i3X"/><span class="font-headline-sm text-headline-sm text-primary">Workouts</span></div><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpcCptaS1NkGEriGOhWUPl8-dUqxEBCxCslrpqmIZby4rHDKsX_XbKHbBJbKFtpoQ7QGbC48vnTrljjc9XE6tCtK67tFezm3FmsWHR2AcSOU_-9Dmk0q9coEE0VY9d_zj4ZFVpwjai1kSoo9yQT3vXfZ2TQHHGTwxXRp_5JqftIhE85iL209Qtm9Z8fBYhh7L_YiICo8UA97op6cMM_kod0bvdaD0-E0AhLWBcCB_MKxHJb19yZgwS"/></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full gap-stack-gap px-container-margin pt-element-padding">
+<!-- Search Bar -->
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant text-headline-sm">search</span>
+</div>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-container-high text-on-surface rounded-xl font-body-lg focus:outline-none focus:ring-2 focus:ring-primary transition-shadow placeholder-on-surface-variant/70" placeholder="Find a workout..." type="text"/>
+</div>
+<!-- Keep-style Action Buttons -->
+<div class="grid grid-cols-2 gap-grid-gutter mt-2">
+<button class="flex flex-col items-start justify-between p-4 bg-primary text-on-primary rounded-2xl h-24 shadow-md active:scale-95 transition-transform relative overflow-hidden group">
+<div class="absolute inset-0 bg-white/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-display-lg-mobile" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+<span class="font-headline-sm mt-2">Quick Start</span>
+</button>
+<button class="flex flex-col items-start justify-between p-4 bg-tertiary text-on-tertiary rounded-2xl h-24 shadow-md active:scale-95 transition-transform relative overflow-hidden group">
+<div class="absolute inset-0 bg-white/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-display-lg-mobile" style="font-variation-settings: 'FILL' 1;">add_task</span>
+<span class="font-headline-sm mt-2">Create Plan</span>
+</button>
+</div>
+<!-- Categories Grid -->
+<section class="mt-section-margin">
+<h2 class="font-headline-md text-on-surface mb-stack-gap">Categories</h2>
+<div class="grid grid-cols-3 gap-grid-gutter">
+<!-- HIIT -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-full aspect-square rounded-2xl bg-secondary-container text-on-secondary-container flex items-center justify-center shadow-sm relative overflow-hidden" data-alt="Abstract energetic orange and red pattern resembling high intensity flames, high energy, fitness, modern minimalism" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDM8ZufYkyGvQrkFhTEuNL69zlC48vUR6M_8EAYL6nzyAho32N6YBSkfstMj9gO9DLLSba9BkYptb9_NxsuiROk5G6fj-F9MLhYtGCw7_NeuKatlk-o49UMVjohxcu3v8eOc-dkiqANdhXyGp6tELkdFHNeYlCT3gj8d93fpheoWEEacpltUsYBOCSpr9juZnTYtmRkxgNpAxZJPQin96hinhes3ZkWF-kvYNFy8rIOtnvWye8a6iw4'); background-size: cover;">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<span class="material-symbols-outlined absolute bottom-2 left-2 text-white" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+</div>
+<span class="font-label-caps text-on-surface">HIIT</span>
+</div>
+<!-- Yoga -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-full aspect-square rounded-2xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center shadow-sm relative overflow-hidden" data-alt="Calming serene blue and purple abstract wave pattern, peaceful, mindfulness, yoga, modern aesthetic" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBdpNZHnQQCfz9QBzyzPG-78mwGE6bwZD2tP-quyAmZA0wSdAO25Ed8TC58Wh_7q11TSn8vejZMgSjGbRvhrBEKKXWDIuWAds12HnkmlY8aNlj_aRhdSuoNvdjpAbtOHBTz3WqKoYKcjpiY8XyulSNKPbXpsTaV25zRZGac5aUrzp7XXOWtvlE5nk_w8Ryfp1JY3_GsShNWjJUD8Iyog9jnoe-MJZxP47NvjLKZz0ZgMtLudhotPnTp'); background-size: cover;">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<span class="material-symbols-outlined absolute bottom-2 left-2 text-white" style="font-variation-settings: 'FILL' 1;">self_improvement</span>
+</div>
+<span class="font-label-caps text-on-surface">YOGA</span>
+</div>
+<!-- Strength -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-full aspect-square rounded-2xl bg-surface-container-highest text-on-surface flex items-center justify-center shadow-sm relative overflow-hidden" data-alt="Dark gray and metallic texture, heavy machinery, strength training, bold, gritty but clean modern style" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCsGZMJ3as2F2oJEA2EBz2xCosj5MomUAPdSB_H72AkxNNNLzia-I9cQmcXcgbJUQ7pQgKhDAgvIur5KIm2H1GrAfBcesbpoTfYlKBEdSdvyPvzE034m9iw2QYd5xc8mCjMFRmgqqL6pDZageWgesuvuSK2N_JyyHjaIZM1IvBuVHr6Cr1TuAgZHUkCjFHz-YzFBDyqAfnUixmAm8393qWRQCmo60m4TX6eVcAc_M5D43B_FoY8JQn1'); background-size: cover;">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<span class="material-symbols-outlined absolute bottom-2 left-2 text-white" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+</div>
+<span class="font-label-caps text-on-surface">STRENGTH</span>
+</div>
+<!-- Cardio -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-full aspect-square rounded-2xl bg-primary-fixed text-on-primary-fixed flex items-center justify-center shadow-sm relative overflow-hidden" data-alt="Vibrant red and pink motion blur lines, speed, running, cardio, dynamic energetic aesthetic" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAXgQypJyUZFo2MPVFKemHpwbsACeFml_AIRKNDCOv7ZkQXOdaPeBo9k5-xPlR-lZE1CwpuFdDX68x5RyHWHrX5PMjrIBqbLZO9QlspgZ9WXOfJYQqZ8cXsVnzdngHY1-gMOeV0f-elxj4oyo52xkRqfFDpv9N1JF4BnPvwwVVxJ_2mqOAhK4wWT45TL6LaCwpbHAlyG_aU8lVF3FRHG8b8ExLTHphrr5iY7yp9WQvn0EVYfcFo6IlC'); background-size: cover;">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<span class="material-symbols-outlined absolute bottom-2 left-2 text-white" style="font-variation-settings: 'FILL' 1;">directions_run</span>
+</div>
+<span class="font-label-caps text-on-surface">CARDIO</span>
+</div>
+<!-- Stretching -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-full aspect-square rounded-2xl bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center shadow-sm relative overflow-hidden" data-alt="Soft green and teal flowing curves, flexibility, stretching, calm modern design" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuATYCP1xsuyFGdjc8a5Sh8mlO8PDQeEcQhevOPmZm1CokJmML0yuzCuY6r7UCoi-PK4IFw4MwjkwE3hbnuNq3FJyUUOpOia3UsvO4gGLiv0nb8bORPyY_ceKgy5wvvoDDNtSzc1unsvI--EEK4GNKC8sajGJtOMgPNbOyTYqotsnfn38nD8nMMAw51KoOvG8nTzCkz-UUsoqget622P8PIbDexM_aQNJSxc-lSJFW8ZYm4CuiWI773x'); background-size: cover;">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<span class="material-symbols-outlined absolute bottom-2 left-2 text-white" style="font-variation-settings: 'FILL' 1;">accessibility_new</span>
+</div>
+<span class="font-label-caps text-on-surface">STRETCH</span>
+</div>
+<!-- See All -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-full aspect-square rounded-2xl bg-surface-container text-on-surface-variant flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined">grid_view</span>
+</div>
+<span class="font-label-caps text-on-surface">SEE ALL</span>
+</div>
+</div>
+</section>
+<!-- For You -->
+<section class="mt-section-margin">
+<div class="flex justify-between items-end mb-stack-gap">
+<h2 class="font-headline-md text-on-surface">For You</h2>
+<button class="font-label-caps text-primary">UPDATE GOALS</button>
+</div>
+<div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-container-margin px-container-margin hide-scrollbar" id="for-you-carousel">
+<!-- Recommendation 1 -->
+<div class="snap-center shrink-0 w-[85%] relative rounded-[2rem] overflow-hidden shadow-lg">
+<div class="w-full h-64 bg-cover bg-center" data-alt="Athletic woman performing a kettlebell swing in a modern, well-lit studio. Cinematic lighting emphasizing sweat and determination. Wearable tech visible on wrist. High energy, clinical aesthetic, vibrant colors against dark background." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC3Da0e18N_pD-W44EG5whFHMIJM0zO3f1ZBgNEJ8W5zEfGn9bcluBswug9i6JlGtSKkpch0lNbIw3pjjstievMluLRu0i8hkzbsVWxvlGZAv-FfgMDJNsWnS3xpFYNby_x6eeL6QuuEjoPP1KMhp2w4v00_R6dG-aF8eWstVoi4Q7MbRlTpTbtPbij7W6jXXT3vMyr1H8UP84xxQ8oaC8tQUWfwR1oh9rq4DIuDDqVqn_VCXvYsDYk')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+<div class="absolute bottom-0 left-0 w-full p-5 text-white flex flex-col gap-2">
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-white/20 backdrop-blur-md rounded-full font-label-caps text-[10px]">FULL BODY</span>
+<span class="px-2 py-1 bg-primary/80 backdrop-blur-md rounded-full font-label-caps text-[10px]">INTENSE</span>
+</div>
+<h3 class="font-headline-sm">Kettlebell Power</h3>
+<div class="flex items-center gap-4 text-white/80 font-body-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">timer</span> 25 min</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">local_fire_department</span> 320 kcal</span>
+</div>
+</div>
+<button class="absolute bottom-5 right-5 w-12 h-12 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-md active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+<!-- Recommendation 2 -->
+<div class="snap-center shrink-0 w-[85%] relative rounded-[2rem] overflow-hidden shadow-lg">
+<div class="w-full h-64 bg-cover bg-center" data-alt="Close up of a muscular man doing pushups on a yoga mat. Focus on form and breath. Clinical health app aesthetic, clean, brightly lit with natural sunlight, energetic vibe." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCWpIwB7bGJCy7Pjfq83DOw19sUFQdQnXENjOCsCWRPTMRjB0a7jvL3Ic13B5NMH4iS_dxEmv6hPAcbVdAgzwfN_tWWO9-S2S4WNXE_ZCgReRqNued_KooHB8bsLm3_e3AVRY6azbYypQtl6B95KDTzs3wP5kfD1hXHMz95_5uWCUIr7tLAZsFOJ7Rry0TQdQDq-kh7FYbTlfraEpVMyHqA4zKWxnq51OAgbLTU5ns9jpH4nNt2YgwS')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+<div class="absolute bottom-0 left-0 w-full p-5 text-white flex flex-col gap-2">
+<div class="flex gap-2">
+<span class="px-2 py-1 bg-white/20 backdrop-blur-md rounded-full font-label-caps text-[10px]">CORE</span>
+<span class="px-2 py-1 bg-tertiary/80 backdrop-blur-md rounded-full font-label-caps text-[10px]">BUILD</span>
+</div>
+<h3 class="font-headline-sm">Morning Activation</h3>
+<div class="flex items-center gap-4 text-white/80 font-body-sm">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">timer</span> 15 min</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">local_fire_department</span> 150 kcal</span>
+</div>
+</div>
+<button class="absolute bottom-5 right-5 w-12 h-12 bg-white text-primary rounded-full flex items-center justify-center shadow-md active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Heart Focused -->
+<section class="mt-section-margin mb-8">
+<div class="flex items-center gap-2 mb-stack-gap">
+<div class="w-8 h-8 rounded-full bg-error-container text-on-error-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<h2 class="font-headline-md text-on-surface">Heart Focused</h2>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Routine 1 -->
+<div class="flex items-center p-3 bg-surface-container-low rounded-2xl shadow-sm relative overflow-hidden group">
+<div class="w-16 h-16 rounded-xl bg-cover bg-center shrink-0" data-alt="Person jogging outside in a park on a sunny day, focus on heart rate wearable device. VitalPulse aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCmYlPVfceS47IRT8j9F3Gigezj0f10SNQIIiLYsN1RJJHduFqvQ8K0L2rPTkO1u-MNOO2Dj-ST3KeMnPWqXeRmvZTBctlfA8wYxs_WlJlFXX0gvfKEqLbp0xR96uuZSpPcSKAvHgGyLHv70S5K6M3U71fQeNW-O9mJzNho6uU1oS2TNklADNDqYdEqicXmE6FrqFM27TG5lvEm1DIEG6MxV48Z3r1RQ8PBshTXHzGiSReHvTvPw6mi')"></div>
+<div class="flex flex-col ml-4 flex-1 min-w-0">
+<span class="font-headline-sm text-on-surface truncate">Zone 2 Base Build</span>
+<span class="font-body-sm text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">monitor_heart</span> 110-130 BPM Target</span>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface text-primary flex items-center justify-center shadow-sm shrink-0 ml-2">
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+<!-- Routine 2 -->
+<div class="flex items-center p-3 bg-surface-container-low rounded-2xl shadow-sm relative overflow-hidden group">
+<div class="w-16 h-16 rounded-xl bg-cover bg-center shrink-0" data-alt="Indoor cycling class, high energy, red and blue dynamic lighting, sweat, intense cardio. VitalPulse aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAerNACQ9PM9jlWsjU7v1LTQo1livt7zUNNrh7X4lWOG_ltnIJYa1JGa875jgAmdSDtyac6Ph0Ro6HBUHZ5q-Ffo7HOkVQUjAGX-jbkl1Un2APQlTctV2gAP8FXmlkgHBgy2k0RckaO7O2UQ8icKYmZL6NN20Ar1JHX_YAcH8zc__WidRyPDqps54MT4N6OGA4bDibGB7hTeof51cYVrAjFpYUl7DNji_zT_Hrlk6UO9fbi_SNupDpG')"></div>
+<div class="flex flex-col ml-4 flex-1 min-w-0">
+<span class="font-headline-sm text-on-surface truncate">VO2 Max Intervals</span>
+<span class="font-body-sm text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">monitor_heart</span> Peak Heart Rate</span>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface text-primary flex items-center justify-center shadow-sm shrink-0 ml-2">
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<style>
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
+<script>
+  // Simple intersection observer to add a subtle entry animation to the horizontal scroll items
+  document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.getElementById('for-you-carousel');
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    // Optional: Add simple drag to scroll for desktop testing if needed, mostly handled natively on mobile
+    carousel.addEventListener('mousedown', (e) => {
+      isDown = true;
+      carousel.style.cursor = 'grabbing';
+      startX = e.pageX - carousel.offsetLeft;
+      scrollLeft = carousel.scrollLeft;
+    });
+    carousel.addEventListener('mouseleave', () => {
+      isDown = false;
+      carousel.style.cursor = 'grab';
+    });
+    carousel.addEventListener('mouseup', () => {
+      isDown = false;
+      carousel.style.cursor = 'grab';
+    });
+    carousel.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - carousel.offsetLeft;
+      const walk = (x - startX) * 2; // scroll-fast
+      carousel.scrollLeft = scrollLeft - walk;
+    });
+  });
+</script><div class="h-24 pb-safe"></div></main><nav class="fixed bottom-0 w-full z-50 bg-surface/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)]" data-active-classes="text-primary"><div class="flex justify-around items-center h-16 px-2"><a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant transition-colors" data-path="home" href="#"><span class="material-symbols-outlined">home</span><span class="font-label-caps text-[10px] mt-1 uppercase">Home</span></a><a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant transition-colors" data-path="challenges" href="#"><span class="material-symbols-outlined">trophy</span><span class="font-label-caps text-[10px] mt-1 uppercase">Challenges</span></a><a aria-current="page" class="flex flex-col items-center justify-center w-full h-full transition-colors text-primary" data-path="workouts" href="#"><span class="material-symbols-outlined">fitness_center</span><span class="font-label-caps text-[10px] mt-1 uppercase">Workouts</span></a><a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant transition-colors" data-path="history" href="#"><span class="material-symbols-outlined">monitoring</span><span class="font-label-caps text-[10px] mt-1 uppercase">History</span></a><a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant transition-colors" data-path="profile" href="#"><span class="material-symbols-outlined">person</span><span class="font-label-caps text-[10px] mt-1 uppercase">Profile</span></a></div></nav></body></html>

@@ -1,0 +1,20 @@
+{
+  "root": {
+    "nodeId": "gen-project-root",
+    "kind": "project-shell",
+    "pageIds": ["page-home", "page-challenges", "page-workouts", "page-history", "page-profile", "page-wellness"],
+    "output": null,
+    "sharedRegions": ["mobile bottom tab navigation"],
+    "privateRegions": ["page header", "page body content"],
+    "mutableSlots": ["activeNavItem"],
+    "status": "generated",
+    "children": [
+      { "nodeId": "gen-page-home", "kind": "page-leaf", "pageIds": ["page-home"], "output": "pages/home.html", "sharedRegions": [], "privateRegions": ["home body"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "gen-page-challenges", "kind": "page-leaf", "pageIds": ["page-challenges"], "output": "pages/challenges.html", "sharedRegions": [], "privateRegions": ["challenges body"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "gen-page-workouts", "kind": "page-leaf", "pageIds": ["page-workouts"], "output": "pages/workouts.html", "sharedRegions": [], "privateRegions": ["workouts body"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "gen-page-history", "kind": "page-leaf", "pageIds": ["page-history"], "output": "pages/history.html", "sharedRegions": [], "privateRegions": ["history body"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "gen-page-profile", "kind": "page-leaf", "pageIds": ["page-profile"], "output": "pages/profile.html", "sharedRegions": [], "privateRegions": ["profile body"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "gen-page-wellness", "kind": "page-leaf", "pageIds": ["page-wellness"], "output": "pages/wellness.html", "sharedRegions": [], "privateRegions": ["wellness body"], "mutableSlots": [], "status": "planned", "children": [] }
+    ]
+  }
+}

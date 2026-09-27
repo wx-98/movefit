@@ -1,0 +1,127 @@
+{
+  "success": true,
+  "outcome": "passed",
+  "repairable": true,
+  "terminalViolations": [],
+  "terminalBlockingSummary": null,
+  "skillProvenance": {
+    "name": "solo-design",
+    "version": "2026.08.06.19.15.08",
+    "version_source": "skill-release-manifest.json",
+    "runtime_skill_dir": null,
+    "recorded_at": null,
+    "expected_version": "2026.08.06.19.15.08",
+    "status": "matched",
+    "read_status": "loaded"
+  },
+  "operatingMode": "free-explore",
+  "renderBlockingErrorCount": 0,
+  "softWarningCount": 7,
+  "renderBlockingErrors": [],
+  "errorSignatures": [],
+  "softWarnings": [
+    "[mobile-bottom-overlay] pages/home.html: bottom fixed/absolute CTA or navigation found. Ensure it has safe-area spacing and does not cover content. Evidence: class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\"",
+    "[mobile-bottom-overlay] pages/challenges.html: bottom fixed/absolute CTA or navigation found. Ensure it has safe-area spacing and does not cover content. Evidence: class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\"",
+    "[mobile-bottom-overlay] pages/workouts.html: bottom fixed/absolute CTA or navigation found. Ensure it has safe-area spacing and does not cover content. Evidence: class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\"",
+    "[mobile-bottom-overlay] pages/history.html: bottom fixed/absolute CTA or navigation found. Ensure it has safe-area spacing and does not cover content. Evidence: class=\"absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/40 to-transparent\"",
+    "[mobile-bottom-overlay] pages/profile.html: bottom fixed/absolute CTA or navigation found. Ensure it has safe-area spacing and does not cover content. Evidence: class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\"",
+    "[mobile-navigation-consistency] 1 mobile page(s) do not expose a 3+ item data-nav-key nav cluster while sibling pages do. This is acceptable for detail/reward/modal pages only when planned explicitly.",
+    "[html-quality] challenges.html: hardcoded colors are forbidden outside <style id=\"theme-vars\">. Use brand CSS variables from the token reference."
+  ],
+  "repairPlanHints": [
+    {
+      "errorClass": "hardcoded-color-in-body",
+      "owner": "sub-agent",
+      "repairScope": "targeted-token-replace",
+      "strategy": "targeted_token_replace_once",
+      "affectedFiles": [
+        "challenges.html"
+      ],
+      "repairReportPath": null,
+      "repairAlreadyAttempted": false,
+      "allowSourceRead": "no-full-html-read",
+      "maxValidationRuns": 2
+    }
+  ],
+  "repairActionTable": [],
+  "errorCount": 0,
+  "warningCount": 7,
+  "errors": [],
+  "warnings": [
+    "[mobile-bottom-overlay] pages/home.html: bottom fixed/absolute CTA or navigation found. Ensure it has safe-area spacing and does not cover content. Evidence: class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\"",
+    "[mobile-bottom-overlay] pages/challenges.html: bottom fixed/absolute CTA or navigation found. Ensure it has safe-area spacing and does not cover content. Evidence: class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\"",
+    "[mobile-bottom-overlay] pages/workouts.html: bottom fixed/absolute CTA or navigation found. Ensure it has safe-area spacing and does not cover content. Evidence: class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\"",
+    "[mobile-bottom-overlay] pages/history.html: bottom fixed/absolute CTA or navigation found. Ensure it has safe-area spacing and does not cover content. Evidence: class=\"absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/40 to-transparent\"",
+    "[mobile-bottom-overlay] pages/profile.html: bottom fixed/absolute CTA or navigation found. Ensure it has safe-area spacing and does not cover content. Evidence: class=\"fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14\"",
+    "[mobile-navigation-consistency] 1 mobile page(s) do not expose a 3+ item data-nav-key nav cluster while sibling pages do. This is acceptable for detail/reward/modal pages only when planned explicitly.",
+    "[html-quality] challenges.html: hardcoded colors are forbidden outside <style id=\"theme-vars\">. Use brand CSS variables from the token reference."
+  ],
+  "validationRunDisciplineStatus": {
+    "declared": true,
+    "restoreMode": false,
+    "maxFullValidationRuns": null,
+    "validationHistoryCount": 0,
+    "repairLedgerCount": 0,
+    "softWarningsTriggerRepair": null,
+    "terminalState": null,
+    "nextAction": null,
+    "violations": [],
+    "success": true
+  },
+  "terminalState": null,
+  "nextCheck": {
+    "type": "finish-readiness",
+    "command": "node '/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-finish-readiness.mjs' '/Volumes/E/code/codex/movefit/movefit-ios-design' --check=all",
+    "fullValidationAllowed": false,
+    "reason": "workspace validation passed; run complete finish readiness before final delivery"
+  },
+  "repairBatch": [],
+  "repairContextPacket": {
+    "schema_version": "1.0",
+    "purpose": "small-context repair packet; read this before full validation-report.json",
+    "success": true,
+    "terminalState": null,
+    "skillProvenance": {
+      "name": "solo-design",
+      "version": "2026.08.06.19.15.08",
+      "version_source": "skill-release-manifest.json",
+      "runtime_skill_dir": null,
+      "recorded_at": null,
+      "expected_version": "2026.08.06.19.15.08",
+      "status": "matched",
+      "read_status": "loaded"
+    },
+    "renderBlockingErrorCount": 0,
+    "softWarningCount": 7,
+    "renderBlockingErrors": [],
+    "repairActionTable": [],
+    "nextCheck": {
+      "type": "finish-readiness",
+      "command": "node '/Users/moon/.trae-cn/builtin/design/default/skills/solo-design/shared-runtime/deterministic-tooling/validate-finish-readiness.mjs' '/Volumes/E/code/codex/movefit/movefit-ios-design' --check=all",
+      "fullValidationAllowed": false,
+      "reason": "workspace validation passed; run complete finish readiness before final delivery"
+    },
+    "forbidden": [
+      "do not read validator source",
+      "do not rerun full validation when nextCheck.fullValidationAllowed=false",
+      "do not start preview/browser unless user explicitly asks",
+      "do not hand-edit repair ledger fields"
+    ]
+  },
+  "projectFileHashes": {
+    "movefit-ios-design.design": "03d0b185122752d6dce9ee85a883da38381507846b68b1174d9d343ef2f70f6b",
+    "colors_and_type.css": "1bdd5dfe4b7463d21aba1cbb33ac7f8a9f2635dc81db2a2e5a31366e81516f44",
+    "runtime-orchestration-summary.json": "a6179d41e43da1a6485a9c6d61a0b1576e4801c82fb98ad53fba60c8887f9454",
+    "pages/challenges.html": "64fd199cf984ea942673bdc42c2d19ae0108c2680a227879974d5a27cc0ab78e",
+    "pages/history.html": "6fd5ead68eeda134cf2b4dd728c3298d2c693298ac3dcc5cb0e9958c7ff12719",
+    "pages/home.html": "dd1dcd77a341ab6503e204184dd4379aede277ea32530cb455379b573b5466e0",
+    "pages/profile.html": "cc2b0267f689df3f3bc2ee77c155fbfa4b75b6a1c2d51ff684c94d70390fec3d",
+    "pages/wellness.html": "c28b28d5efebe524817ab4d328324b095d28602107372a25673484e961d73d9f",
+    "pages/workouts.html": "4659eadb187e67703bc1b51997431befa973d744f75be456c0a66487f4e60146",
+    "assets/movefit-logo.png": "dc2c88727e96dfc3b562cd767374a1259e2f41e8a1d58411772211f32f8a7dc0"
+  },
+  "designDir": "/Volumes/E/code/codex/movefit/movefit-ios-design",
+  "expectedPages": null,
+  "requireInteractions": null,
+  "checkedAt": "2026-08-16T03:33:51.040Z"
+}

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>挑战</title>
+    <style id="theme-vars">
+:root {
+  /* MoveFit Primary Scale */
+  --movefit-primary-50: #fff1f3;
+  --movefit-primary-100: #ffd6dc;
+  --movefit-primary-200: #ffb3bd;
+  --movefit-primary-300: #ff7a8d;
+  --movefit-primary-400: #f53d5a;
+  --movefit-primary-500: #ba0034;
+  --movefit-primary-600: #97002b;
+  --movefit-primary-700: #740022;
+  --movefit-primary-800: #520018;
+  --movefit-primary-900: #31000e;
+
+  /* Neutral Scale (iOS System Grays) */
+  --movefit-neutral-50: #f2f2f7;
+  --movefit-neutral-100: #e5e5ea;
+  --movefit-neutral-200: #d1d1d6;
+  --movefit-neutral-300: #c7c7cc;
+  --movefit-neutral-400: #aeaeb2;
+  --movefit-neutral-500: #8e8e93;
+  --movefit-neutral-600: #636366;
+  --movefit-neutral-700: #48484a;
+  --movefit-neutral-800: #3a3a3c;
+  --movefit-neutral-900: #1c1c1e;
+
+  /* Semantic Health Colors */
+  --movefit-move: #f20540;
+  --movefit-exercise: #21c747;
+  --movefit-stand: #1ea8f2;
+  --movefit-sleep: #5945e0;
+  --movefit-challenge: #943fde;
+  --movefit-orange: #f57a1f;
+  --movefit-teal: #089e91;
+
+  /* State Colors */
+  --movefit-state-success: #21c747;
+  --movefit-state-warning: #f57a1f;
+  --movefit-state-error: #ff3b30;
+  --movefit-state-info: #1ea8f2;
+
+  /* Semantic Aliases */
+  --movefit-background: #f2f2f7;
+  --movefit-foreground: #1c1c1e;
+  --movefit-card: #ffffff;
+  --movefit-card-foreground: #1c1c1e;
+  --movefit-popover: #ffffff;
+  --movefit-popover-foreground: #1c1c1e;
+  --movefit-primary: #ba0034;
+  --movefit-primary-foreground: #ffffff;
+  --movefit-muted: #f2f2f7;
+  --movefit-muted-foreground: #8e8e93;
+  --movefit-border: rgba(0, 0, 0, 0.08);
+  --movefit-input: #ffffff;
+  --movefit-ring: #ba0034;
+  --movefit-radius-small: 8px;
+  --movefit-radius-medium: 12px;
+  --movefit-radius-large: 16px;
+  --movefit-radius-full: 9999px;
+}
+
+@theme inline {
+  --color-background: var(--movefit-background);
+  --color-foreground: var(--movefit-foreground);
+  --color-card: var(--movefit-card);
+  --color-card-foreground: var(--movefit-card-foreground);
+  --color-popover: var(--movefit-popover);
+  --color-popover-foreground: var(--movefit-popover-foreground);
+  --color-primary: var(--movefit-primary);
+  --color-primary-foreground: var(--movefit-primary-foreground);
+  --color-muted: var(--movefit-muted);
+  --color-muted-foreground: var(--movefit-muted-foreground);
+  --color-border: var(--movefit-border);
+  --color-input: var(--movefit-input);
+  --color-ring: var(--movefit-ring);
+  --radius-sm: var(--movefit-radius-small);
+  --radius-md: var(--movefit-radius-medium);
+  --radius-lg: var(--movefit-radius-large);
+  --radius-full: var(--movefit-radius-full);
+
+  /* Extended palette mapped for Tailwind utilities */
+  --color-move: var(--movefit-move);
+  --color-exercise: var(--movefit-exercise);
+  --color-stand: var(--movefit-stand);
+  --color-sleep: var(--movefit-sleep);
+  --color-challenge: var(--movefit-challenge);
+  --color-orange: var(--movefit-orange);
+  --color-teal: var(--movefit-teal);
+  --color-success: var(--movefit-state-success);
+  --color-warning: var(--movefit-state-warning);
+  --color-error: var(--movefit-state-error);
+  --color-info: var(--movefit-state-info);
+}
+
+/* Light mode base */
+html.light,
+:root {
+  --movefit-background: #f2f2f7;
+  --movefit-foreground: #1c1c1e;
+  --movefit-card: #ffffff;
+  --movefit-card-foreground: #1c1c1e;
+  --movefit-popover: #ffffff;
+  --movefit-popover-foreground: #1c1c1e;
+  --movefit-primary: #ba0034;
+  --movefit-primary-foreground: #ffffff;
+  --movefit-muted: #f2f2f7;
+  --movefit-muted-foreground: #8e8e93;
+  --movefit-border: rgba(0, 0, 0, 0.08);
+  --movefit-input: #ffffff;
+  --movefit-ring: #ba0034;
+}
+
+/* Dark mode base */
+html.dark {
+  --movefit-background: #000000;
+  --movefit-foreground: #ffffff;
+  --movefit-card: #1c1c1e;
+  --movefit-card-foreground: #ffffff;
+  --movefit-popover: #1c1c1e;
+  --movefit-popover-foreground: #ffffff;
+  --movefit-primary: #ff4d6d;
+  --movefit-primary-foreground: #1c1c1e;
+  --movefit-muted: #1c1c1e;
+  --movefit-muted-foreground: #8e8e93;
+  --movefit-border: rgba(255, 255, 255, 0.12);
+  --movefit-input: #1c1c1e;
+  --movefit-ring: #ff4d6d;
+}
+
+/* Typography */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-rounded {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Segoe UI", sans-serif;
+}
+
+.font-mono-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* iOS-style safe area utilities */
+.pt-safe { padding-top: env(safe-area-inset-top); }
+.pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+/* Hide scrollbar for horizontal scroll areas */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Subtle card shadow */
+.card-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+/* Floating layer shadow */
+.float-shadow {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--movefit-background);
+    --color-foreground: var(--movefit-foreground);
+    --color-card: var(--movefit-card);
+    --color-card-foreground: var(--movefit-card-foreground);
+    --color-popover: var(--movefit-popover);
+    --color-popover-foreground: var(--movefit-popover-foreground);
+    --color-primary: var(--movefit-primary);
+    --color-primary-foreground: var(--movefit-primary-foreground);
+    --color-muted: var(--movefit-muted);
+    --color-muted-foreground: var(--movefit-muted-foreground);
+    --color-border: var(--movefit-border);
+    --color-input: var(--movefit-input);
+    --color-ring: var(--movefit-ring);
+    --color-move: var(--movefit-move);
+    --color-exercise: var(--movefit-exercise);
+    --color-stand: var(--movefit-stand);
+    --color-sleep: var(--movefit-sleep);
+    --color-challenge: var(--movefit-challenge);
+    --color-orange: var(--movefit-orange);
+    --color-teal: var(--movefit-teal);
+    --color-success: var(--movefit-state-success);
+    --color-warning: var(--movefit-state-warning);
+    --color-error: var(--movefit-state-error);
+    --color-info: var(--movefit-state-info);
+    --radius-sm: var(--movefit-radius-small);
+    --radius-md: var(--movefit-radius-medium);
+    --radius-lg: var(--movefit-radius-large);
+    --radius-full: var(--movefit-radius-full);
+  }
+  @layer base {
+    body { background: var(--movefit-background); color: var(--movefit-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--movefit-background); }
+      .text-background { color: var(--movefit-background); }
+      .border-background { border-color: var(--movefit-background); }
+      .ring-background { --tw-ring-color: var(--movefit-background); }
+      .bg-foreground { background-color: var(--movefit-foreground); }
+      .text-foreground { color: var(--movefit-foreground); }
+      .border-foreground { border-color: var(--movefit-foreground); }
+      .ring-foreground { --tw-ring-color: var(--movefit-foreground); }
+      .bg-card { background-color: var(--movefit-card); }
+      .text-card { color: var(--movefit-card); }
+      .border-card { border-color: var(--movefit-card); }
+      .ring-card { --tw-ring-color: var(--movefit-card); }
+      .bg-card-foreground { background-color: var(--movefit-card-foreground); }
+      .text-card-foreground { color: var(--movefit-card-foreground); }
+      .border-card-foreground { border-color: var(--movefit-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--movefit-card-foreground); }
+      .bg-popover { background-color: var(--movefit-popover); }
+      .text-popover { color: var(--movefit-popover); }
+      .border-popover { border-color: var(--movefit-popover); }
+      .ring-popover { --tw-ring-color: var(--movefit-popover); }
+      .bg-popover-foreground { background-color: var(--movefit-popover-foreground); }
+      .text-popover-foreground { color: var(--movefit-popover-foreground); }
+      .border-popover-foreground { border-color: var(--movefit-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--movefit-popover-foreground); }
+      .bg-primary { background-color: var(--movefit-primary); }
+      .text-primary { color: var(--movefit-primary); }
+      .border-primary { border-color: var(--movefit-primary); }
+      .ring-primary { --tw-ring-color: var(--movefit-primary); }
+      .bg-primary-foreground { background-color: var(--movefit-primary-foreground); }
+      .text-primary-foreground { color: var(--movefit-primary-foreground); }
+      .border-primary-foreground { border-color: var(--movefit-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--movefit-primary-foreground); }
+      .bg-muted { background-color: var(--movefit-muted); }
+      .text-muted { color: var(--movefit-muted); }
+      .border-muted { border-color: var(--movefit-muted); }
+      .ring-muted { --tw-ring-color: var(--movefit-muted); }
+      .bg-muted-foreground { background-color: var(--movefit-muted-foreground); }
+      .text-muted-foreground { color: var(--movefit-muted-foreground); }
+      .border-muted-foreground { border-color: var(--movefit-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--movefit-muted-foreground); }
+      .bg-border { background-color: var(--movefit-border); }
+      .text-border { color: var(--movefit-border); }
+      .border-border { border-color: var(--movefit-border); }
+      .ring-border { --tw-ring-color: var(--movefit-border); }
+      .bg-input { background-color: var(--movefit-input); }
+      .text-input { color: var(--movefit-input); }
+      .border-input { border-color: var(--movefit-input); }
+      .ring-input { --tw-ring-color: var(--movefit-input); }
+      .bg-ring { background-color: var(--movefit-ring); }
+      .text-ring { color: var(--movefit-ring); }
+      .border-ring { border-color: var(--movefit-ring); }
+      .ring-ring { --tw-ring-color: var(--movefit-ring); }
+      .bg-move { background-color: var(--movefit-move); }
+      .text-move { color: var(--movefit-move); }
+      .border-move { border-color: var(--movefit-move); }
+      .ring-move { --tw-ring-color: var(--movefit-move); }
+      .bg-exercise { background-color: var(--movefit-exercise); }
+      .text-exercise { color: var(--movefit-exercise); }
+      .border-exercise { border-color: var(--movefit-exercise); }
+      .ring-exercise { --tw-ring-color: var(--movefit-exercise); }
+      .bg-stand { background-color: var(--movefit-stand); }
+      .text-stand { color: var(--movefit-stand); }
+      .border-stand { border-color: var(--movefit-stand); }
+      .ring-stand { --tw-ring-color: var(--movefit-stand); }
+      .bg-sleep { background-color: var(--movefit-sleep); }
+      .text-sleep { color: var(--movefit-sleep); }
+      .border-sleep { border-color: var(--movefit-sleep); }
+      .ring-sleep { --tw-ring-color: var(--movefit-sleep); }
+      .bg-challenge { background-color: var(--movefit-challenge); }
+      .text-challenge { color: var(--movefit-challenge); }
+      .border-challenge { border-color: var(--movefit-challenge); }
+      .ring-challenge { --tw-ring-color: var(--movefit-challenge); }
+      .bg-orange { background-color: var(--movefit-orange); }
+      .text-orange { color: var(--movefit-orange); }
+      .border-orange { border-color: var(--movefit-orange); }
+      .ring-orange { --tw-ring-color: var(--movefit-orange); }
+      .bg-teal { background-color: var(--movefit-teal); }
+      .text-teal { color: var(--movefit-teal); }
+      .border-teal { border-color: var(--movefit-teal); }
+      .ring-teal { --tw-ring-color: var(--movefit-teal); }
+      .bg-success { background-color: var(--movefit-state-success); }
+      .text-success { color: var(--movefit-state-success); }
+      .border-success { border-color: var(--movefit-state-success); }
+      .ring-success { --tw-ring-color: var(--movefit-state-success); }
+      .bg-warning { background-color: var(--movefit-state-warning); }
+      .text-warning { color: var(--movefit-state-warning); }
+      .border-warning { border-color: var(--movefit-state-warning); }
+      .ring-warning { --tw-ring-color: var(--movefit-state-warning); }
+      .bg-error { background-color: var(--movefit-state-error); }
+      .text-error { color: var(--movefit-state-error); }
+      .border-error { border-color: var(--movefit-state-error); }
+      .ring-error { --tw-ring-color: var(--movefit-state-error); }
+      .bg-info { background-color: var(--movefit-state-info); }
+      .text-info { color: var(--movefit-state-info); }
+      .border-info { border-color: var(--movefit-state-info); }
+      .ring-info { --tw-ring-color: var(--movefit-state-info); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main class="pb-24">
+        <!-- Page Header -->
+        <section class="px-5 pt-6 pb-2">
+            <h1 class="text-[32px] font-bold tracking-[-0.02em] text-foreground">挑战</h1>
+            <p class="text-[15px] text-muted-foreground mt-1">加入挑战，赢取徽章</p>
+        </section>
+
+        <!-- Challenge Summary Card -->
+        <section class="px-5 mt-4">
+            <div class="bg-card rounded-2xl card-shadow p-4 flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-orange/12 flex items-center justify-center shrink-0">
+                    <i data-lucide="flame" class="w-6 h-6 text-orange"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="text-[16px] font-semibold text-foreground">坚持让每一步都有意义</p>
+                    <p class="text-[13px] text-muted-foreground mt-0.5">已加入 3 个挑战 · 已解锁 12 枚徽章</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Challenge Hero -->
+        <section class="px-5 mt-5">
+            <div class="relative w-full rounded-2xl overflow-hidden float-shadow" data-dom-id="featured-challenge-card">
+                <div class="absolute inset-0 bg-gradient-to-br from-challenge via-[#7c3aed] to-[#4c1d95]"></div>
+                <div class="relative p-5 flex flex-col text-white">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wider text-white/90">
+                            <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+                            <span>精选挑战</span>
+                        </div>
+                        <span class="text-[12px] font-semibold px-2.5 py-1 rounded-full bg-white/18">进行中</span>
+                    </div>
+                    <div class="mt-5 mb-1">
+                        <div class="w-12 h-12 rounded-full bg-white/18 flex items-center justify-center mb-3">
+                            <i data-lucide="person-running" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <h2 class="text-[26px] font-bold leading-tight">30 天跑步挑战</h2>
+                        <p class="text-[14px] text-white/85 mt-1">累计跑步 90 公里，挑战耐力极限</p>
+                    </div>
+                    <div class="inline-flex self-start items-center gap-1.5 text-[12px] font-semibold px-2 py-1 rounded-full bg-white/18 mt-1 mb-4">
+                        <i data-lucide="target" class="w-3 h-3"></i>
+                        <span>跑步 · 中级</span>
+                    </div>
+                    <div class="w-full bg-white/25 rounded-full h-2.5 overflow-hidden">
+                        <div class="bg-white h-2.5 rounded-full" style="width: 65%"></div>
+                    </div>
+                    <div class="flex justify-between text-[12px] font-semibold mt-2 text-white/90">
+                        <span>58.5 公里</span>
+                        <span>目标 90 公里 · 剩余 12 天</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Filter Chips -->
+        <section class="px-5 mt-6">
+            <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+                <button class="shrink-0 px-4 py-2 rounded-full bg-primary text-primary-foreground text-[13px] font-semibold">全部</button>
+                <button class="shrink-0 px-4 py-2 rounded-full bg-card border border-border text-[13px] font-medium text-foreground card-shadow">跑步</button>
+                <button class="shrink-0 px-4 py-2 rounded-full bg-card border border-border text-[13px] font-medium text-foreground card-shadow">力量</button>
+                <button class="shrink-0 px-4 py-2 rounded-full bg-card border border-border text-[13px] font-medium text-foreground card-shadow">瑜伽</button>
+                <button class="shrink-0 px-4 py-2 rounded-full bg-card border border-border text-[13px] font-medium text-foreground card-shadow">骑行</button>
+            </div>
+        </section>
+
+        <!-- Challenge Catalog 2x2 Grid -->
+        <section class="px-5 mt-6">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-[18px] font-bold text-foreground">挑战目录</h3>
+                <span class="text-[13px] text-muted-foreground">4/8 项</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <!-- Card 1 -->
+                <div class="bg-card rounded-2xl card-shadow p-4 flex flex-col gap-3">
+                    <div class="flex items-start justify-between">
+                        <div class="w-10 h-10 rounded-full bg-challenge/12 flex items-center justify-center shrink-0">
+                            <i data-lucide="person-running" class="w-5 h-5 text-challenge"></i>
+                        </div>
+                        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-challenge/10 text-challenge">已加入</span>
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-semibold text-challenge">跑步</p>
+                        <h4 class="text-[14px] font-bold text-foreground leading-tight mt-0.5">5 公里基础跑</h4>
+                        <p class="text-[11px] text-muted-foreground line-clamp-2 mt-1">完成一次 5 公里跑步即可解锁</p>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="w-full bg-muted rounded-full h-1.5 overflow-hidden">
+                            <div class="bg-challenge h-1.5 rounded-full" style="width: 80%"></div>
+                        </div>
+                        <div class="flex justify-between text-[10px] mt-1.5 text-muted-foreground">
+                            <span>初级</span>
+                            <span class="font-semibold text-challenge">4/5 km</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-card rounded-2xl card-shadow p-4 flex flex-col gap-3">
+                    <div class="flex items-start justify-between">
+                        <div class="w-10 h-10 rounded-full bg-exercise/12 flex items-center justify-center shrink-0">
+                            <i data-lucide="dumbbell" class="w-5 h-5 text-exercise"></i>
+                        </div>
+                        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted text-muted-foreground">可加入</span>
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-semibold text-exercise">力量</p>
+                        <h4 class="text-[14px] font-bold text-foreground leading-tight mt-0.5">14 天核心训练</h4>
+                        <p class="text-[11px] text-muted-foreground line-clamp-2 mt-1">每日 10 分钟强化核心肌群</p>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="w-full bg-muted rounded-full h-1.5 overflow-hidden">
+                            <div class="bg-exercise h-1.5 rounded-full" style="width: 0%"></div>
+                        </div>
+                        <div class="flex justify-between text-[10px] mt-1.5 text-muted-foreground">
+                            <span>中级</span>
+                            <span class="font-semibold text-exercise">0/14 天</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-card rounded-2xl card-shadow p-4 flex flex-col gap-3">
+                    <div class="flex items-start justify-between">
+                        <div class="w-10 h-10 rounded-full bg-teal/12 flex items-center justify-center shrink-0">
+                            <i data-lucide="zap" class="w-5 h-5 text-teal"></i>
+                        </div>
+                        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted text-muted-foreground">可加入</span>
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-semibold text-teal">瑜伽</p>
+                        <h4 class="text-[14px] font-bold text-foreground leading-tight mt-0.5">晨间拉伸 21 天</h4>
+                        <p class="text-[11px] text-muted-foreground line-clamp-2 mt-1">每天晨起 15 分钟全身拉伸</p>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="w-full bg-muted rounded-full h-1.5 overflow-hidden">
+                            <div class="bg-teal h-1.5 rounded-full" style="width: 0%"></div>
+                        </div>
+                        <div class="flex justify-between text-[10px] mt-1.5 text-muted-foreground">
+                            <span>初级</span>
+                            <span class="font-semibold text-teal">0/21 天</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-card rounded-2xl card-shadow p-4 flex flex-col gap-3">
+                    <div class="flex items-start justify-between">
+                        <div class="w-10 h-10 rounded-full bg-stand/12 flex items-center justify-center shrink-0">
+                            <i data-lucide="bike" class="w-5 h-5 text-stand"></i>
+                        </div>
+                        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-stand/10 text-stand">已加入</span>
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-semibold text-stand">骑行</p>
+                        <h4 class="text-[14px] font-bold text-foreground leading-tight mt-0.5">周末骑行 50 公里</h4>
+                        <p class="text-[11px] text-muted-foreground line-clamp-2 mt-1">任意周末累计骑行 50 公里</p>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="w-full bg-muted rounded-full h-1.5 overflow-hidden">
+                            <div class="bg-stand h-1.5 rounded-full" style="width: 35%"></div>
+                        </div>
+                        <div class="flex justify-between text-[10px] mt-1.5 text-muted-foreground">
+                            <span>高级</span>
+                            <span class="font-semibold text-stand">17.5/50 km</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- My Badges Grid -->
+        <section class="px-5 mt-6">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-[18px] font-bold text-foreground">我的徽章</h3>
+                <span class="text-[13px] text-muted-foreground">12/20 已解锁</span>
+            </div>
+            <div class="bg-card rounded-2xl card-shadow p-4">
+                <div class="grid grid-cols-4 gap-y-5 gap-x-3">
+                    <!-- Unlocked Badge 1 -->
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="w-14 h-14 rounded-full bg-challenge/15 flex items-center justify-center">
+                            <i data-lucide="trophy" class="w-6 h-6 text-challenge"></i>
+                        </div>
+                        <span class="text-[10px] text-center text-foreground leading-none">首枚徽章</span>
+                    </div>
+                    <!-- Unlocked Badge 2 -->
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="w-14 h-14 rounded-full bg-orange/15 flex items-center justify-center">
+                            <i data-lucide="flame" class="w-6 h-6 text-orange"></i>
+                        </div>
+                        <span class="text-[10px] text-center text-foreground leading-none">7 日连胜</span>
+                    </div>
+                    <!-- Unlocked Badge 3 -->
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="w-14 h-14 rounded-full bg-exercise/15 flex items-center justify-center">
+                            <i data-lucide="dumbbell" class="w-6 h-6 text-exercise"></i>
+                        </div>
+                        <span class="text-[10px] text-center text-foreground leading-none">力量新手</span>
+                    </div>
+                    <!-- Unlocked Badge 4 -->
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="w-14 h-14 rounded-full bg-stand/15 flex items-center justify-center">
+                            <i data-lucide="bike" class="w-6 h-6 text-stand"></i>
+                        </div>
+                        <span class="text-[10px] text-center text-foreground leading-none">骑行达人</span>
+                    </div>
+                    <!-- Locked Badge 1 -->
+                    <div class="flex flex-col items-center gap-2 opacity-45">
+                        <div class="w-14 h-14 rounded-full bg-muted flex items-center justify-center">
+                            <i data-lucide="lock" class="w-5 h-5 text-muted-foreground"></i>
+                        </div>
+                        <span class="text-[10px] text-center text-muted-foreground leading-none">马拉松</span>
+                    </div>
+                    <!-- Locked Badge 2 -->
+                    <div class="flex flex-col items-center gap-2 opacity-45">
+                        <div class="w-14 h-14 rounded-full bg-muted flex items-center justify-center">
+                            <i data-lucide="lock" class="w-5 h-5 text-muted-foreground"></i>
+                        </div>
+                        <span class="text-[10px] text-center text-muted-foreground leading-none">百日挑战</span>
+                    </div>
+                    <!-- Locked Badge 3 -->
+                    <div class="flex flex-col items-center gap-2 opacity-45">
+                        <div class="w-14 h-14 rounded-full bg-muted flex items-center justify-center">
+                            <i data-lucide="lock" class="w-5 h-5 text-muted-foreground"></i>
+                        </div>
+                        <span class="text-[10px] text-center text-muted-foreground leading-none">铁人三项</span>
+                    </div>
+                    <!-- Locked Badge 4 -->
+                    <div class="flex flex-col items-center gap-2 opacity-45">
+                        <div class="w-14 h-14 rounded-full bg-muted flex items-center justify-center">
+                            <i data-lucide="lock" class="w-5 h-5 text-muted-foreground"></i>
+                        </div>
+                        <span class="text-[10px] text-center text-muted-foreground leading-none">夜猫子</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Leaderboard Placeholder Card -->
+        <section class="px-5 mt-6 mb-8">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-[18px] font-bold text-foreground">全球排行榜</h3>
+            </div>
+            <div class="bg-card rounded-2xl card-shadow p-4 flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-stand/12 flex items-center justify-center shrink-0">
+                    <i data-lucide="users" class="w-6 h-6 text-stand"></i>
+                </div>
+                <div class="min-w-0 flex-1">
+                    <p class="text-[16px] font-semibold text-foreground">排行榜暂不可用</p>
+                    <p class="text-[13px] text-muted-foreground mt-0.5">当前主后端接口文档未定义排行榜 API。</p>
+                </div>
+                <div class="flex -space-x-2 shrink-0">
+                    <div class="w-8 h-8 rounded-full bg-primary/20 border-2 border-card flex items-center justify-center text-[10px] font-bold text-primary">1</div>
+                    <div class="w-8 h-8 rounded-full bg-exercise/20 border-2 border-card flex items-center justify-center text-[10px] font-bold text-exercise">2</div>
+                    <div class="w-8 h-8 rounded-full bg-stand/20 border-2 border-card flex items-center justify-center text-[10px] font-bold text-stand">3</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <nav class="fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14" data-mobile-nav="global">
+  <div class="w-full max-w-md mx-auto grid grid-cols-5 h-full">
+    <a href="#" data-nav-key="home" data-dom-id="nav-home" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors">
+      <i data-lucide="home" class="w-5 h-5 shrink-0"></i>
+      <span class="text-[11px] leading-none whitespace-nowrap max-w-full truncate">首页</span>
+    </a>
+    <a href="#" data-nav-key="challenges" data-dom-id="nav-challenges" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-primary font-semibold transition-colors">
+      <i data-lucide="trophy" class="w-5 h-5 shrink-0"></i>
+      <span class="text-[11px] leading-none whitespace-nowrap max-w-full truncate">挑战</span>
+    </a>
+    <a href="#" data-nav-key="workouts" data-dom-id="nav-workouts" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors">
+      <i data-lucide="dumbbell" class="w-5 h-5 shrink-0"></i>
+      <span class="text-[11px] leading-none whitespace-nowrap max-w-full truncate">运动</span>
+    </a>
+    <a href="#" data-nav-key="history" data-dom-id="nav-history" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors">
+      <i data-lucide="bar-chart-2" class="w-5 h-5 shrink-0"></i>
+      <span class="text-[11px] leading-none whitespace-nowrap max-w-full truncate">历史</span>
+    </a>
+    <a href="#" data-nav-key="profile" data-dom-id="nav-profile" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors">
+      <i data-lucide="user" class="w-5 h-5 shrink-0"></i>
+      <span class="text-[11px] leading-none whitespace-nowrap max-w-full truncate">我的</span>
+    </a>
+  </div>
+</nav>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

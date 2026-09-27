@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>运动</title>
+    <style id="theme-vars">
+:root {
+  /* MoveFit Primary Scale */
+  --movefit-primary-50: #fff1f3;
+  --movefit-primary-100: #ffd6dc;
+  --movefit-primary-200: #ffb3bd;
+  --movefit-primary-300: #ff7a8d;
+  --movefit-primary-400: #f53d5a;
+  --movefit-primary-500: #ba0034;
+  --movefit-primary-600: #97002b;
+  --movefit-primary-700: #740022;
+  --movefit-primary-800: #520018;
+  --movefit-primary-900: #31000e;
+
+  /* Neutral Scale (iOS System Grays) */
+  --movefit-neutral-50: #f2f2f7;
+  --movefit-neutral-100: #e5e5ea;
+  --movefit-neutral-200: #d1d1d6;
+  --movefit-neutral-300: #c7c7cc;
+  --movefit-neutral-400: #aeaeb2;
+  --movefit-neutral-500: #8e8e93;
+  --movefit-neutral-600: #636366;
+  --movefit-neutral-700: #48484a;
+  --movefit-neutral-800: #3a3a3c;
+  --movefit-neutral-900: #1c1c1e;
+
+  /* Semantic Health Colors */
+  --movefit-move: #f20540;
+  --movefit-exercise: #21c747;
+  --movefit-stand: #1ea8f2;
+  --movefit-sleep: #5945e0;
+  --movefit-challenge: #943fde;
+  --movefit-orange: #f57a1f;
+  --movefit-teal: #089e91;
+
+  /* State Colors */
+  --movefit-state-success: #21c747;
+  --movefit-state-warning: #f57a1f;
+  --movefit-state-error: #ff3b30;
+  --movefit-state-info: #1ea8f2;
+
+  /* Semantic Aliases */
+  --movefit-background: #f2f2f7;
+  --movefit-foreground: #1c1c1e;
+  --movefit-card: #ffffff;
+  --movefit-card-foreground: #1c1c1e;
+  --movefit-popover: #ffffff;
+  --movefit-popover-foreground: #1c1c1e;
+  --movefit-primary: #ba0034;
+  --movefit-primary-foreground: #ffffff;
+  --movefit-muted: #f2f2f7;
+  --movefit-muted-foreground: #8e8e93;
+  --movefit-border: rgba(0, 0, 0, 0.08);
+  --movefit-input: #ffffff;
+  --movefit-ring: #ba0034;
+  --movefit-radius-small: 8px;
+  --movefit-radius-medium: 12px;
+  --movefit-radius-large: 16px;
+  --movefit-radius-full: 9999px;
+}
+
+@theme inline {
+  --color-background: var(--movefit-background);
+  --color-foreground: var(--movefit-foreground);
+  --color-card: var(--movefit-card);
+  --color-card-foreground: var(--movefit-card-foreground);
+  --color-popover: var(--movefit-popover);
+  --color-popover-foreground: var(--movefit-popover-foreground);
+  --color-primary: var(--movefit-primary);
+  --color-primary-foreground: var(--movefit-primary-foreground);
+  --color-muted: var(--movefit-muted);
+  --color-muted-foreground: var(--movefit-muted-foreground);
+  --color-border: var(--movefit-border);
+  --color-input: var(--movefit-input);
+  --color-ring: var(--movefit-ring);
+  --radius-sm: var(--movefit-radius-small);
+  --radius-md: var(--movefit-radius-medium);
+  --radius-lg: var(--movefit-radius-large);
+  --radius-full: var(--movefit-radius-full);
+
+  /* Extended palette mapped for Tailwind utilities */
+  --color-move: var(--movefit-move);
+  --color-exercise: var(--movefit-exercise);
+  --color-stand: var(--movefit-stand);
+  --color-sleep: var(--movefit-sleep);
+  --color-challenge: var(--movefit-challenge);
+  --color-orange: var(--movefit-orange);
+  --color-teal: var(--movefit-teal);
+  --color-success: var(--movefit-state-success);
+  --color-warning: var(--movefit-state-warning);
+  --color-error: var(--movefit-state-error);
+  --color-info: var(--movefit-state-info);
+}
+
+/* Light mode base */
+html.light,
+:root {
+  --movefit-background: #f2f2f7;
+  --movefit-foreground: #1c1c1e;
+  --movefit-card: #ffffff;
+  --movefit-card-foreground: #1c1c1e;
+  --movefit-popover: #ffffff;
+  --movefit-popover-foreground: #1c1c1e;
+  --movefit-primary: #ba0034;
+  --movefit-primary-foreground: #ffffff;
+  --movefit-muted: #f2f2f7;
+  --movefit-muted-foreground: #8e8e93;
+  --movefit-border: rgba(0, 0, 0, 0.08);
+  --movefit-input: #ffffff;
+  --movefit-ring: #ba0034;
+}
+
+/* Dark mode base */
+html.dark {
+  --movefit-background: #000000;
+  --movefit-foreground: #ffffff;
+  --movefit-card: #1c1c1e;
+  --movefit-card-foreground: #ffffff;
+  --movefit-popover: #1c1c1e;
+  --movefit-popover-foreground: #ffffff;
+  --movefit-primary: #ff4d6d;
+  --movefit-primary-foreground: #1c1c1e;
+  --movefit-muted: #1c1c1e;
+  --movefit-muted-foreground: #8e8e93;
+  --movefit-border: rgba(255, 255, 255, 0.12);
+  --movefit-input: #1c1c1e;
+  --movefit-ring: #ff4d6d;
+}
+
+/* Typography */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-rounded {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Segoe UI", sans-serif;
+}
+
+.font-mono-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* iOS-style safe area utilities */
+.pt-safe { padding-top: env(safe-area-inset-top); }
+.pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+/* Hide scrollbar for horizontal scroll areas */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Subtle card shadow */
+.card-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+/* Floating layer shadow */
+.float-shadow {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--movefit-background);
+    --color-foreground: var(--movefit-foreground);
+    --color-card: var(--movefit-card);
+    --color-card-foreground: var(--movefit-card-foreground);
+    --color-popover: var(--movefit-popover);
+    --color-popover-foreground: var(--movefit-popover-foreground);
+    --color-primary: var(--movefit-primary);
+    --color-primary-foreground: var(--movefit-primary-foreground);
+    --color-muted: var(--movefit-muted);
+    --color-muted-foreground: var(--movefit-muted-foreground);
+    --color-border: var(--movefit-border);
+    --color-input: var(--movefit-input);
+    --color-ring: var(--movefit-ring);
+    --color-move: var(--movefit-move);
+    --color-exercise: var(--movefit-exercise);
+    --color-stand: var(--movefit-stand);
+    --color-sleep: var(--movefit-sleep);
+    --color-challenge: var(--movefit-challenge);
+    --color-orange: var(--movefit-orange);
+    --color-teal: var(--movefit-teal);
+    --color-success: var(--movefit-state-success);
+    --color-warning: var(--movefit-state-warning);
+    --color-error: var(--movefit-state-error);
+    --color-info: var(--movefit-state-info);
+    --radius-sm: var(--movefit-radius-small);
+    --radius-md: var(--movefit-radius-medium);
+    --radius-lg: var(--movefit-radius-large);
+    --radius-full: var(--movefit-radius-full);
+  }
+  @layer base {
+    body { background: var(--movefit-background); color: var(--movefit-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--movefit-background); }
+      .text-background { color: var(--movefit-background); }
+      .border-background { border-color: var(--movefit-background); }
+      .ring-background { --tw-ring-color: var(--movefit-background); }
+      .bg-foreground { background-color: var(--movefit-foreground); }
+      .text-foreground { color: var(--movefit-foreground); }
+      .border-foreground { border-color: var(--movefit-foreground); }
+      .ring-foreground { --tw-ring-color: var(--movefit-foreground); }
+      .bg-card { background-color: var(--movefit-card); }
+      .text-card { color: var(--movefit-card); }
+      .border-card { border-color: var(--movefit-card); }
+      .ring-card { --tw-ring-color: var(--movefit-card); }
+      .bg-card-foreground { background-color: var(--movefit-card-foreground); }
+      .text-card-foreground { color: var(--movefit-card-foreground); }
+      .border-card-foreground { border-color: var(--movefit-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--movefit-card-foreground); }
+      .bg-popover { background-color: var(--movefit-popover); }
+      .text-popover { color: var(--movefit-popover); }
+      .border-popover { border-color: var(--movefit-popover); }
+      .ring-popover { --tw-ring-color: var(--movefit-popover); }
+      .bg-popover-foreground { background-color: var(--movefit-popover-foreground); }
+      .text-popover-foreground { color: var(--movefit-popover-foreground); }
+      .border-popover-foreground { border-color: var(--movefit-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--movefit-popover-foreground); }
+      .bg-primary { background-color: var(--movefit-primary); }
+      .text-primary { color: var(--movefit-primary); }
+      .border-primary { border-color: var(--movefit-primary); }
+      .ring-primary { --tw-ring-color: var(--movefit-primary); }
+      .bg-primary-foreground { background-color: var(--movefit-primary-foreground); }
+      .text-primary-foreground { color: var(--movefit-primary-foreground); }
+      .border-primary-foreground { border-color: var(--movefit-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--movefit-primary-foreground); }
+      .bg-muted { background-color: var(--movefit-muted); }
+      .text-muted { color: var(--movefit-muted); }
+      .border-muted { border-color: var(--movefit-muted); }
+      .ring-muted { --tw-ring-color: var(--movefit-muted); }
+      .bg-muted-foreground { background-color: var(--movefit-muted-foreground); }
+      .text-muted-foreground { color: var(--movefit-muted-foreground); }
+      .border-muted-foreground { border-color: var(--movefit-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--movefit-muted-foreground); }
+      .bg-border { background-color: var(--movefit-border); }
+      .text-border { color: var(--movefit-border); }
+      .border-border { border-color: var(--movefit-border); }
+      .ring-border { --tw-ring-color: var(--movefit-border); }
+      .bg-input { background-color: var(--movefit-input); }
+      .text-input { color: var(--movefit-input); }
+      .border-input { border-color: var(--movefit-input); }
+      .ring-input { --tw-ring-color: var(--movefit-input); }
+      .bg-ring { background-color: var(--movefit-ring); }
+      .text-ring { color: var(--movefit-ring); }
+      .border-ring { border-color: var(--movefit-ring); }
+      .ring-ring { --tw-ring-color: var(--movefit-ring); }
+      .bg-move { background-color: var(--movefit-move); }
+      .text-move { color: var(--movefit-move); }
+      .border-move { border-color: var(--movefit-move); }
+      .ring-move { --tw-ring-color: var(--movefit-move); }
+      .bg-exercise { background-color: var(--movefit-exercise); }
+      .text-exercise { color: var(--movefit-exercise); }
+      .border-exercise { border-color: var(--movefit-exercise); }
+      .ring-exercise { --tw-ring-color: var(--movefit-exercise); }
+      .bg-stand { background-color: var(--movefit-stand); }
+      .text-stand { color: var(--movefit-stand); }
+      .border-stand { border-color: var(--movefit-stand); }
+      .ring-stand { --tw-ring-color: var(--movefit-stand); }
+      .bg-sleep { background-color: var(--movefit-sleep); }
+      .text-sleep { color: var(--movefit-sleep); }
+      .border-sleep { border-color: var(--movefit-sleep); }
+      .ring-sleep { --tw-ring-color: var(--movefit-sleep); }
+      .bg-challenge { background-color: var(--movefit-challenge); }
+      .text-challenge { color: var(--movefit-challenge); }
+      .border-challenge { border-color: var(--movefit-challenge); }
+      .ring-challenge { --tw-ring-color: var(--movefit-challenge); }
+      .bg-orange { background-color: var(--movefit-orange); }
+      .text-orange { color: var(--movefit-orange); }
+      .border-orange { border-color: var(--movefit-orange); }
+      .ring-orange { --tw-ring-color: var(--movefit-orange); }
+      .bg-teal { background-color: var(--movefit-teal); }
+      .text-teal { color: var(--movefit-teal); }
+      .border-teal { border-color: var(--movefit-teal); }
+      .ring-teal { --tw-ring-color: var(--movefit-teal); }
+      .bg-success { background-color: var(--movefit-state-success); }
+      .text-success { color: var(--movefit-state-success); }
+      .border-success { border-color: var(--movefit-state-success); }
+      .ring-success { --tw-ring-color: var(--movefit-state-success); }
+      .bg-warning { background-color: var(--movefit-state-warning); }
+      .text-warning { color: var(--movefit-state-warning); }
+      .border-warning { border-color: var(--movefit-state-warning); }
+      .ring-warning { --tw-ring-color: var(--movefit-state-warning); }
+      .bg-error { background-color: var(--movefit-state-error); }
+      .text-error { color: var(--movefit-state-error); }
+      .border-error { border-color: var(--movefit-state-error); }
+      .ring-error { --tw-ring-color: var(--movefit-state-error); }
+      .bg-info { background-color: var(--movefit-state-info); }
+      .text-info { color: var(--movefit-state-info); }
+      .border-info { border-color: var(--movefit-state-info); }
+      .ring-info { --tw-ring-color: var(--movefit-state-info); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main class="relative min-h-screen bg-background pb-28">
+        <!-- Header -->
+        <header class="pt-safe px-5 pt-6 pb-4">
+            <div class="flex items-end justify-between">
+                <div>
+                    <h1 class="text-[32px] font-bold tracking-tight text-foreground">运动</h1>
+                    <p class="mt-1 text-[15px] text-muted-foreground">为今天动起来，选择适合此刻的方式</p>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-exercise/15 flex items-center justify-center text-exercise">
+                    <i data-lucide="activity" class="w-6 h-6"></i>
+                </div>
+            </div>
+        </header>
+
+        <div class="px-5 flex flex-col gap-5">
+            <!-- Search Bar -->
+            <div class="relative group">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted-foreground">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                </div>
+                <input type="text" placeholder="搜索训练、动作" class="w-full h-11 pl-10 pr-4 rounded-xl bg-card border border-border text-[15px] text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 card-shadow transition-shadow" />
+            </div>
+
+            <!-- Action Cards -->
+            <div class="grid grid-cols-2 gap-3">
+                <button class="relative overflow-hidden rounded-2xl h-[118px] p-4 text-left text-white card-shadow active:scale-[0.98] transition-transform" style="background: linear-gradient(135deg, var(--movefit-move) 0%, var(--movefit-primary-400) 100%);">
+                    <div class="absolute top-3 right-3 opacity-20">
+                        <i data-lucide="play-circle" class="w-12 h-12"></i>
+                    </div>
+                    <div class="relative h-full flex flex-col justify-between">
+                        <i data-lucide="play-circle" class="w-7 h-7"></i>
+                        <div>
+                            <p class="text-[17px] font-bold">快速开始</p>
+                            <p class="text-[13px] opacity-85 mt-0.5">户外跑步</p>
+                        </div>
+                    </div>
+                </button>
+                <button class="relative overflow-hidden rounded-2xl h-[118px] p-4 text-left text-white card-shadow active:scale-[0.98] transition-transform" style="background: linear-gradient(135deg, var(--movefit-orange) 0%, #ff9f43 100%);">
+                    <div class="absolute top-3 right-3 opacity-20">
+                        <i data-lucide="plus-circle" class="w-12 h-12"></i>
+                    </div>
+                    <div class="relative h-full flex flex-col justify-between">
+                        <i data-lucide="plus-circle" class="w-7 h-7"></i>
+                        <div>
+                            <p class="text-[17px] font-bold">手动记录</p>
+                            <p class="text-[13px] opacity-85 mt-0.5">补充训练</p>
+                        </div>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Exercise Catalog Row -->
+            <button class="w-full rounded-2xl bg-card p-4 flex items-center gap-4 text-left card-shadow active:scale-[0.98] transition-transform">
+                <div class="w-12 h-12 rounded-xl bg-challenge flex items-center justify-center text-white shrink-0">
+                    <i data-lucide="layers" class="w-6 h-6"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-[16px] font-semibold text-foreground">动作库</p>
+                    <p class="text-[13px] text-muted-foreground mt-0.5 truncate">查看标准步骤、目标肌群与安全提示</p>
+                </div>
+                <div class="flex items-center gap-1.5 text-muted-foreground shrink-0">
+                    <span class="text-[13px]">120+ 动作</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </div>
+            </button>
+
+            <!-- Workout Category Grid -->
+            <section>
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-[19px] font-bold text-foreground">运动分类</h2>
+                    <span class="text-[13px] text-muted-foreground">按目标选择</span>
+                </div>
+                <div class="grid grid-cols-3 gap-3">
+                    <button class="relative overflow-hidden rounded-2xl p-3 h-[112px] flex flex-col items-center justify-center gap-2 text-white card-shadow active:scale-[0.98] transition-transform" style="background: linear-gradient(135deg, var(--movefit-move) 0%, #ff4d6d 100%);">
+                        <i data-lucide="person-running" class="w-7 h-7"></i>
+                        <span class="text-[14px] font-semibold">跑步</span>
+                        <span class="text-[11px] opacity-80">8 个方案</span>
+                    </button>
+                    <button class="relative overflow-hidden rounded-2xl p-3 h-[112px] flex flex-col items-center justify-center gap-2 text-white card-shadow active:scale-[0.98] transition-transform" style="background: linear-gradient(135deg, var(--movefit-exercise) 0%, #4ade80 100%);">
+                        <i data-lucide="footprints" class="w-7 h-7"></i>
+                        <span class="text-[14px] font-semibold">步行</span>
+                        <span class="text-[11px] opacity-80">5 个方案</span>
+                    </button>
+                    <button class="relative overflow-hidden rounded-2xl p-3 h-[112px] flex flex-col items-center justify-center gap-2 text-white card-shadow active:scale-[0.98] transition-transform" style="background: linear-gradient(135deg, var(--movefit-stand) 0%, #38bdf8 100%);">
+                        <i data-lucide="bike" class="w-7 h-7"></i>
+                        <span class="text-[14px] font-semibold">骑行</span>
+                        <span class="text-[11px] opacity-80">6 个方案</span>
+                    </button>
+                    <button class="relative overflow-hidden rounded-2xl p-3 h-[112px] flex flex-col items-center justify-center gap-2 text-white card-shadow active:scale-[0.98] transition-transform" style="background: linear-gradient(135deg, var(--movefit-challenge) 0%, #a78bfa 100%);">
+                        <i data-lucide="dumbbell" class="w-7 h-7"></i>
+                        <span class="text-[14px] font-semibold">力量</span>
+                        <span class="text-[11px] opacity-80">10 个方案</span>
+                    </button>
+                    <button class="relative overflow-hidden rounded-2xl p-3 h-[112px] flex flex-col items-center justify-center gap-2 text-white card-shadow active:scale-[0.98] transition-transform" style="background: linear-gradient(135deg, var(--movefit-orange) 0%, #ff6b6b 100%);">
+                        <i data-lucide="flame" class="w-7 h-7"></i>
+                        <span class="text-[14px] font-semibold">HIIT</span>
+                        <span class="text-[11px] opacity-80">7 个方案</span>
+                    </button>
+                    <button class="relative overflow-hidden rounded-2xl p-3 h-[112px] flex flex-col items-center justify-center gap-2 text-white card-shadow active:scale-[0.98] transition-transform" style="background: linear-gradient(135deg, var(--movefit-teal) 0%, #2dd4bf 100%);">
+                        <i data-lucide="activity" class="w-7 h-7"></i>
+                        <span class="text-[14px] font-semibold">瑜伽</span>
+                        <span class="text-[11px] opacity-80">4 个方案</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Recommended Plans Horizontal Scroll -->
+            <section>
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-[19px] font-bold text-foreground">为你推荐</h2>
+                    <span class="text-[13px] text-muted-foreground">本地训练方案</span>
+                </div>
+                <div class="flex gap-3 overflow-x-auto hide-scrollbar -mx-5 px-5 pb-2">
+                    <div class="shrink-0 w-[286px] h-[225px] rounded-2xl p-5 text-white relative overflow-hidden card-shadow" style="background: linear-gradient(135deg, var(--movefit-move) 0%, var(--movefit-primary-400) 60%, rgba(0,0,0,0.55) 100%);">
+                        <div class="relative h-full flex flex-col justify-between">
+                            <div class="flex items-start justify-between">
+                                <i data-lucide="flame" class="w-10 h-10"></i>
+                                <span class="px-2.5 py-1 rounded-full bg-white/20 text-[11px] font-semibold backdrop-blur-sm">进阶</span>
+                            </div>
+                            <div>
+                                <h3 class="text-[22px] font-bold leading-tight">全身燃脂训练</h3>
+                                <p class="text-[13px] opacity-85 mt-1 line-clamp-2">提升心肺与耐力，适合有运动基础的训练者</p>
+                                <div class="flex items-center gap-1 mt-3 text-[12px] font-semibold">
+                                    <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                                    <span>30 分钟</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shrink-0 w-[286px] h-[225px] rounded-2xl p-5 text-white relative overflow-hidden card-shadow" style="background: linear-gradient(135deg, var(--movefit-challenge) 0%, #8b5cf6 60%, rgba(0,0,0,0.55) 100%);">
+                        <div class="relative h-full flex flex-col justify-between">
+                            <div class="flex items-start justify-between">
+                                <i data-lucide="dumbbell" class="w-10 h-10"></i>
+                                <span class="px-2.5 py-1 rounded-full bg-white/20 text-[11px] font-semibold backdrop-blur-sm">中级</span>
+                            </div>
+                            <div>
+                                <h3 class="text-[22px] font-bold leading-tight">上肢力量强化</h3>
+                                <p class="text-[13px] opacity-85 mt-1 line-clamp-2">针对胸背与手臂肌群的塑形与力量提升</p>
+                                <div class="flex items-center gap-1 mt-3 text-[12px] font-semibold">
+                                    <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                                    <span>25 分钟</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shrink-0 w-[286px] h-[225px] rounded-2xl p-5 text-white relative overflow-hidden card-shadow" style="background: linear-gradient(135deg, var(--movefit-teal) 0%, #14b8a6 60%, rgba(0,0,0,0.55) 100%);">
+                        <div class="relative h-full flex flex-col justify-between">
+                            <div class="flex items-start justify-between">
+                                <i data-lucide="activity" class="w-10 h-10"></i>
+                                <span class="px-2.5 py-1 rounded-full bg-white/20 text-[11px] font-semibold backdrop-blur-sm">初级</span>
+                            </div>
+                            <div>
+                                <h3 class="text-[22px] font-bold leading-tight">晨间唤醒瑜伽</h3>
+                                <p class="text-[13px] opacity-85 mt-1 line-clamp-2">舒缓拉伸，激活身体，开启元气一天</p>
+                                <div class="flex items-center gap-1 mt-3 text-[12px] font-semibold">
+                                    <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                                    <span>15 分钟</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cardio Specialty List -->
+            <section>
+                <div class="flex items-center gap-2 mb-3">
+                    <div class="w-7 h-7 rounded-full bg-error/15 flex items-center justify-center text-error">
+                        <i data-lucide="activity" class="w-4 h-4"></i>
+                    </div>
+                    <h2 class="text-[19px] font-bold text-foreground">心肺专项</h2>
+                </div>
+                <div class="flex flex-col gap-3">
+                    <button class="w-full rounded-2xl bg-card p-3 flex items-center gap-4 text-left card-shadow active:scale-[0.98] transition-transform">
+                        <div class="w-[52px] h-[52px] rounded-xl flex items-center justify-center text-white shrink-0" style="background: linear-gradient(135deg, var(--movefit-move) 0%, #ff4d6d 100%);">
+                            <i data-lucide="person-running" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[15px] font-semibold text-foreground truncate">基础有氧跑</p>
+                            <p class="text-[13px] text-muted-foreground mt-0.5">30 分钟 · 初级</p>
+                        </div>
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-muted-foreground shrink-0"></i>
+                    </button>
+                    <button class="w-full rounded-2xl bg-card p-3 flex items-center gap-4 text-left card-shadow active:scale-[0.98] transition-transform">
+                        <div class="w-[52px] h-[52px] rounded-xl flex items-center justify-center text-white shrink-0" style="background: linear-gradient(135deg, var(--movefit-stand) 0%, #38bdf8 100%);">
+                            <i data-lucide="bike" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[15px] font-semibold text-foreground truncate">骑行耐力训练</p>
+                            <p class="text-[13px] text-muted-foreground mt-0.5">45 分钟 · 中级</p>
+                        </div>
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-muted-foreground shrink-0"></i>
+                    </button>
+                    <button class="w-full rounded-2xl bg-card p-3 flex items-center gap-4 text-left card-shadow active:scale-[0.98] transition-transform">
+                        <div class="w-[52px] h-[52px] rounded-xl flex items-center justify-center text-white shrink-0" style="background: linear-gradient(135deg, var(--movefit-orange) 0%, #ff9f43 100%);">
+                            <i data-lucide="flame" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-[15px] font-semibold text-foreground truncate">HIIT 心肺冲击</p>
+                            <p class="text-[13px] text-muted-foreground mt-0.5">20 分钟 · 进阶</p>
+                        </div>
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-muted-foreground shrink-0"></i>
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <nav class="fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14" data-mobile-nav="global">
+  <div class="w-full max-w-md mx-auto grid grid-cols-5 h-full">
+    <a href="#" data-nav-key="home" data-dom-id="nav-home" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors">
+      <i data-lucide="home" class="w-5 h-5 shrink-0"></i>
+      <span class="text-[11px] leading-none whitespace-nowrap max-w-full truncate">首页</span>
+    </a>
+    <a href="#" data-nav-key="challenges" data-dom-id="nav-challenges" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors">
+      <i data-lucide="trophy" class="w-5 h-5 shrink-0"></i>
+      <span class="text-[11px] leading-none whitespace-nowrap max-w-full truncate">挑战</span>
+    </a>
+    <a href="#" data-nav-key="workouts" data-dom-id="nav-workouts" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-primary font-semibold transition-colors">
+      <i data-lucide="dumbbell" class="w-5 h-5 shrink-0"></i>
+      <span class="text-[11px] leading-none whitespace-nowrap max-w-full truncate">运动</span>
+    </a>
+    <a href="#" data-nav-key="history" data-dom-id="nav-history" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors">
+      <i data-lucide="bar-chart-2" class="w-5 h-5 shrink-0"></i>
+      <span class="text-[11px] leading-none whitespace-nowrap max-w-full truncate">历史</span>
+    </a>
+    <a href="#" data-nav-key="profile" data-dom-id="nav-profile" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors">
+      <i data-lucide="user" class="w-5 h-5 shrink-0"></i>
+      <span class="text-[11px] leading-none whitespace-nowrap max-w-full truncate">我的</span>
+    </a>
+  </div>
+</nav>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

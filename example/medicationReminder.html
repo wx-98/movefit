@@ -1,0 +1,139 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "error": "#ba1a1a", "on-surface": "#1a1b1f", "outline-variant": "#e6bcbd", "on-primary-fixed": "#40000c", "inverse-surface": "#2f3034", "on-primary-container": "#fffbff", "secondary-fixed": "#6bfcb9", "surface-dim": "#dad9df", "on-error-container": "#93000a", "inverse-on-surface": "#f1f0f5", "outline": "#916e6f", "on-secondary-fixed": "#002113", "tertiary-fixed": "#d8e2ff", "on-surface-variant": "#5d3f40", "surface-tint": "#be0036", "surface-container-low": "#f4f3f8", "surface-bright": "#faf9fe", "on-primary": "#ffffff", "surface-container-highest": "#e3e2e7", "on-tertiary-container": "#fefcff", "surface-container": "#eeedf3", "on-primary-fixed-variant": "#920027", "background": "#faf9fe", "inverse-primary": "#ffb3b5", "on-tertiary": "#ffffff", "primary-fixed": "#ffdada", "tertiary-container": "#0070eb", "tertiary-fixed-dim": "#adc6ff", "primary-fixed-dim": "#ffb3b5", "on-tertiary-fixed-variant": "#004493", "secondary-container": "#68f9b6", "on-secondary": "#ffffff", "on-secondary-fixed-variant": "#005235", "primary": "#ba0034", "on-tertiary-fixed": "#001a41", "surface-container-lowest": "#ffffff", "on-background": "#1a1b1f", "secondary": "#006c47", "on-error": "#ffffff", "tertiary": "#0058bc", "surface-container-high": "#e9e7ed", "surface": "#faf9fe", "secondary-fixed-dim": "#49df9f", "surface-variant": "#e3e2e7", "error-container": "#ffdad6", "on-secondary-container": "#00714b", "primary-container": "#e51245" }, "borderRadius": { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, "spacing": { "stack-gap": "1rem", "section-margin": "2rem", "grid-gutter": "0.75rem", "element-padding": "1rem", "container-margin": "1.25rem" }, "fontFamily": { "headline-md": ["Inter"], "body-sm": ["Inter"], "label-caps": ["Inter"], "body-lg": ["Inter"], "numeric-data": ["Inter"], "headline-sm": ["Inter"], "display-lg-mobile": ["Inter"], "display-lg": ["Inter"] } } } }</script><style>@layer base { body { -webkit-tap-highlight-color: transparent; } .pb-safe { padding-bottom: env(safe-area-inset-bottom); } .pt-safe { padding-top: env(safe-area-inset-top); } } ::-webkit-scrollbar { display: none; }</style></head><body class="bg-background font-body-lg text-on-background"><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-16 px-container-margin flex items-center justify-between"><button class="w-10 h-10 flex items-center justify-start text-on-surface-variant" onclick="history.back()"><span class="material-symbols-outlined">arrow_back_ios</span></button><span class="font-headline-sm text-headline-sm text-on-surface">Medication Reminders</span><div class="w-10"></div></div></header><main class="relative pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full gap-stack-gap px-container-margin pt-element-padding">
+<!-- Adherence Stats Card -->
+<section class="bg-primary-container text-on-primary-container p-element-padding rounded-xl shadow-sm relative overflow-hidden flex flex-col gap-grid-gutter">
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-primary opacity-20 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex justify-between items-center z-10">
+<div>
+<h2 class="font-headline-sm text-headline-sm mb-1">本周服药依从性</h2>
+<p class="font-body-sm text-body-sm opacity-90">保持良好习惯，继续加油！</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center shadow-md">
+<span class="font-numeric-data text-numeric-data text-on-primary text-[18px]">92%</span>
+</div>
+</div>
+<!-- Simplified Sparkline Chart -->
+<div class="h-16 mt-2 flex items-end justify-between gap-1 z-10 px-2">
+<div class="w-1/7 bg-primary/30 h-[40%] rounded-t-sm flex-1 relative group"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-label-caps hidden group-active:block bg-on-primary-container text-primary-container px-1 rounded">周一</div></div>
+<div class="w-1/7 bg-primary/30 h-[70%] rounded-t-sm flex-1"></div>
+<div class="w-1/7 bg-primary h-[100%] rounded-t-sm flex-1 relative group"><div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-label-caps hidden group-active:block bg-on-primary-container text-primary-container px-1 rounded">今日</div></div>
+<div class="w-1/7 bg-primary/30 h-[90%] rounded-t-sm flex-1"></div>
+<div class="w-1/7 bg-primary/30 h-[100%] rounded-t-sm flex-1"></div>
+<div class="w-1/7 bg-primary/30 h-[80%] rounded-t-sm flex-1"></div>
+<div class="w-1/7 bg-primary/10 h-[20%] rounded-t-sm flex-1"></div>
+</div>
+<div class="flex justify-between text-[10px] font-label-caps opacity-70 px-2 mt-1 z-10">
+<span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+</div>
+</section>
+<!-- AI Refill Suggestion -->
+<section class="bg-error-container text-on-error-container p-element-padding rounded-xl shadow-sm flex items-start gap-3 mt-2">
+<div class="bg-error text-on-error p-2 rounded-full flex-shrink-0 mt-1">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">info</span>
+</div>
+<div class="flex-1">
+<h3 class="font-headline-sm text-[16px] leading-tight mb-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-error">auto_awesome</span>
+                智能补药提醒
+            </h3>
+<p class="font-body-sm text-body-sm mb-2 text-on-error-container/80">根据您的用药记录，阿司匹林肠溶片预计将在3天后用完。</p>
+<button class="bg-error text-on-error font-label-caps py-2 px-4 rounded-full w-full shadow-sm active:opacity-80 transition-opacity">
+                一键续方
+            </button>
+</div>
+</section>
+<!-- Today's Schedule -->
+<section class="mt-4">
+<div class="flex justify-between items-end mb-3">
+<h2 class="font-headline-md text-headline-md text-on-background">今日计划</h2>
+<span class="font-body-sm text-body-sm text-primary">3 待服</span>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Morning Meds -->
+<div class="bg-surface-container text-on-surface p-4 rounded-xl shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-[16px]">阿莫西林胶囊</h3>
+<span class="bg-primary/10 text-primary text-[10px] font-label-caps px-2 py-0.5 rounded">早饭后</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">250mg · 1粒</p>
+</div>
+</div>
+<button class="med-checkbox w-8 h-8 rounded-full bg-surface shadow-inner flex items-center justify-center text-surface transition-colors" onclick="this.classList.toggle('bg-secondary'); this.classList.toggle('text-on-secondary'); this.classList.toggle('bg-surface'); this.classList.toggle('text-surface');">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</button>
+</div>
+<!-- Afternoon Meds -->
+<div class="bg-surface-container text-on-surface p-4 rounded-xl shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">routine</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-[16px]">二甲双胍片</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">500mg · 1片 · 14:00</p>
+</div>
+</div>
+<button class="med-checkbox w-8 h-8 rounded-full bg-surface shadow-inner flex items-center justify-center text-surface transition-colors" onclick="this.classList.toggle('bg-secondary'); this.classList.toggle('text-on-secondary'); this.classList.toggle('bg-surface'); this.classList.toggle('text-surface');">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</button>
+</div>
+<!-- Evening Meds (Already Taken) -->
+<div class="bg-surface-container text-on-surface p-4 rounded-xl shadow-sm flex items-center justify-between opacity-60">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bedtime</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-headline-sm text-[16px] line-through">阿托伐他汀钙片</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">20mg · 1片 · 睡前</p>
+</div>
+</div>
+<div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Medicine Cabinet -->
+<section class="mt-4 pb-8">
+<div class="flex justify-between items-end mb-3">
+<h2 class="font-headline-md text-headline-md text-on-background">家庭药箱</h2>
+<button class="text-primary font-label-caps">全部</button>
+</div>
+<div class="grid grid-cols-2 gap-grid-gutter">
+<!-- Med 1 -->
+<div class="bg-surface-container-high p-3 rounded-xl flex flex-col gap-2 relative shadow-sm">
+<div class="w-full h-24 rounded-lg bg-surface flex items-center justify-center overflow-hidden mb-1 relative">
+<div class="bg-cover bg-center w-full h-full absolute inset-0 opacity-80" data-alt="A macro shot of a single blue and white Amoxicillin capsule pill resting on a clean, bright white clinical surface. Soft, highly diffused lighting. Modern medical aesthetic, minimalist." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBIPX_7qRHYC90pjSeo5MjiPWJGCd-mpEX4xbgcw_3fIJK7cIIPIH-c7YYaVOi7bTLlX2-604pVYTV5RMtGvM2tB42ZEjCXCG8M6DoYPkjjsZajX9U8MXQdPg_K9hfmqDLIoYlQk6S6Pffow-wW7T4qjvUZz1MMBI2Mckq_JYntIap-yNvIGcPgQiitsfe-fBWRnHZeyBdS5umS8DeTu_TuPZgPVbMVCVd-yCIq33sSidS7uHpTdYME')"></div>
+</div>
+<h4 class="font-headline-sm text-[14px] text-on-surface truncate">阿莫西林胶囊</h4>
+<p class="font-body-sm text-[12px] text-on-surface-variant">每日3次，每次1粒</p>
+<div class="mt-1 bg-surface-variant h-1.5 w-full rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[80%] rounded-full"></div>
+</div>
+<p class="text-[10px] text-on-surface-variant text-right mt-0.5">余量: 24粒</p>
+</div>
+<!-- Med 2 -->
+<div class="bg-surface-container-high p-3 rounded-xl flex flex-col gap-2 relative shadow-sm">
+<div class="w-full h-24 rounded-lg bg-surface flex items-center justify-center overflow-hidden mb-1 relative">
+<div class="bg-cover bg-center w-full h-full absolute inset-0 opacity-80" data-alt="A macro shot of small white Metformin tablets scattered slightly on a light grey background with a hint of warm sunlight. Medical, clean, vibrant." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC2pqfSgppHbBjLtDyXbkERAG0S4j996_EORfjwTXmiZFfLKBjsONKOOpZx6MWhK6ApvjU07pH3jCNChT_6eVEZj_MvGCt4IquZfa_d_IrmxquiIC_Yc-1-fsNaSuBIORRJtCArFFvyPD4HIG5shh7Rcph1IwgespS-HDXIaqkjestNmseRiMinKXc2TcSrFQecPSGNEuxNr1vIPwH_u7gZxNmmGYIC6gO0uMEmk6No4-lw5KWVxPoz')"></div>
+</div>
+<h4 class="font-headline-sm text-[14px] text-on-surface truncate">二甲双胍片</h4>
+<p class="font-body-sm text-[12px] text-on-surface-variant">每日2次，每次1片</p>
+<div class="mt-1 bg-surface-variant h-1.5 w-full rounded-full overflow-hidden">
+<div class="bg-error h-full w-[15%] rounded-full"></div>
+</div>
+<p class="text-[10px] text-error text-right mt-0.5 font-bold">余量: 6片</p>
+</div>
+</div>
+</section>
+</div><div class="pb-safe"></div></main></body></html>

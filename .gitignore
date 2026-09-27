@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# Xcode
+xcuserdata/
+DerivedData/
+build/
+
+# Swift Package Manager（本项目无第三方依赖，仅防御性忽略）
+.build/
+Package.resolved

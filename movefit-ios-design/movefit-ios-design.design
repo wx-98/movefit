@@ -1,0 +1,304 @@
+{
+  "data": [
+    {
+      "id": "page-home",
+      "title": "首页",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1755350400000,
+      "canvasData": {
+        "x": 0,
+        "y": 346,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1866,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-dad8c7a0",
+          "measuredAt": 1786877227563
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/home.html",
+        "interactions": [
+          {
+            "domId": "nav-challenges",
+            "targetPageId": "page-challenges",
+            "hideEdge": true,
+            "transitionLabel": "切换到挑战"
+          },
+          {
+            "domId": "nav-workouts",
+            "targetPageId": "page-workouts",
+            "hideEdge": true,
+            "transitionLabel": "切换到运动"
+          },
+          {
+            "domId": "nav-history",
+            "targetPageId": "page-history",
+            "hideEdge": true,
+            "transitionLabel": "切换到历史"
+          },
+          {
+            "domId": "nav-profile",
+            "targetPageId": "page-profile",
+            "hideEdge": true,
+            "transitionLabel": "切换到我的"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-challenges",
+      "title": "挑战",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1755350400000,
+      "canvasData": {
+        "x": 169,
+        "y": 346,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1596,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-0b33f4be",
+          "measuredAt": 1786877227563
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/challenges.html",
+        "interactions": [
+          {
+            "domId": "nav-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "切换到首页"
+          },
+          {
+            "domId": "nav-workouts",
+            "targetPageId": "page-workouts",
+            "hideEdge": true,
+            "transitionLabel": "切换到运动"
+          },
+          {
+            "domId": "nav-history",
+            "targetPageId": "page-history",
+            "hideEdge": true,
+            "transitionLabel": "切换到历史"
+          },
+          {
+            "domId": "nav-profile",
+            "targetPageId": "page-profile",
+            "hideEdge": true,
+            "transitionLabel": "切换到我的"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-workouts",
+      "title": "运动",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1755350400000,
+      "canvasData": {
+        "x": 338,
+        "y": 346,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1387,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-c56090b5",
+          "measuredAt": 1786877227563
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/workouts.html",
+        "interactions": [
+          {
+            "domId": "nav-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "切换到首页"
+          },
+          {
+            "domId": "nav-challenges",
+            "targetPageId": "page-challenges",
+            "hideEdge": true,
+            "transitionLabel": "切换到挑战"
+          },
+          {
+            "domId": "nav-history",
+            "targetPageId": "page-history",
+            "hideEdge": true,
+            "transitionLabel": "切换到历史"
+          },
+          {
+            "domId": "nav-profile",
+            "targetPageId": "page-profile",
+            "hideEdge": true,
+            "transitionLabel": "切换到我的"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-history",
+      "title": "历史",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1755350400000,
+      "canvasData": {
+        "x": 507,
+        "y": 346,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1542,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-d1bd78f9",
+          "measuredAt": 1786877227563
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/history.html",
+        "interactions": [
+          {
+            "domId": "nav-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "切换到首页"
+          },
+          {
+            "domId": "nav-challenges",
+            "targetPageId": "page-challenges",
+            "hideEdge": true,
+            "transitionLabel": "切换到挑战"
+          },
+          {
+            "domId": "nav-workouts",
+            "targetPageId": "page-workouts",
+            "hideEdge": true,
+            "transitionLabel": "切换到运动"
+          },
+          {
+            "domId": "nav-profile",
+            "targetPageId": "page-profile",
+            "hideEdge": true,
+            "transitionLabel": "切换到我的"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-profile",
+      "title": "我的",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1755350400000,
+      "canvasData": {
+        "x": 0,
+        "y": 0,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1268,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-114da32a",
+          "measuredAt": 1786877227563
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/profile.html",
+        "interactions": [
+          {
+            "domId": "nav-home",
+            "targetPageId": "page-home",
+            "hideEdge": true,
+            "transitionLabel": "切换到首页"
+          },
+          {
+            "domId": "nav-challenges",
+            "targetPageId": "page-challenges",
+            "hideEdge": true,
+            "transitionLabel": "切换到挑战"
+          },
+          {
+            "domId": "nav-workouts",
+            "targetPageId": "page-workouts",
+            "hideEdge": true,
+            "transitionLabel": "切换到运动"
+          },
+          {
+            "domId": "nav-history",
+            "targetPageId": "page-history",
+            "hideEdge": true,
+            "transitionLabel": "切换到历史"
+          },
+          {
+            "domId": "row-wellness",
+            "targetPageId": "page-wellness",
+            "hideEdge": false,
+            "transitionLabel": "打开养护建议"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-wellness",
+      "title": "养护建议",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1755350400000,
+      "canvasData": {
+        "x": 169,
+        "y": 0,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 919,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-10c53537",
+          "measuredAt": 1786877227563
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/wellness.html",
+        "interactions": [
+          {
+            "domId": "back-profile",
+            "targetPageId": "page-profile",
+            "hideEdge": true,
+            "transitionLabel": "返回我的"
+          }
+        ]
+      }
+    },
+    {
+      "id": "image-001",
+      "title": "MoveFit 品牌 Logo",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1755350400000,
+      "canvasData": {
+        "x": 0,
+        "y": 692,
+        "naturalSize": {
+          "width": 1024,
+          "height": 1024
+        }
+      },
+      "devMetadata": {
+        "imageSrc": "assets/movefit-logo.png"
+      }
+    }
+  ],
+  "config": {
+    "autoLayout": true,
+    "deviceType": "mobile",
+    "projectName": "MoveFit iOS 界面",
+    "designLibrary": null
+  }
+}

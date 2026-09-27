@@ -1,0 +1,5 @@
+schema: spec-driven
+created: 2026-09-19
+goal: Replace manual verification proof entry with a secure email/phone
+  verification-code registration flow; Tencent Cloud credentials remain
+  server-side.

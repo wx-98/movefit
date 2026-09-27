@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <style id="theme-vars">
+:root {
+  /* MoveFit Primary Scale */
+  --movefit-primary-50: #fff1f3;
+  --movefit-primary-100: #ffd6dc;
+  --movefit-primary-200: #ffb3bd;
+  --movefit-primary-300: #ff7a8d;
+  --movefit-primary-400: #f53d5a;
+  --movefit-primary-500: #ba0034;
+  --movefit-primary-600: #97002b;
+  --movefit-primary-700: #740022;
+  --movefit-primary-800: #520018;
+  --movefit-primary-900: #31000e;
+
+  /* Neutral Scale (iOS System Grays) */
+  --movefit-neutral-50: #f2f2f7;
+  --movefit-neutral-100: #e5e5ea;
+  --movefit-neutral-200: #d1d1d6;
+  --movefit-neutral-300: #c7c7cc;
+  --movefit-neutral-400: #aeaeb2;
+  --movefit-neutral-500: #8e8e93;
+  --movefit-neutral-600: #636366;
+  --movefit-neutral-700: #48484a;
+  --movefit-neutral-800: #3a3a3c;
+  --movefit-neutral-900: #1c1c1e;
+
+  /* Semantic Health Colors */
+  --movefit-move: #f20540;
+  --movefit-exercise: #21c747;
+  --movefit-stand: #1ea8f2;
+  --movefit-sleep: #5945e0;
+  --movefit-challenge: #943fde;
+  --movefit-orange: #f57a1f;
+  --movefit-teal: #089e91;
+
+  /* State Colors */
+  --movefit-state-success: #21c747;
+  --movefit-state-warning: #f57a1f;
+  --movefit-state-error: #ff3b30;
+  --movefit-state-info: #1ea8f2;
+
+  /* Semantic Aliases */
+  --movefit-background: #f2f2f7;
+  --movefit-foreground: #1c1c1e;
+  --movefit-card: #ffffff;
+  --movefit-card-foreground: #1c1c1e;
+  --movefit-popover: #ffffff;
+  --movefit-popover-foreground: #1c1c1e;
+  --movefit-primary: #ba0034;
+  --movefit-primary-foreground: #ffffff;
+  --movefit-muted: #f2f2f7;
+  --movefit-muted-foreground: #8e8e93;
+  --movefit-border: rgba(0, 0, 0, 0.08);
+  --movefit-input: #ffffff;
+  --movefit-ring: #ba0034;
+  --movefit-radius-small: 8px;
+  --movefit-radius-medium: 12px;
+  --movefit-radius-large: 16px;
+  --movefit-radius-full: 9999px;
+}
+
+@theme inline {
+  --color-background: var(--movefit-background);
+  --color-foreground: var(--movefit-foreground);
+  --color-card: var(--movefit-card);
+  --color-card-foreground: var(--movefit-card-foreground);
+  --color-popover: var(--movefit-popover);
+  --color-popover-foreground: var(--movefit-popover-foreground);
+  --color-primary: var(--movefit-primary);
+  --color-primary-foreground: var(--movefit-primary-foreground);
+  --color-muted: var(--movefit-muted);
+  --color-muted-foreground: var(--movefit-muted-foreground);
+  --color-border: var(--movefit-border);
+  --color-input: var(--movefit-input);
+  --color-ring: var(--movefit-ring);
+  --radius-sm: var(--movefit-radius-small);
+  --radius-md: var(--movefit-radius-medium);
+  --radius-lg: var(--movefit-radius-large);
+  --radius-full: var(--movefit-radius-full);
+
+  /* Extended palette mapped for Tailwind utilities */
+  --color-move: var(--movefit-move);
+  --color-exercise: var(--movefit-exercise);
+  --color-stand: var(--movefit-stand);
+  --color-sleep: var(--movefit-sleep);
+  --color-challenge: var(--movefit-challenge);
+  --color-orange: var(--movefit-orange);
+  --color-teal: var(--movefit-teal);
+  --color-success: var(--movefit-state-success);
+  --color-warning: var(--movefit-state-warning);
+  --color-error: var(--movefit-state-error);
+  --color-info: var(--movefit-state-info);
+}
+
+/* Light mode base */
+html.light,
+:root {
+  --movefit-background: #f2f2f7;
+  --movefit-foreground: #1c1c1e;
+  --movefit-card: #ffffff;
+  --movefit-card-foreground: #1c1c1e;
+  --movefit-popover: #ffffff;
+  --movefit-popover-foreground: #1c1c1e;
+  --movefit-primary: #ba0034;
+  --movefit-primary-foreground: #ffffff;
+  --movefit-muted: #f2f2f7;
+  --movefit-muted-foreground: #8e8e93;
+  --movefit-border: rgba(0, 0, 0, 0.08);
+  --movefit-input: #ffffff;
+  --movefit-ring: #ba0034;
+}
+
+/* Dark mode base */
+html.dark {
+  --movefit-background: #000000;
+  --movefit-foreground: #ffffff;
+  --movefit-card: #1c1c1e;
+  --movefit-card-foreground: #ffffff;
+  --movefit-popover: #1c1c1e;
+  --movefit-popover-foreground: #ffffff;
+  --movefit-primary: #ff4d6d;
+  --movefit-primary-foreground: #1c1c1e;
+  --movefit-muted: #1c1c1e;
+  --movefit-muted-foreground: #8e8e93;
+  --movefit-border: rgba(255, 255, 255, 0.12);
+  --movefit-input: #1c1c1e;
+  --movefit-ring: #ff4d6d;
+}
+
+/* Typography */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-rounded {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Segoe UI", sans-serif;
+}
+
+.font-mono-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* iOS-style safe area utilities */
+.pt-safe { padding-top: env(safe-area-inset-top); }
+.pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+/* Hide scrollbar for horizontal scroll areas */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Subtle card shadow */
+.card-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+/* Floating layer shadow */
+.float-shadow {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--movefit-background);
+    --color-foreground: var(--movefit-foreground);
+    --color-card: var(--movefit-card);
+    --color-card-foreground: var(--movefit-card-foreground);
+    --color-popover: var(--movefit-popover);
+    --color-popover-foreground: var(--movefit-popover-foreground);
+    --color-primary: var(--movefit-primary);
+    --color-primary-foreground: var(--movefit-primary-foreground);
+    --color-muted: var(--movefit-muted);
+    --color-muted-foreground: var(--movefit-muted-foreground);
+    --color-border: var(--movefit-border);
+    --color-input: var(--movefit-input);
+    --color-ring: var(--movefit-ring);
+    --color-move: var(--movefit-move);
+    --color-exercise: var(--movefit-exercise);
+    --color-stand: var(--movefit-stand);
+    --color-sleep: var(--movefit-sleep);
+    --color-challenge: var(--movefit-challenge);
+    --color-orange: var(--movefit-orange);
+    --color-teal: var(--movefit-teal);
+    --color-success: var(--movefit-state-success);
+    --color-warning: var(--movefit-state-warning);
+    --color-error: var(--movefit-state-error);
+    --color-info: var(--movefit-state-info);
+    --radius-sm: var(--movefit-radius-small);
+    --radius-md: var(--movefit-radius-medium);
+    --radius-lg: var(--movefit-radius-large);
+    --radius-full: var(--movefit-radius-full);
+  }
+  @layer base {
+    body { background: var(--movefit-background); color: var(--movefit-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--movefit-background); }
+      .text-background { color: var(--movefit-background); }
+      .border-background { border-color: var(--movefit-background); }
+      .ring-background { --tw-ring-color: var(--movefit-background); }
+      .bg-foreground { background-color: var(--movefit-foreground); }
+      .text-foreground { color: var(--movefit-foreground); }
+      .border-foreground { border-color: var(--movefit-foreground); }
+      .ring-foreground { --tw-ring-color: var(--movefit-foreground); }
+      .bg-card { background-color: var(--movefit-card); }
+      .text-card { color: var(--movefit-card); }
+      .border-card { border-color: var(--movefit-card); }
+      .ring-card { --tw-ring-color: var(--movefit-card); }
+      .bg-card-foreground { background-color: var(--movefit-card-foreground); }
+      .text-card-foreground { color: var(--movefit-card-foreground); }
+      .border-card-foreground { border-color: var(--movefit-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--movefit-card-foreground); }
+      .bg-popover { background-color: var(--movefit-popover); }
+      .text-popover { color: var(--movefit-popover); }
+      .border-popover { border-color: var(--movefit-popover); }
+      .ring-popover { --tw-ring-color: var(--movefit-popover); }
+      .bg-popover-foreground { background-color: var(--movefit-popover-foreground); }
+      .text-popover-foreground { color: var(--movefit-popover-foreground); }
+      .border-popover-foreground { border-color: var(--movefit-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--movefit-popover-foreground); }
+      .bg-primary { background-color: var(--movefit-primary); }
+      .text-primary { color: var(--movefit-primary); }
+      .border-primary { border-color: var(--movefit-primary); }
+      .ring-primary { --tw-ring-color: var(--movefit-primary); }
+      .bg-primary-foreground { background-color: var(--movefit-primary-foreground); }
+      .text-primary-foreground { color: var(--movefit-primary-foreground); }
+      .border-primary-foreground { border-color: var(--movefit-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--movefit-primary-foreground); }
+      .bg-muted { background-color: var(--movefit-muted); }
+      .text-muted { color: var(--movefit-muted); }
+      .border-muted { border-color: var(--movefit-muted); }
+      .ring-muted { --tw-ring-color: var(--movefit-muted); }
+      .bg-muted-foreground { background-color: var(--movefit-muted-foreground); }
+      .text-muted-foreground { color: var(--movefit-muted-foreground); }
+      .border-muted-foreground { border-color: var(--movefit-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--movefit-muted-foreground); }
+      .bg-border { background-color: var(--movefit-border); }
+      .text-border { color: var(--movefit-border); }
+      .border-border { border-color: var(--movefit-border); }
+      .ring-border { --tw-ring-color: var(--movefit-border); }
+      .bg-input { background-color: var(--movefit-input); }
+      .text-input { color: var(--movefit-input); }
+      .border-input { border-color: var(--movefit-input); }
+      .ring-input { --tw-ring-color: var(--movefit-input); }
+      .bg-ring { background-color: var(--movefit-ring); }
+      .text-ring { color: var(--movefit-ring); }
+      .border-ring { border-color: var(--movefit-ring); }
+      .ring-ring { --tw-ring-color: var(--movefit-ring); }
+      .bg-move { background-color: var(--movefit-move); }
+      .text-move { color: var(--movefit-move); }
+      .border-move { border-color: var(--movefit-move); }
+      .ring-move { --tw-ring-color: var(--movefit-move); }
+      .bg-exercise { background-color: var(--movefit-exercise); }
+      .text-exercise { color: var(--movefit-exercise); }
+      .border-exercise { border-color: var(--movefit-exercise); }
+      .ring-exercise { --tw-ring-color: var(--movefit-exercise); }
+      .bg-stand { background-color: var(--movefit-stand); }
+      .text-stand { color: var(--movefit-stand); }
+      .border-stand { border-color: var(--movefit-stand); }
+      .ring-stand { --tw-ring-color: var(--movefit-stand); }
+      .bg-sleep { background-color: var(--movefit-sleep); }
+      .text-sleep { color: var(--movefit-sleep); }
+      .border-sleep { border-color: var(--movefit-sleep); }
+      .ring-sleep { --tw-ring-color: var(--movefit-sleep); }
+      .bg-challenge { background-color: var(--movefit-challenge); }
+      .text-challenge { color: var(--movefit-challenge); }
+      .border-challenge { border-color: var(--movefit-challenge); }
+      .ring-challenge { --tw-ring-color: var(--movefit-challenge); }
+      .bg-orange { background-color: var(--movefit-orange); }
+      .text-orange { color: var(--movefit-orange); }
+      .border-orange { border-color: var(--movefit-orange); }
+      .ring-orange { --tw-ring-color: var(--movefit-orange); }
+      .bg-teal { background-color: var(--movefit-teal); }
+      .text-teal { color: var(--movefit-teal); }
+      .border-teal { border-color: var(--movefit-teal); }
+      .ring-teal { --tw-ring-color: var(--movefit-teal); }
+      .bg-success { background-color: var(--movefit-state-success); }
+      .text-success { color: var(--movefit-state-success); }
+      .border-success { border-color: var(--movefit-state-success); }
+      .ring-success { --tw-ring-color: var(--movefit-state-success); }
+      .bg-warning { background-color: var(--movefit-state-warning); }
+      .text-warning { color: var(--movefit-state-warning); }
+      .border-warning { border-color: var(--movefit-state-warning); }
+      .ring-warning { --tw-ring-color: var(--movefit-state-warning); }
+      .bg-error { background-color: var(--movefit-state-error); }
+      .text-error { color: var(--movefit-state-error); }
+      .border-error { border-color: var(--movefit-state-error); }
+      .ring-error { --tw-ring-color: var(--movefit-state-error); }
+      .bg-info { background-color: var(--movefit-state-info); }
+      .text-info { color: var(--movefit-state-info); }
+      .border-info { border-color: var(--movefit-state-info); }
+      .ring-info { --tw-ring-color: var(--movefit-state-info); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main class="min-h-screen bg-background pb-28 pt-safe">
+        <!-- Page Header -->
+        <header class="px-5 pt-4 pb-3 flex items-start justify-between">
+            <div>
+                <p class="text-sm text-muted-foreground font-medium" id="home-date">8月16日 星期六</p>
+                <h1 class="text-3xl font-bold text-foreground tracking-tight mt-0.5">MoveFit</h1>
+            </div>
+            <button data-dom-id="home-profile" class="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center active:scale-95 transition-transform card-shadow" aria-label="个人资料">
+                <i data-lucide="user-circle" class="w-6 h-6 text-primary"></i>
+            </button>
+        </header>
+
+        <div class="px-5 flex flex-col gap-4">
+            <!-- Apple Health Connection Status -->
+            <div data-dom-id="home-health-status" class="inline-flex items-center gap-2 self-start bg-card border border-border rounded-full pl-2.5 pr-3 py-1.5 card-shadow">
+                <span class="relative flex h-2.5 w-2.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-success"></span>
+                </span>
+                <i data-lucide="activity" class="w-3.5 h-3.5 text-muted-foreground"></i>
+                <span class="text-xs font-medium text-foreground">已连接 Apple 健康</span>
+            </div>
+
+            <!-- Activity Rings Card -->
+            <section class="bg-card rounded-2xl border border-border p-5 card-shadow" data-dom-id="home-activity-card">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold text-foreground">今日活动</h2>
+                    <span class="text-xs text-muted-foreground">三环进度</span>
+                </div>
+                <div class="relative w-52 h-52 mx-auto flex items-center justify-center">
+                    <svg class="w-full h-full -rotate-90" viewBox="0 0 140 140">
+                        <!-- Background tracks -->
+                        <circle cx="70" cy="70" r="58" fill="none" stroke="var(--movefit-move)" stroke-width="12" opacity="0.12"></circle>
+                        <circle cx="70" cy="70" r="44" fill="none" stroke="var(--movefit-exercise)" stroke-width="12" opacity="0.12"></circle>
+                        <circle cx="70" cy="70" r="30" fill="none" stroke="var(--movefit-stand)" stroke-width="12" opacity="0.12"></circle>
+                        <!-- Progress rings -->
+                        <circle cx="70" cy="70" r="58" fill="none" stroke="var(--movefit-move)" stroke-width="12" stroke-linecap="round" stroke-dasharray="364.42" stroke-dashoffset="80.98"></circle>
+                        <circle cx="70" cy="70" r="44" fill="none" stroke="var(--movefit-exercise)" stroke-width="12" stroke-linecap="round" stroke-dasharray="276.46" stroke-dashoffset="199.05"></circle>
+                        <circle cx="70" cy="70" r="30" fill="none" stroke="var(--movefit-stand)" stroke-width="12" stroke-linecap="round" stroke-dasharray="188.5" stroke-dashoffset="47.12"></circle>
+                    </svg>
+                </div>
+                <!-- Legend -->
+                <div class="grid grid-cols-3 gap-3 mt-4">
+                    <div class="flex flex-col items-center text-center">
+                        <span class="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">活动</span>
+                        <div class="flex items-baseline gap-0.5 mt-0.5">
+                            <span class="text-xl font-semibold font-mono-num text-move">450</span>
+                            <span class="text-xs text-muted-foreground">cal</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center text-center">
+                        <span class="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">锻炼</span>
+                        <div class="flex items-baseline gap-0.5 mt-0.5">
+                            <span class="text-xl font-semibold font-mono-num text-exercise">32</span>
+                            <span class="text-xs text-muted-foreground">min</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center text-center">
+                        <span class="text-[10px] font-medium text-muted-foreground uppercase tracking-wide">站立</span>
+                        <div class="flex items-baseline gap-0.5 mt-0.5">
+                            <span class="text-xl font-semibold font-mono-num text-stand">8</span>
+                            <span class="text-xs text-muted-foreground">hrs</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Health Trend Card -->
+            <section class="bg-card rounded-2xl border border-border p-5 card-shadow" data-dom-id="home-trend-card">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold text-foreground">近 7 天步数</h2>
+                    <span class="text-xs text-muted-foreground">日均 8,432</span>
+                </div>
+                <div class="h-40 w-full">
+                    <svg class="w-full h-full" viewBox="0 0 320 120" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="stepGradient" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="var(--movefit-primary)" stop-opacity="0.25"></stop>
+                                <stop offset="100%" stop-color="var(--movefit-primary)" stop-opacity="0"></stop>
+                            </linearGradient>
+                        </defs>
+                        <path d="M0,120 L0,95 L45,95 L45,120 Z M46,120 L46,80 L91,80 L91,120 Z M92,120 L92,65 L137,65 L137,120 Z M138,120 L138,55 L183,55 L183,120 Z M184,120 L184,70 L229,70 L229,120 Z M230,120 L230,45 L275,45 L275,120 Z M276,120 L276,60 L320,60 L320,120 Z" fill="url(#stepGradient)"></path>
+                        <rect x="0" y="95" width="43" height="25" rx="3" fill="var(--movefit-primary)" opacity="0.9"></rect>
+                        <rect x="46" y="80" width="43" height="40" rx="3" fill="var(--movefit-primary)" opacity="0.9"></rect>
+                        <rect x="92" y="65" width="43" height="55" rx="3" fill="var(--movefit-primary)" opacity="0.9"></rect>
+                        <rect x="138" y="55" width="43" height="65" rx="3" fill="var(--movefit-primary)" opacity="0.9"></rect>
+                        <rect x="184" y="70" width="43" height="50" rx="3" fill="var(--movefit-primary)" opacity="0.9"></rect>
+                        <rect x="230" y="45" width="43" height="75" rx="3" fill="var(--movefit-primary)" opacity="0.9"></rect>
+                        <rect x="276" y="60" width="44" height="60" rx="3" fill="var(--movefit-primary)" opacity="0.9"></rect>
+                        <text x="21.5" y="118" text-anchor="middle" fill="white" font-size="8" font-weight="600">一</text>
+                        <text x="67.5" y="118" text-anchor="middle" fill="white" font-size="8" font-weight="600">二</text>
+                        <text x="113.5" y="118" text-anchor="middle" fill="white" font-size="8" font-weight="600">三</text>
+                        <text x="159.5" y="118" text-anchor="middle" fill="white" font-size="8" font-weight="600">四</text>
+                        <text x="205.5" y="118" text-anchor="middle" fill="white" font-size="8" font-weight="600">五</text>
+                        <text x="251.5" y="118" text-anchor="middle" fill="white" font-size="8" font-weight="600">六</text>
+                        <text x="298" y="118" text-anchor="middle" fill="white" font-size="8" font-weight="600">日</text>
+                    </svg>
+                </div>
+            </section>
+
+            <!-- Sleep Gradient Card -->
+            <section class="relative overflow-hidden rounded-2xl p-5 text-white shadow-lg" style="background: linear-gradient(135deg, #5945e0 0%, #7c6ae6 100%);" data-dom-id="home-sleep-card">
+                <div class="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl pointer-events-none"></div>
+                <div class="relative flex items-center justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <i data-lucide="moon" class="w-4 h-4 text-white/90"></i>
+                            <span class="text-sm font-medium text-white/90">睡眠</span>
+                        </div>
+                        <div class="flex items-baseline gap-1 mt-2">
+                            <span class="text-4xl font-bold font-mono-num">82</span>
+                            <span class="text-sm text-white/80">睡眠评分</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-semibold font-mono-num">7<span class="text-base font-medium text-white/80">h</span> 12<span class="text-base font-medium text-white/80">m</span></div>
+                        <div class="text-xs text-white/70 mt-1">睡眠时长</div>
+                    </div>
+                </div>
+                <div class="relative mt-5 pt-4 border-t border-white/15 flex items-center justify-between">
+                    <span class="text-xs text-white/80">睡眠效率</span>
+                    <span class="text-lg font-semibold font-mono-num">88%</span>
+                </div>
+            </section>
+
+            <!-- Health Metrics 2x2 Grid -->
+            <section>
+                <h2 class="text-lg font-semibold text-foreground mb-3">健康指标</h2>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-card rounded-2xl border border-border p-4 card-shadow">
+                        <div class="flex items-center gap-1.5 mb-3">
+                            <div class="w-7 h-7 rounded-lg bg-move/10 flex items-center justify-center">
+                                <i data-lucide="footprints" class="w-4 h-4 text-move"></i>
+                            </div>
+                            <span class="text-xs font-medium text-muted-foreground">步数</span>
+                        </div>
+                        <div class="text-2xl font-semibold font-mono-num text-foreground">6,243</div>
+                        <div class="text-xs text-muted-foreground mt-0.5">目标 10,000</div>
+                    </div>
+                    <div class="bg-card rounded-2xl border border-border p-4 card-shadow">
+                        <div class="flex items-center gap-1.5 mb-3">
+                            <div class="w-7 h-7 rounded-lg bg-exercise/10 flex items-center justify-center">
+                                <i data-lucide="route" class="w-4 h-4 text-exercise"></i>
+                            </div>
+                            <span class="text-xs font-medium text-muted-foreground">距离</span>
+                        </div>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-2xl font-semibold font-mono-num text-foreground">4.2</span>
+                            <span class="text-sm text-muted-foreground">km</span>
+                        </div>
+                        <div class="text-xs text-muted-foreground mt-0.5">今日累计</div>
+                    </div>
+                    <div class="bg-card rounded-2xl border border-border p-4 card-shadow">
+                        <div class="flex items-center gap-1.5 mb-3">
+                            <div class="w-7 h-7 rounded-lg bg-error/10 flex items-center justify-center">
+                                <i data-lucide="heart" class="w-4 h-4 text-error"></i>
+                            </div>
+                            <span class="text-xs font-medium text-muted-foreground">心率</span>
+                        </div>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-2xl font-semibold font-mono-num text-foreground">72</span>
+                            <span class="text-sm text-muted-foreground">bpm</span>
+                        </div>
+                        <div class="text-xs text-muted-foreground mt-0.5">静息 61 bpm</div>
+                    </div>
+                    <div class="bg-card rounded-2xl border border-border p-4 card-shadow">
+                        <div class="flex items-center gap-1.5 mb-3">
+                            <div class="w-7 h-7 rounded-lg bg-orange/10 flex items-center justify-center">
+                                <i data-lucide="activity" class="w-4 h-4 text-orange"></i>
+                            </div>
+                            <span class="text-xs font-medium text-muted-foreground">静息心率</span>
+                        </div>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-2xl font-semibold font-mono-num text-foreground">61</span>
+                            <span class="text-sm text-muted-foreground">bpm</span>
+                        </div>
+                        <div class="text-xs text-muted-foreground mt-0.5">比昨日 -2</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Health Management 2x2 Grid -->
+            <section>
+                <h2 class="text-lg font-semibold text-foreground mb-3">健康管理</h2>
+                <div class="grid grid-cols-2 gap-3">
+                    <button data-dom-id="home-symptom" class="bg-card rounded-2xl border border-border p-4 text-left active:scale-95 transition-transform card-shadow">
+                        <div class="w-9 h-9 rounded-xl bg-warning/10 flex items-center justify-center mb-3">
+                            <i data-lucide="thermometer" class="w-5 h-5 text-warning"></i>
+                        </div>
+                        <div class="text-sm font-semibold text-foreground">症状追踪</div>
+                        <div class="text-xs text-muted-foreground mt-0.5">记录身体状态</div>
+                    </button>
+                    <button data-dom-id="home-medication" class="bg-card rounded-2xl border border-border p-4 text-left active:scale-95 transition-transform card-shadow">
+                        <div class="w-9 h-9 rounded-xl bg-info/10 flex items-center justify-center mb-3">
+                            <i data-lucide="pill" class="w-5 h-5 text-info"></i>
+                        </div>
+                        <div class="text-sm font-semibold text-foreground">用药提醒</div>
+                        <div class="text-xs text-muted-foreground mt-0.5">今日 2 项待服</div>
+                    </button>
+                    <button data-dom-id="home-nutrition" class="bg-card rounded-2xl border border-border p-4 text-left active:scale-95 transition-transform card-shadow">
+                        <div class="w-9 h-9 rounded-xl bg-success/10 flex items-center justify-center mb-3">
+                            <i data-lucide="apple" class="w-5 h-5 text-success"></i>
+                        </div>
+                        <div class="text-sm font-semibold text-foreground">营养管理</div>
+                        <div class="text-xs text-muted-foreground mt-0.5">摄入 1,420 kcal</div>
+                    </button>
+                    <button data-dom-id="home-check" class="bg-card rounded-2xl border border-border p-4 text-left active:scale-95 transition-transform card-shadow">
+                        <div class="w-9 h-9 rounded-xl bg-sleep/10 flex items-center justify-center mb-3">
+                            <i data-lucide="stethoscope" class="w-5 h-5 text-sleep"></i>
+                        </div>
+                        <div class="text-sm font-semibold text-foreground">检查记录</div>
+                        <div class="text-xs text-muted-foreground mt-0.5">最近 3 个月</div>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Quick Start Horizontal Scroll -->
+            <section>
+                <h2 class="text-lg font-semibold text-foreground mb-3">快速开始</h2>
+                <div class="flex gap-3 overflow-x-auto no-scrollbar pb-2 -mx-5 px-5">
+                    <button data-dom-id="home-quick-run" class="snap-start flex-none w-[152px] h-[128px] rounded-2xl p-4 flex flex-col justify-between text-left active:scale-95 transition-transform" style="background: linear-gradient(135deg, #f20540 0%, #ff5270 100%);">
+                        <div class="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center">
+                            <i data-lucide="person-simple-run" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-base font-semibold text-white">跑步</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-white/80"></i>
+                        </div>
+                    </button>
+                    <button data-dom-id="home-quick-walk" class="snap-start flex-none w-[152px] h-[128px] rounded-2xl p-4 flex flex-col justify-between text-left active:scale-95 transition-transform" style="background: linear-gradient(135deg, #21c747 0%, #4fe06e 100%);">
+                        <div class="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center">
+                            <i data-lucide="person-simple-walk" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-base font-semibold text-white">步行</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-white/80"></i>
+                        </div>
+                    </button>
+                    <button data-dom-id="home-quick-cycle" class="snap-start flex-none w-[152px] h-[128px] rounded-2xl p-4 flex flex-col justify-between text-left active:scale-95 transition-transform" style="background: linear-gradient(135deg, #1ea8f2 0%, #5cc3ff 100%);">
+                        <div class="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center">
+                            <i data-lucide="bike" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-base font-semibold text-white">骑行</span>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-white/80"></i>
+                        </div>
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <nav class="fixed bottom-0 w-full z-50 bg-card/80 backdrop-blur-xl pb-safe shadow-[0_-1px_8px_rgba(0,0,0,0.04)] h-14" data-mobile-nav="global">
+  <div class="w-full max-w-md mx-auto grid grid-cols-5 h-full">
+    <a href="#" data-nav-key="home" data-dom-id="nav-home" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-primary font-semibold transition-colors">
+      <i data-lucide="home" class="w-5 h-5 shrink-0"></i>
+      <span class="text-[11px] leading-none whitespace-nowrap max-w-full truncate">首页</span>
+    </a>
+    <a href="#" data-nav-key="challenges" data-dom-id="nav-challenges" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors">
+      <i data-lucide="trophy" class="w-5 h-5 shrink-0"></i>
+      <span class="text-[11px] leading-none whitespace-nowrap max-w-full truncate">挑战</span>
+    </a>
+    <a href="#" data-nav-key="workouts" data-dom-id="nav-workouts" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors">
+      <i data-lucide="dumbbell" class="w-5 h-5 shrink-0"></i>
+      <span class="text-[11px] leading-none whitespace-nowrap max-w-full truncate">运动</span>
+    </a>
+    <a href="#" data-nav-key="history" data-dom-id="nav-history" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors">
+      <i data-lucide="bar-chart-2" class="w-5 h-5 shrink-0"></i>
+      <span class="text-[11px] leading-none whitespace-nowrap max-w-full truncate">历史</span>
+    </a>
+    <a href="#" data-nav-key="profile" data-dom-id="nav-profile" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-muted-foreground transition-colors">
+      <i data-lucide="user" class="w-5 h-5 shrink-0"></i>
+      <span class="text-[11px] leading-none whitespace-nowrap max-w-full truncate">我的</span>
+    </a>
+  </div>
+</nav>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>
