@@ -42,6 +42,22 @@ final class TrainingCatalogAppModelTests: XCTestCase {
     }
 
     @MainActor
+    func testFollowSystemUsesPreferredEnglishForRemoteEmptyCatalog() async {
+        let catalog = RecordingTrainingCatalog(results: [
+            TrainingCatalogResult(plans: [], source: .remote)
+        ])
+        let model = makeModel(catalog: catalog, persistence: nil, preferredSystemLanguage: "en-US")
+
+        await model.load()
+        await waitForCatalogStatus(.empty, in: model)
+
+        let locales = await catalog.locales()
+        XCTAssertEqual(locales, ["en"])
+        XCTAssertEqual(model.trainingCatalogSource, .remote)
+        XCTAssertTrue(model.trainingPlans.isEmpty)
+    }
+
+    @MainActor
     func testRetryReplacesLocalFallbackWithRemoteCatalog() async throws {
         let catalog = RecordingTrainingCatalog(results: [
             TrainingCatalogResult(
@@ -126,7 +142,8 @@ final class TrainingCatalogAppModelTests: XCTestCase {
     private func makeModel(
         catalog: TrainingCatalogProviding,
         persistence: PersistenceController?,
-        authenticationProvider: AuthenticationProviding = UnavailableAuthenticationAdapter()
+        authenticationProvider: AuthenticationProviding = UnavailableAuthenticationAdapter(),
+        preferredSystemLanguage: String = "en-US"
     ) -> AppModel {
         AppModel(
             workoutRepository: DemoWorkoutRepository(),
@@ -134,7 +151,7 @@ final class TrainingCatalogAppModelTests: XCTestCase {
             persistenceController: persistence,
             authenticationProvider: authenticationProvider,
             trainingCatalogProvider: catalog,
-            systemLocale: Locale(identifier: "en-US")
+            preferredSystemLanguage: preferredSystemLanguage
         )
     }
 

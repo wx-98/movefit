@@ -90,7 +90,7 @@ final class AppModel: ObservableObject {
     private let remoteWorkoutProvider: RemoteWorkoutProviding?
     private let clientConfigurationProvider: ClientConfigurationProviding?
     private let trainingCatalogProvider: TrainingCatalogProviding
-    private let systemLocale: Locale
+    private let preferredSystemLanguage: String
     private var trainingCatalogTask: Task<TrainingCatalogResult, Error>?
     private var trainingCatalogRevision = 0
     private let exerciseCatalogProvider: ExerciseCatalogProviding
@@ -123,7 +123,7 @@ final class AppModel: ObservableObject {
         remoteWorkoutProvider: RemoteWorkoutProviding? = nil,
         clientConfigurationProvider: ClientConfigurationProviding? = nil,
         trainingCatalogProvider: TrainingCatalogProviding = BundledTrainingCatalog(),
-        systemLocale: Locale = .current,
+        preferredSystemLanguage: String = Locale.preferredLanguages.first ?? Locale.current.identifier,
         exerciseCatalogProvider: ExerciseCatalogProviding = BundledExerciseCatalog(),
         healthInsightProvider: AIHealthInsightProviding = LocalHealthInsightProvider(),
         personalHealthRecordProvider: PersonalHealthRecordProviding? = nil,
@@ -147,7 +147,7 @@ final class AppModel: ObservableObject {
         self.remoteWorkoutProvider = remoteWorkoutProvider
         self.clientConfigurationProvider = clientConfigurationProvider
         self.trainingCatalogProvider = trainingCatalogProvider
-        self.systemLocale = systemLocale
+        self.preferredSystemLanguage = preferredSystemLanguage
         self.exerciseCatalogProvider = exerciseCatalogProvider
         self.healthInsightProvider = healthInsightProvider
         self.personalHealthRecordProvider = personalHealthRecordProvider ?? persistenceController
@@ -1015,7 +1015,7 @@ final class AppModel: ObservableObject {
     }
 
     var contentLocale: String {
-        if appLanguage == .simplifiedChinese || systemLocale.identifier.hasPrefix("zh") {
+        if appLanguage == .simplifiedChinese || preferredSystemLanguage.hasPrefix("zh") {
             return "zh-Hans"
         }
         return "en"

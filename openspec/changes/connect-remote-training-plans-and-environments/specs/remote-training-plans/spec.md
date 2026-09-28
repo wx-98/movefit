@@ -30,8 +30,12 @@ The iOS app MUST use bundled training plans only when the remote request fails, 
 - **THEN** the cancelled request does not overwrite the newer catalog or display fallback
 
 ### Requirement: Language-aware catalog refresh
-The iOS app MUST load the catalog after restoring language preference and refresh it when the user changes language.
+The iOS app MUST load the catalog after restoring language preference and refresh it when the user changes language. Follow System MUST use the device's first preferred language for the content request, independently of which UI localizations the app bundle provides.
 
 #### Scenario: Language changed
 - **WHEN** the user changes the app language from Simplified Chinese to Follow System on an English-language device
 - **THEN** the next training request uses `locale=en` and replaces the old-language catalog only after that request completes
+
+#### Scenario: English device with Chinese-only app UI
+- **WHEN** English is the device's first preferred language and the app bundle only provides Simplified Chinese UI localization
+- **THEN** Follow System requests `locale=en` and displays a valid empty English catalog as remote empty, rather than retaining Chinese plans or showing bundled fallback
