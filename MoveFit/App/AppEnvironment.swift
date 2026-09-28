@@ -14,9 +14,20 @@ struct AppEnvironment: Equatable {
     }
 
     init(bundle: Bundle = .main) throws {
-        backendBaseURL = try Self.url(for: "MoveFitBackendBaseURL", bundle: bundle)
-        exerciseBaseURL = try Self.url(for: "MoveFitExerciseBaseURL", bundle: bundle)
-        aiBaseURL = try Self.url(for: "MoveFitAIBaseURL", bundle: bundle)
+#if DEBUG
+        let requiresProductionHTTPS = false
+#else
+        let requiresProductionHTTPS = true
+#endif
+        backendBaseURL = try Self.url(
+            for: "MoveFitBackendBaseURL", bundle: bundle, requiresProductionHTTPS: requiresProductionHTTPS
+        )
+        exerciseBaseURL = try Self.url(
+            for: "MoveFitExerciseBaseURL", bundle: bundle, requiresProductionHTTPS: requiresProductionHTTPS
+        )
+        aiBaseURL = try Self.url(
+            for: "MoveFitAIBaseURL", bundle: bundle, requiresProductionHTTPS: requiresProductionHTTPS
+        )
         googleRedirectURI = Self.googleRedirectURI(bundle: bundle)
     }
 
@@ -24,6 +35,7 @@ struct AppEnvironment: Equatable {
         do {
             return try AppEnvironment()
         } catch {
+#if DEBUG
             assertionFailure("后端环境配置无效：\(error.localizedDescription)")
             return AppEnvironment(
                 backendBaseURL: Self.localURL(port: 8000),
@@ -31,10 +43,18 @@ struct AppEnvironment: Equatable {
                 aiBaseURL: Self.localURL(port: 8002),
                 googleRedirectURI: nil
             )
+#else
+            // Release must fail closed rather than silently connecting to a developer loopback service.
+            preconditionFailure("后端环境配置无效：\(error.localizedDescription)")
+#endif
         }
     }
 
-    static func url(for key: String, infoDictionary: [String: Any]) throws -> URL {
+    static func url(
+        for key: String,
+        infoDictionary: [String: Any],
+        requiresProductionHTTPS: Bool = false
+    ) throws -> URL {
         guard let value = infoDictionary[key] as? String,
               !value.isEmpty,
               !value.contains("$("),
@@ -44,11 +64,40 @@ struct AppEnvironment: Equatable {
               url.host != nil else {
             throw AppEnvironmentError.invalidValue(key)
         }
+        if requiresProductionHTTPS {
+            guard scheme == "https", url.user == nil, url.password == nil,
+                  let host = url.host, Self.isProductionDomain(host) else {
+                throw AppEnvironmentError.invalidValue(key)
+            }
+        }
         return url
     }
 
-    private static func url(for key: String, bundle: Bundle) throws -> URL {
-        try url(for: key, infoDictionary: bundle.infoDictionary ?? [:])
+    private static func url(
+        for key: String,
+        bundle: Bundle,
+        requiresProductionHTTPS: Bool
+    ) throws -> URL {
+        try url(
+            for: key,
+            infoDictionary: bundle.infoDictionary ?? [:],
+            requiresProductionHTTPS: requiresProductionHTTPS
+        )
+    }
+
+    private static func isProductionDomain(_ value: String) -> Bool {
+        let host = value.lowercased()
+        let labels = host.split(separator: ".")
+        guard labels.count >= 2,
+              !host.contains(":"),
+              !host.contains("placeholder"),
+              !host.contains("replace-before-release"),
+              !["invalid", "test", "example", "localhost", "local"].contains(String(labels.last ?? "")),
+              !["example.com", "example.org", "example.net"].contains(host),
+              !labels.allSatisfy({ label in label.allSatisfy(\.isNumber) }) else {
+            return false
+        }
+        return true
     }
 
     private static func localURL(port: Int) -> URL {

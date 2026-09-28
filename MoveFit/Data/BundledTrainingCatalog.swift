@@ -1,7 +1,9 @@
 import Foundation
 
 struct BundledTrainingCatalog: TrainingCatalogProviding {
-    func plans() async throws -> [TrainingPlan] { Self.allPlans }
+    func plans(locale: String) async throws -> TrainingCatalogResult {
+        TrainingCatalogResult(plans: Self.allPlans, source: .bundledFallback(reason: .unavailable))
+    }
 
     private static let allPlans: [TrainingPlan] = [
         plan(

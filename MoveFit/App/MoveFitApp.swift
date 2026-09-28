@@ -31,6 +31,7 @@ struct MoveFitApp: App {
         let aiInsightRepository = RemoteAIHealthInsightRepository(
             client: AIHealthInsightAPIClient(baseURL: environment.aiBaseURL, sessionStore: sessionStore)
         )
+        let trainingCatalogProvider = Self.makeTrainingCatalog(client: apiClient)
         _model = StateObject(
             wrappedValue: AppModel(
                 workoutRepository: CoreDataWorkoutRepository(persistenceController: persistenceController),
@@ -43,6 +44,7 @@ struct MoveFitApp: App {
                 remoteProfileProvider: backendRepository,
                 remoteWorkoutProvider: backendRepository,
                 clientConfigurationProvider: backendRepository,
+                trainingCatalogProvider: trainingCatalogProvider,
                 exerciseCatalogProvider: exerciseRepository,
                 healthInsightProvider: aiInsightRepository,
                 remoteFeatures: remoteFeatures
@@ -70,6 +72,18 @@ struct MoveFitApp: App {
 #endif
     }
 
+    private static func makeTrainingCatalog(client: MoveFitAPIClient) -> TrainingCatalogProviding {
+#if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-ui-testing-training-catalog-empty") {
+            return UITestEmptyTrainingCatalog()
+        }
+        if ProcessInfo.processInfo.arguments.contains("-ui-testing-training-catalog-fallback") {
+            return BundledTrainingCatalog()
+        }
+#endif
+        return FallbackTrainingCatalogRepository(remote: RemoteTrainingCatalogRepository(client: client))
+    }
+
     var body: some Scene {
         WindowGroup {
             RootTabView(registrationViewModelFactory: registrationViewModelFactory)
@@ -80,6 +94,14 @@ struct MoveFitApp: App {
         }
     }
 }
+
+#if DEBUG
+private struct UITestEmptyTrainingCatalog: TrainingCatalogProviding {
+    func plans(locale: String) async throws -> TrainingCatalogResult {
+        TrainingCatalogResult(plans: [], source: .remote)
+    }
+}
+#endif
 
 private extension AppAppearance {
     var colorScheme: ColorScheme? {

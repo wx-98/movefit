@@ -194,6 +194,158 @@ final class BackendIntegrationTests: XCTestCase {
         XCTAssertEqual(page.source, .remote)
     }
 
+    func testRemoteTrainingCatalogReadsCursorPagesAndMapsPublishedPlans() async throws {
+        let context = try makeContext()
+        var requestedCursors: [String?] = []
+        URLProtocolStub.handler = { request in
+            XCTAssertEqual(request.url?.path, "/api/v1/training-plans")
+            XCTAssertNil(request.value(forHTTPHeaderField: "Authorization"))
+            let query = request.url.flatMap { URLComponents(url: $0, resolvingAgainstBaseURL: false) }?.queryItems
+            XCTAssertEqual(query?.first(where: { $0.name == "locale" })?.value, "zh-Hans")
+            XCTAssertEqual(query?.first(where: { $0.name == "limit" })?.value, "50")
+            let cursor = query?.first(where: { $0.name == "cursor" })?.value
+            requestedCursors.append(cursor)
+            if cursor == nil {
+                return try Self.response(
+                    for: request,
+                    status: 200,
+                    json: Self.trainingPlanPage(id: "00000000-0000-0000-0000-000000000101", nextCursor: "page-two")
+                )
+            }
+            XCTAssertEqual(cursor, "page-two")
+            return try Self.response(
+                for: request,
+                status: 200,
+                json: Self.trainingPlanPage(id: "00000000-0000-0000-0000-000000000102", nextCursor: nil)
+            )
+        }
+
+        let result = try await RemoteTrainingCatalogRepository(client: context.repository.client).plans(locale: "zh-Hans")
+
+        XCTAssertEqual(requestedCursors.count, 2)
+        XCTAssertEqual(requestedCursors[0], nil)
+        XCTAssertEqual(requestedCursors[1], "page-two")
+        XCTAssertEqual(result.source, .remote)
+        XCTAssertEqual(result.plans.map(\.id), [
+            "00000000-0000-0000-0000-000000000101",
+            "00000000-0000-0000-0000-000000000102"
+        ])
+        XCTAssertEqual(result.plans[0].title, "基础跑步")
+        XCTAssertEqual(result.plans[0].steps.map(\.durationMinutes), [5, 15])
+        XCTAssertEqual(result.plans[0].safetyNotes, ["循序渐进"])
+    }
+
+    func testRemoteTrainingCatalogKeepsValidEmptyPublicationEmpty() async throws {
+        let context = try makeContext()
+        URLProtocolStub.handler = { request in
+            try Self.response(for: request, status: 200, json: #"{"items":[],"next_cursor":null,"has_more":false}"#)
+        }
+
+        let result = try await RemoteTrainingCatalogRepository(client: context.repository.client).plans(locale: "en")
+
+        XCTAssertEqual(result.plans, [])
+        XCTAssertEqual(result.source, .remote)
+    }
+
+    func testRemoteTrainingCatalogRejectsUnknownTypeAndCursorLoop() async throws {
+        let context = try makeContext()
+        URLProtocolStub.handler = { request in
+            let invalid = Self.trainingPlanPage(
+                id: "00000000-0000-0000-0000-000000000101", nextCursor: nil
+            ).replacingOccurrences(of: #""workout_type":"running""#, with: #""workout_type":"unknown""#)
+            return try Self.response(for: request, status: 200, json: invalid)
+        }
+        do {
+            _ = try await RemoteTrainingCatalogRepository(client: context.repository.client).plans(locale: "zh-Hans")
+            XCTFail("未知运动类型必须失败")
+        } catch {
+            XCTAssertEqual(error as? BackendError, .invalidResponse)
+        }
+
+        URLProtocolStub.handler = { request in
+            try Self.response(
+                for: request,
+                status: 200,
+                json: Self.trainingPlanPage(id: "00000000-0000-0000-0000-000000000101", nextCursor: "same")
+            )
+        }
+        do {
+            _ = try await RemoteTrainingCatalogRepository(client: context.repository.client).plans(locale: "zh-Hans")
+            XCTFail("重复 cursor 必须失败")
+        } catch {
+            XCTAssertEqual(error as? BackendError, .invalidResponse)
+        }
+    }
+
+    func testTrainingCatalogFallbackDiscardsPartialRemotePage() async throws {
+        let context = try makeContext()
+        URLProtocolStub.handler = { request in
+            let cursor = request.url.flatMap { URLComponents(url: $0, resolvingAgainstBaseURL: false) }?
+                .queryItems?.first(where: { $0.name == "cursor" })?.value
+            if cursor == nil {
+                return try Self.response(
+                    for: request,
+                    status: 200,
+                    json: Self.trainingPlanPage(id: "00000000-0000-0000-0000-000000000101", nextCursor: "next")
+                )
+            }
+            return try Self.response(for: request, status: 503, json: #"{"code":"temporarily_unavailable"}"#)
+        }
+        let repository = FallbackTrainingCatalogRepository(
+            remote: RemoteTrainingCatalogRepository(client: context.repository.client),
+            fallback: BundledTrainingCatalog()
+        )
+
+        let result = try await repository.plans(locale: "zh-Hans")
+
+        XCTAssertEqual(result.source, .bundledFallback(reason: .unavailable))
+        XCTAssertFalse(result.plans.isEmpty)
+        XCTAssertFalse(result.plans.contains { $0.id == "00000000-0000-0000-0000-000000000101" })
+    }
+
+    func testRemoteTrainingCatalogRejectsWhitespaceStepTitle() async throws {
+        let context = try makeContext()
+        URLProtocolStub.handler = { request in
+            let invalid = Self.trainingPlanPage(
+                id: "00000000-0000-0000-0000-000000000101", nextCursor: nil
+            ).replacingOccurrences(of: #""title":"热身""#, with: #""title":"   ""#)
+            return try Self.response(for: request, status: 200, json: invalid)
+        }
+
+        do {
+            _ = try await RemoteTrainingCatalogRepository(client: context.repository.client).plans(locale: "zh-Hans")
+            XCTFail("纯空白步骤标题必须拒绝")
+        } catch {
+            XCTAssertEqual(error as? BackendError, .invalidResponse)
+        }
+    }
+
+    func testRemoteTrainingCatalogRejectsUnboundedStepDurationWithoutOverflow() async throws {
+        let context = try makeContext()
+        URLProtocolStub.handler = { request in
+            let invalid = Self.trainingPlanPage(
+                id: "00000000-0000-0000-0000-000000000101", nextCursor: nil
+            ).replacingOccurrences(
+                of: #""duration_minutes":5"#,
+                with: #""duration_minutes":9223372036854775807"#
+            )
+            return try Self.response(for: request, status: 200, json: invalid)
+        }
+
+        do {
+            _ = try await RemoteTrainingCatalogRepository(client: context.repository.client).plans(locale: "zh-Hans")
+            XCTFail("越界步骤时长必须拒绝")
+        } catch {
+            XCTAssertEqual(error as? BackendError, .invalidResponse)
+        }
+    }
+
+    private static func trainingPlanPage(id: String, nextCursor: String?) -> String {
+        let cursor = nextCursor.map { #""\#($0)""# } ?? "null"
+        let hasMore = nextCursor == nil ? "false" : "true"
+        return #"{"items":[{"training_plan_id":"\#(id)","slug":"run-basics","workout_type":"running","difficulty":"beginner","locale":"zh-Hans","revision":1,"title":"基础跑步","subtitle":"耐力训练","duration_minutes":20,"goal":"完成训练","suitable_for":"初学者","steps":[{"order":1,"title":"热身","detail":"慢走","duration_minutes":5},{"order":2,"title":"跑步","detail":"慢跑","duration_minutes":15}],"safety_notes":["循序渐进"],"published_at":"2026-09-01T00:00:00Z","updated_at":"2026-09-01T00:00:00Z"}],"next_cursor":\#(cursor),"has_more":\#(hasMore)}"#
+    }
+
     func testExerciseCatalogFallsBackToBundledDataWhenRemoteIsOffline() async throws {
         let session = makeURLSession()
         guard let baseURL = URL(string: "http://actions.test") else {

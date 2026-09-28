@@ -47,6 +47,36 @@ final class AppEnvironmentTests: XCTestCase {
         }
     }
 
+    func testProductionURLRequiresPublicHTTPSDomain() throws {
+        XCTAssertEqual(
+            try AppEnvironment.url(
+                for: "MoveFitBackendBaseURL",
+                infoDictionary: ["MoveFitBackendBaseURL": "https://api.movefitgo.com"],
+                requiresProductionHTTPS: true
+            ),
+            URL(string: "https://api.movefitgo.com")
+        )
+        for value in [
+            "https://replace-before-release.invalid",
+            "https://localhost:8000",
+            "https://127.0.0.1:8000",
+            "https://192.168.31.126:8000",
+            "https://10.0.0.8",
+            "https://[::1]",
+            "http://api.movefitgo.com",
+            "https://example.com"
+        ] {
+            XCTAssertThrowsError(
+                try AppEnvironment.url(
+                    for: "MoveFitBackendBaseURL",
+                    infoDictionary: ["MoveFitBackendBaseURL": value],
+                    requiresProductionHTTPS: true
+                ),
+                "Release 不得接受：\(value)"
+            )
+        }
+    }
+
     func testGoogleRedirectURIAcceptsRegisteredCustomScheme() throws {
         let redirect = AppEnvironment.googleRedirectURI(infoDictionary: [
             "MoveFitGoogleRedirectURI": "com.movefit.mobile:/oauth2redirect/google",

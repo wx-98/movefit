@@ -130,7 +130,7 @@ protocol SupportProviding {
 }
 
 protocol TrainingCatalogProviding {
-    func plans() async throws -> [TrainingPlan]
+    func plans(locale: String) async throws -> TrainingCatalogResult
 }
 
 protocol ExerciseCatalogProviding {

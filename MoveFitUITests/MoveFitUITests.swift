@@ -20,6 +20,37 @@ final class MoveFitUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["跑步"].exists)
     }
 
+    func testTrainingCatalogShowsExplicitBundledFallbackAndRetry() {
+        let app = XCUIApplication()
+        app.launchArguments.append("-ui-testing-training-catalog-fallback")
+        app.launch()
+        XCTAssertTrue(waitForLocalDataLoad(in: app))
+        app.tabBars.buttons["运动"].tap()
+
+        let source = app.staticTexts["trainingCatalogSourceLabel"]
+        XCTAssertTrue(source.waitForExistence(timeout: 5))
+        XCTAssertTrue(
+            waitForCatalogSource(source, containing: "本地离线方案"),
+            "Expected bundled fallback source, got: \(source.label)"
+        )
+        XCTAssertTrue(app.buttons["trainingCatalogRetryButton"].exists)
+    }
+
+    func testTrainingCatalogShowsRealEmptyStateWithoutBundledPlans() {
+        let app = XCUIApplication()
+        app.launchArguments.append("-ui-testing-training-catalog-empty")
+        app.launch()
+        XCTAssertTrue(waitForLocalDataLoad(in: app))
+        app.tabBars.buttons["运动"].tap()
+
+        XCTAssertTrue(
+            app.staticTexts["暂无已发布训练方案"].waitForExistence(timeout: 5),
+            "Expected an explicit empty published catalog state"
+        )
+        XCTAssertFalse(app.staticTexts["五公里轻松跑"].exists)
+        XCTAssertTrue(app.buttons["trainingCatalogRetryButton"].exists)
+    }
+
     func testManualWorkoutCanBeSavedAndHistoryRefreshes() {
         let app = XCUIApplication()
         app.launch()
@@ -213,6 +244,13 @@ final class MoveFitUITests: XCTestCase {
             predicate: NSPredicate(format: "exists == false"), object: loadingMessage
         )
         return XCTWaiter.wait(for: [finished], timeout: 20) == .completed
+    }
+
+    private func waitForCatalogSource(_ source: XCUIElement, containing value: String) -> Bool {
+        let ready = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "label CONTAINS %@", value), object: source
+        )
+        return XCTWaiter.wait(for: [ready], timeout: 10) == .completed
     }
 
     private func scrollUntilVisible(

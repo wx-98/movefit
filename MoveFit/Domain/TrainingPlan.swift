@@ -28,3 +28,27 @@ struct TrainingPlan: Identifiable, Equatable {
     let safetyNotes: [String]
     let tint: ChallengeTint
 }
+
+struct TrainingCatalogResult: Equatable {
+    let plans: [TrainingPlan]
+    let source: TrainingCatalogSource
+}
+
+enum TrainingCatalogSource: Equatable {
+    case remote
+    case bundledFallback(reason: TrainingCatalogFailure)
+}
+
+enum TrainingCatalogFailure: Equatable {
+    case unavailable
+    case incompatibleResponse
+}
+
+enum TrainingCatalogStatus: Equatable {
+    case notLoaded
+    case loading
+    case available
+    case empty
+    case bundledFallback
+    case failed
+}

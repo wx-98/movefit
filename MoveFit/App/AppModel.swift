@@ -23,6 +23,8 @@ final class AppModel: ObservableObject {
     @Published private(set) var accountSession: AccountSession?
     @Published private(set) var hidesSensitiveMetrics = false
     @Published private(set) var trainingPlans: [TrainingPlan] = []
+    @Published private(set) var trainingCatalogSource: TrainingCatalogSource?
+    @Published private(set) var trainingCatalogStatus = TrainingCatalogStatus.notLoaded
     @Published private(set) var exercises: [Exercise] = []
     @Published private(set) var exerciseCatalogStatus = ExerciseCatalogStatus.loading
     @Published private(set) var exerciseCatalogMessage: String?
@@ -88,6 +90,9 @@ final class AppModel: ObservableObject {
     private let remoteWorkoutProvider: RemoteWorkoutProviding?
     private let clientConfigurationProvider: ClientConfigurationProviding?
     private let trainingCatalogProvider: TrainingCatalogProviding
+    private let systemLocale: Locale
+    private var trainingCatalogTask: Task<TrainingCatalogResult, Error>?
+    private var trainingCatalogRevision = 0
     private let exerciseCatalogProvider: ExerciseCatalogProviding
     private let healthInsightProvider: AIHealthInsightProviding
     private let personalHealthRecordProvider: PersonalHealthRecordProviding?
@@ -118,6 +123,7 @@ final class AppModel: ObservableObject {
         remoteWorkoutProvider: RemoteWorkoutProviding? = nil,
         clientConfigurationProvider: ClientConfigurationProviding? = nil,
         trainingCatalogProvider: TrainingCatalogProviding = BundledTrainingCatalog(),
+        systemLocale: Locale = .current,
         exerciseCatalogProvider: ExerciseCatalogProviding = BundledExerciseCatalog(),
         healthInsightProvider: AIHealthInsightProviding = LocalHealthInsightProvider(),
         personalHealthRecordProvider: PersonalHealthRecordProviding? = nil,
@@ -141,6 +147,7 @@ final class AppModel: ObservableObject {
         self.remoteWorkoutProvider = remoteWorkoutProvider
         self.clientConfigurationProvider = clientConfigurationProvider
         self.trainingCatalogProvider = trainingCatalogProvider
+        self.systemLocale = systemLocale
         self.exerciseCatalogProvider = exerciseCatalogProvider
         self.healthInsightProvider = healthInsightProvider
         self.personalHealthRecordProvider = personalHealthRecordProvider ?? persistenceController
@@ -155,7 +162,6 @@ final class AppModel: ObservableObject {
         defer { isLoading = false }
         do {
             localWorkouts = try await loadWorkoutsUseCase.execute()
-            trainingPlans = try await trainingCatalogProvider.plans()
             mergeWorkouts()
             if let persistenceController {
                 if let storedProfile = try await persistenceController.loadProfile() {
@@ -179,6 +185,7 @@ final class AppModel: ObservableObject {
                     appLanguage = storedLanguage
                 }
             }
+            Task { await reloadTrainingPlans() }
             personalHealthRecords = try await personalHealthRecordProvider?.personalHealthRecords() ?? []
             updateDerivedData()
             accountSession = try await authenticationProvider.restoreSession()
@@ -223,6 +230,51 @@ final class AppModel: ObservableObject {
             canLoadMoreExercises = false
             exerciseCatalogStatus = .failed
             exerciseCatalogMessage = error.localizedDescription
+        }
+    }
+
+    func reloadTrainingPlans() async {
+        trainingCatalogTask?.cancel()
+        trainingCatalogRevision += 1
+        let revision = trainingCatalogRevision
+        let locale = contentLocale
+        let previousStatus = trainingCatalogStatus
+        trainingCatalogStatus = .loading
+        let task = Task { try await trainingCatalogProvider.plans(locale: locale) }
+        trainingCatalogTask = task
+        defer {
+            if revision == trainingCatalogRevision { trainingCatalogTask = nil }
+        }
+        do {
+            let result = try await withTaskCancellationHandler(
+                operation: { try await task.value },
+                onCancel: { task.cancel() }
+            )
+            guard revision == trainingCatalogRevision else { return }
+            if Task.isCancelled {
+                trainingCatalogStatus = previousStatus
+                return
+            }
+            trainingPlans = result.plans
+            trainingCatalogSource = result.source
+            switch result.source {
+            case .remote:
+                trainingCatalogStatus = result.plans.isEmpty ? .empty : .available
+            case .bundledFallback:
+                trainingCatalogStatus = .bundledFallback
+            }
+        } catch is CancellationError {
+            if revision == trainingCatalogRevision { trainingCatalogStatus = previousStatus }
+            return
+        } catch {
+            guard revision == trainingCatalogRevision else { return }
+            if Task.isCancelled {
+                trainingCatalogStatus = previousStatus
+                return
+            }
+            trainingPlans = []
+            trainingCatalogSource = nil
+            trainingCatalogStatus = .failed
         }
     }
 
@@ -529,6 +581,7 @@ final class AppModel: ObservableObject {
                 key: PreferenceKey.language,
                 value: value.rawValue
             )
+            await reloadTrainingPlans()
             await remoteFeatures.refreshPublic(locale: contentLocale)
             if accountSession != nil {
                 await remoteFeatures.refreshPrivate(isAuthenticated: true, locale: contentLocale)
@@ -962,7 +1015,7 @@ final class AppModel: ObservableObject {
     }
 
     var contentLocale: String {
-        if appLanguage == .simplifiedChinese || Locale.current.identifier.hasPrefix("zh") {
+        if appLanguage == .simplifiedChinese || systemLocale.identifier.hasPrefix("zh") {
             return "zh-Hans"
         }
         return "en"

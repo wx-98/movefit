@@ -238,9 +238,9 @@ curl 'http://192.168.31.126:8001/v1/exercises?page=0&page_size=1'
 ### 后端地址配置
 
 - [Configuration/Info.plist](Configuration/Info.plist) 通过 `MoveFitBackendBaseURL`、`MoveFitExerciseBaseURL` 和 `MoveFitAIBaseURL` 读取构建变量。
-- Target `MoveFit` 的 Build Settings 中，Debug 默认分别为 `http://192.168.31.126:8000`、`http://192.168.31.126:8001`，供同一局域网中的模拟器和真机使用。
-- AI 服务 Debug 默认是 `http://192.168.31.126:8002`，供模拟器和同一 Wi-Fi 下的真机访问。Release 默认是不可解析占位地址；打包前必须覆盖三个 `MOVEFIT_*_BASE_URL`。staging 使用 `https://staging-api.movefitgo.com`、`https://staging-exercises.movefitgo.com`、`https://staging-ai.movefitgo.com`；production 使用 `https://api.movefitgo.com`、`https://exercises.movefitgo.com`、`https://ai.movefitgo.com`。
-- 更换开发 Mac 或网络时，更新三个 Debug 变量为当前开发机的局域网 IPv4 或 HTTPS 开发域名；主后端需监听 `0.0.0.0`，并确认防火墙与 ATS 策略。
+- Target `MoveFit` 的 Build Settings 中，Debug 默认分别为 `http://127.0.0.1:8000`、`:8001`、`:8002`，适合本机模拟器；真机需在构建时覆盖为 staging HTTPS 或当前 Mac 的局域网地址。
+- Release 默认分别为 `https://api.movefitgo.com`、`https://exercises.movefitgo.com`、`https://ai.movefitgo.com`，启动时会拒绝占位、明文或本机地址。staging 构建覆盖为对应的 `staging-*` 域名；详见 [接入文档](docs/后端接入与环境配置.md)。构建值不代表线上已经可达。
+- 训练计划优先读取主后端发布目录；请求失败才显示明确标注的本地离线方案，服务端有效空目录不会自动填充内置示例。
 - Google 登录使用系统浏览器和 PKCE S256，不依赖 Google SDK。`MOVEFIT_GOOGLE_CALLBACK_SCHEME` 默认 `com.movefit.mobile`，完整回调 URI 为 `com.movefit.mobile:/oauth2redirect`；它必须同时登记在 iOS URL scheme、Google OAuth 客户端和主后端 redirect allowlist，真机发布前需完成授权/取消/错误回调验收。
 - 微信授权码 Adapter 目前明确返回“需配置”；接入微信开放平台 SDK、App ID、Universal Link 和合规审查后才能真机使用。Provider Secret 只能配置在后端，不能进入 App。
 - 社交绑定/解绑可靠重试要求先部署主后端 `add-social-identity-write-idempotency` change；挑战进度依赖 Challenge worker。客户端用稳定操作 ID 提交受保护写入，只有服务端确认后才显示成功。

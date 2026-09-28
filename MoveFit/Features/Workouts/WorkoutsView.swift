@@ -31,6 +31,7 @@ struct WorkoutsView: View {
                 VStack(alignment: .leading, spacing: AppSpacing.large) {
                     workoutIntro
                     searchField
+                    trainingCatalogState
                     actionCards
                     NavigationLink(destination: ExerciseCatalogView()) {
                         AppCard {
@@ -65,7 +66,22 @@ struct WorkoutsView: View {
                         }
                     }
 
-                    HealthSectionHeader(title: "为你推荐", detail: "本地训练方案", symbol: "sparkles")
+                    HealthSectionHeader(
+                        title: "为你推荐",
+                        detail: trainingCatalogSourceTitle,
+                        symbol: "sparkles"
+                    )
+                    if model.trainingCatalogStatus == .empty {
+                        EmptyStateView(
+                            title: NSLocalizedString("暂无已发布训练方案", comment: "Training catalog empty title"),
+                            message: NSLocalizedString(
+                                "服务端尚未发布当前语言的方案，请稍后重试。",
+                                comment: "Training catalog empty detail"
+                            ),
+                            symbol: "list.bullet.rectangle"
+                        )
+                        .accessibilityIdentifier("trainingCatalogEmptyState")
+                    }
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: AppSpacing.medium) {
                             ForEach(filteredPlans.prefix(6)) { plan in
@@ -108,6 +124,34 @@ struct WorkoutsView: View {
             .navigationTitle("运动")
             .sheet(isPresented: $showingManual) {
                 ManualWorkoutView().environmentObject(model)
+            }
+        }
+    }
+
+    private var trainingCatalogSourceTitle: String {
+        switch model.trainingCatalogStatus {
+        case .available: return NSLocalizedString("服务端已发布", comment: "Remote training catalog source")
+        case .bundledFallback: return NSLocalizedString("本地离线方案", comment: "Bundled training fallback")
+        case .empty: return NSLocalizedString("暂无已发布方案", comment: "Empty remote training catalog")
+        case .loading: return NSLocalizedString("正在加载训练目录", comment: "Training catalog loading")
+        case .failed: return NSLocalizedString("训练目录不可用", comment: "Training catalog failed")
+        case .notLoaded: return NSLocalizedString("等待加载训练目录", comment: "Training catalog pending")
+        }
+    }
+
+    private var trainingCatalogState: some View {
+        HStack(spacing: AppSpacing.small) {
+            Text(trainingCatalogSourceTitle)
+                .font(.footnote)
+                .foregroundColor(.secondary)
+                .accessibilityIdentifier("trainingCatalogSourceLabel")
+            Spacer()
+            if model.trainingCatalogStatus != .loading {
+                Button(NSLocalizedString("重试训练目录", comment: "Retry training catalog")) {
+                    Task { await model.reloadTrainingPlans() }
+                }
+                .font(.footnote)
+                .accessibilityIdentifier("trainingCatalogRetryButton")
             }
         }
     }
