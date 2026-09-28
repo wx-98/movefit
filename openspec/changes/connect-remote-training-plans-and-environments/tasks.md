@@ -17,7 +17,7 @@
 ## 4. Verification
 
 - [x] 4.1 Run all iOS unit/UI tests and inspect the diff for contract, safety, localization and unrelated changes.
-- [ ] 4.2 After backend deployment and reviewed seed data, verify staging training-plan API and physical-device catalog, fallback, retry and language switching; record redacted evidence only.
+- [x] 4.2 After backend deployment and reviewed seed data, verify staging training-plan API and physical-device catalog, fallback, retry and language switching; record redacted evidence only.
 - [ ] 4.3 When production is reachable, verify a Release build uses production HTTPS endpoints and passes the public catalog smoke test; record redacted evidence only.
 
 Verification note (2026-09-27): iOS unit tests 127/127 and UI tests 16/16 passed; Release
@@ -97,3 +97,18 @@ passed on the iPhone 17 Pro simulator; one UI run aborted when HealthKit crashed
 while formatting a statistics-query predicate date (SIGSEGV inside Foundation `_NSPredicateUtilities`),
 which did not reproduce on rerun or in any prior full suite. The physical English-device
 re-acceptance required by task 4.2 is still pending.
+
+Verification note (2026-09-28, physical-device locale acceptance): on the selected English-primary
+iPhone 17 Pro with the App preference at Follow System, a Debug QA build (Sign in with Apple
+entitlement omitted for personal-team provisioning, HealthKit retained) routed the main backend
+through a local logging reverse proxy in front of staging and reached the exercises and AI
+staging hosts directly. The device sent `GET /api/v1/training-plans?locale=en` (HTTP 200, the
+valid empty English page) and requested challenges, articles and help articles with `locale=en`;
+the eight published Chinese plans were not requested. After the on-device App language preference
+was switched to Simplified Chinese and the app relaunched, the same build sent `locale=zh-Hans`
+for all public content; restoring Follow System resumed `locale=en`. Evidence is request-line
+logs only; no tokens, request/response bodies or screenshots were recorded. Incidental finding:
+staging `GET /api/v1/client-config?platform=ios&app_version=1.0` returned HTTP 422 (the app
+degrades without blocking); the backend should confirm the expected parameter set. Combined with
+the earlier catalog, fallback, retry and visual language-toggle evidence above, task 4.2 is
+complete; task 4.3 remains open pending the production release of the training-plan image.
