@@ -8,6 +8,7 @@ struct SupportTicketComposerView: View {
     }
 
     @EnvironmentObject private var remote: RemoteFeatureViewModel
+    @EnvironmentObject private var model: AppModel
     @State private var category = "technical"
     @State private var subject = ""
     @State private var messageBody = ""
@@ -28,7 +29,7 @@ struct SupportTicketComposerView: View {
             Section("问题类型") {
                 Picker("分类", selection: $category) {
                     ForEach(categories, id: \.code) { item in
-                        Text(item.title).tag(item.code)
+                        Text(model.localizer.text(item.title)).tag(item.code)
                     }
                 }
                 .disabled(retrySubmission != nil)
@@ -92,7 +93,7 @@ struct SupportTicketComposerView: View {
             showCreatedTicket = true
         } else {
             retrySubmission = submission
-            message = "服务端未确认工单提交，请检查网络后用原操作重试。"
+            message = model.localizer.text("服务端未确认工单提交，请检查网络后用原操作重试。")
         }
     }
 }

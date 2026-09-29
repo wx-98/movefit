@@ -36,7 +36,7 @@ struct AppEnvironment: Equatable {
             return try AppEnvironment()
         } catch {
 #if DEBUG
-            assertionFailure("后端环境配置无效：\(error.localizedDescription)")
+            assertionFailure("Invalid backend environment configuration: \(error.localizedDescription)")
             return AppEnvironment(
                 backendBaseURL: Self.localURL(port: 8000),
                 exerciseBaseURL: Self.localURL(port: 8001),
@@ -45,7 +45,7 @@ struct AppEnvironment: Equatable {
             )
 #else
             // Release must fail closed rather than silently connecting to a developer loopback service.
-            preconditionFailure("后端环境配置无效：\(error.localizedDescription)")
+            preconditionFailure("Invalid backend environment configuration: \(error.localizedDescription)")
 #endif
         }
     }
@@ -134,7 +134,7 @@ enum AppEnvironmentError: LocalizedError, Equatable {
 
     var errorDescription: String? {
         switch self {
-        case let .invalidValue(key): return "配置项 \(key) 缺失或不是有效的 HTTP(S) 地址。"
+        case let .invalidValue(key): return "Invalid value for \(key): expected a valid HTTP(S) address."
         }
     }
 }

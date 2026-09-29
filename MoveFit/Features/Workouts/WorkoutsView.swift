@@ -112,7 +112,7 @@ struct WorkoutsView: View {
                                         .background(AppColor.tint(plan.tint))
                                         .clipShape(RoundedRectangle(cornerRadius: AppRadius.small))
                                     VStack(alignment: .leading, spacing: AppSpacing.tiny) {
-                                        Text(plan.title).font(.headline)
+                                        Text(model.localizer.text(plan.title)).font(.headline)
                                         Text(model.localizer.formatted(
                                             "workouts.plan.duration.difficulty.format",
                                             plan.durationMinutes,
@@ -271,8 +271,8 @@ struct WorkoutsView: View {
                     .clipShape(Capsule())
             }
             Spacer()
-            Text(plan.title).font(.title2.bold())
-            Text(plan.subtitle).font(.footnote).lineLimit(2).opacity(0.86)
+            Text(model.localizer.text(plan.title)).font(.title2.bold())
+            Text(model.localizer.text(plan.subtitle)).font(.footnote).lineLimit(2).opacity(0.86)
             Label(model.localizer.minutes(plan.durationMinutes), systemImage: "clock.fill")
                 .font(.caption.bold())
         }

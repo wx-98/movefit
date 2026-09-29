@@ -13,6 +13,16 @@ PRESENTATION_ROOTS = (ROOT / "MoveFit" / "Features", ROOT / "MoveFit" / "App")
 STRINGS_FILE = ROOT / "MoveFit" / "Resources" / "en.lproj" / "Localizable.strings"
 LITERAL = re.compile(r'"(?:[^"\\]|\\.)*"')
 HAN = re.compile(r"[\u3400-\u9fff]")
+# SwiftUI 会把 LocalizedStringKey 中的 \(...) 插值编译成 %@/%lld 等格式符
+# 参与查表；两侧统一归一化到占位符后再比较，避免把合法的模式键误报为缺口。
+INTERPOLATION = re.compile(r"\\\((?:[^()\\]|\\.|\([^()]*\))*\)")
+FORMAT_SPECIFIER = re.compile(r"%(?:\d+\$)?[@a-z]+(?:lld|ld|d|@|f)?")
+PLACEHOLDER = "\u2442"
+
+
+def normalize(value: str) -> str:
+    normalized = INTERPOLATION.sub(PLACEHOLDER, value)
+    return FORMAT_SPECIFIER.sub(PLACEHOLDER, normalized)
 
 
 def english_keys() -> set[str]:
@@ -22,7 +32,7 @@ def english_keys() -> set[str]:
         capture_output=True,
         text=True,
     )
-    return set(json.loads(converted.stdout))
+    return {normalize(key) for key in json.loads(converted.stdout)}
 
 
 def missing_literals() -> list[tuple[str, int, str]]:
@@ -33,7 +43,7 @@ def missing_literals() -> list[tuple[str, int, str]]:
             for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
                 for match in LITERAL.finditer(line):
                     value = match.group()[1:-1]
-                    if HAN.search(value) and value not in keys:
+                    if HAN.search(value) and normalize(value) not in keys:
                         missing.append((str(path.relative_to(ROOT)), line_number, value))
     return missing
 

@@ -15,7 +15,7 @@ struct ChallengeDetailView: View {
                     hero(challenge)
                     AppCard {
                         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-                            Text("挑战规则").font(.headline)
+                            Text(model.localizer.text("挑战规则")).font(.headline)
                             ForEach(Array(challenge.rules.enumerated()), id: \.offset) { index, rule in
                                 HStack(alignment: .top, spacing: AppSpacing.small) {
                                     Text("\(index + 1)")
@@ -24,7 +24,7 @@ struct ChallengeDetailView: View {
                                         .frame(width: 24, height: 24)
                                         .background(AppColor.tint(challenge.tint))
                                         .clipShape(Circle())
-                                    Text(rule).font(.subheadline)
+                                    Text(model.localizer.text(rule)).font(.subheadline)
                                 }
                             }
                         }
@@ -32,9 +32,9 @@ struct ChallengeDetailView: View {
                     AppCard {
                         VStack(alignment: .leading, spacing: AppSpacing.small) {
                             Text("数据来源").font(.headline)
-                            Label(challenge.dataSource, systemImage: "heart.text.square.fill")
+                            Label(model.localizer.text(challenge.dataSource), systemImage: "heart.text.square.fill")
                                 .foregroundColor(.secondary)
-                            Text("MoveFit 只使用本机已授权且可读取的数据计算进度；没有数据时不会推断为零，也不会补充演示值。")
+                            Text(model.localizer.text("MoveFit 只使用本机已授权且可读取的数据计算进度；没有数据时不会推断为零，也不会补充演示值。"))
                                 .font(.footnote)
                                 .foregroundColor(.secondary)
                         }
@@ -46,7 +46,7 @@ struct ChallengeDetailView: View {
                                 : await model.join(challengeID: challenge.id)
                         }
                     } label: {
-                        Text(challenge.isJoined ? "退出挑战" : "加入挑战")
+                        Text(model.localizer.text(challenge.isJoined ? "退出挑战" : "加入挑战"))
                             .font(.headline)
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -57,11 +57,15 @@ struct ChallengeDetailView: View {
                 }
                 .padding()
             } else {
-                EmptyStateView(title: "挑战不存在", message: "该挑战可能已经下线。", symbol: "trophy")
+                EmptyStateView(
+                    title: model.localizer.text("挑战不存在"),
+                    message: model.localizer.text("该挑战可能已经下线。"),
+                    symbol: "trophy"
+                )
             }
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .navigationTitle(challenge?.title ?? "挑战详情")
+        .navigationTitle(challenge?.title ?? model.localizer.text("挑战详情"))
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -71,7 +75,7 @@ struct ChallengeDetailView: View {
         return GradientCard(colors: [color, color.opacity(0.65)]) {
             VStack(spacing: AppSpacing.medium) {
                 Image(systemName: challenge.symbol).font(.system(size: 44))
-                Text(challenge.title).font(.title.bold())
+                Text(model.localizer.text(challenge.title)).font(.title.bold())
                 ZStack {
                     Circle().stroke(Color.white.opacity(0.22), lineWidth: 13)
                     Circle()
@@ -80,11 +84,11 @@ struct ChallengeDetailView: View {
                         .rotationEffect(.degrees(-90))
                     VStack {
                         Text("\(Int(ratio * 100))%").font(.title.bold())
-                        Text(challenge.progress == nil ? "暂无数据" : "已完成").font(.caption)
+                        Text(model.localizer.text(challenge.progress == nil ? "暂无数据" : "已完成")).font(.caption)
                     }
                 }
                 .frame(width: 138, height: 138)
-                Text("\(AppFormat.decimal(challenge.progress)) / \(AppFormat.decimal(challenge.goal)) \(challenge.unit)")
+                Text("\(AppFormat.decimal(challenge.progress)) / \(AppFormat.decimal(challenge.goal)) \(model.localizer.text(challenge.unit))")
                     .font(.subheadline.bold())
             }
             .foregroundColor(.white)

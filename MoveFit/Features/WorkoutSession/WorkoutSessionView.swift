@@ -12,7 +12,7 @@ struct WorkoutSessionView: View {
             Image(systemName: type.symbol)
                 .font(.system(size: 64))
                 .foregroundColor(AppColor.primary)
-            Text(type.rawValue).font(.largeTitle.bold())
+            Text(model.localizer.text(type.rawValue)).font(.largeTitle.bold())
             Text(timeText)
                 .font(.system(size: 52, weight: .semibold, design: .rounded))
                 .monospacedDigit()
@@ -56,9 +56,9 @@ struct WorkoutSessionView: View {
     private var locationMessage: String {
         switch model.locationAuthorizationStatus {
         case .denied, .restricted:
-            return "定位权限不可用，本次仍会保存真实运动时长，但不会生成路线与距离。"
+            return model.localizer.text("定位权限不可用，本次仍会保存真实运动时长，但不会生成路线与距离。")
         default:
-            return "户外运动会在获得使用期间定位权限后记录真实路线与距离。"
+            return model.localizer.text("户外运动会在获得使用期间定位权限后记录真实路线与距离。")
         }
     }
 

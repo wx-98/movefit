@@ -22,18 +22,22 @@ struct ChallengesView: View {
                     }
 
                     VStack(alignment: .leading, spacing: AppSpacing.small) {
-                        HealthSectionHeader(title: "本机挑战目录", detail: "\(filteredChallenges.count)/\(model.challenges.count) 项", symbol: "square.grid.2x2.fill")
-                        Picker("运动类别", selection: $selectedCategory) {
-                            Text("全部类别").tag(ChallengeCategory?.none)
+                        HealthSectionHeader(
+                            title: model.localizer.text("本机挑战目录"),
+                            detail: model.localizer.formatted("challenges.local.count.format", filteredChallenges.count, model.challenges.count),
+                            symbol: "square.grid.2x2.fill"
+                        )
+                        Picker(model.localizer.text("运动类别"), selection: $selectedCategory) {
+                            Text(model.localizer.text("全部类别")).tag(ChallengeCategory?.none)
                             ForEach(ChallengeCategory.allCases) { category in
                                 Label(category.rawValue, systemImage: category.symbol).tag(Optional(category))
                             }
                         }
                         .pickerStyle(.menu)
-                        Picker("挑战等级", selection: $selectedDifficulty) {
-                            Text("全部等级").tag(ChallengeDifficulty?.none)
+                        Picker(model.localizer.text("挑战等级"), selection: $selectedDifficulty) {
+                            Text(model.localizer.text("全部等级")).tag(ChallengeDifficulty?.none)
                             ForEach(ChallengeDifficulty.allCases) { difficulty in
-                                Text(difficulty.rawValue).tag(Optional(difficulty))
+                                Text(model.localizer.text(difficulty.rawValue)).tag(Optional(difficulty))
                             }
                         }
                         .pickerStyle(.segmented)
@@ -52,8 +56,8 @@ struct ChallengesView: View {
                     }
 
                     HealthSectionHeader(
-                        title: "我的徽章",
-                        detail: "\(model.badges.filter(\.isUnlocked).count)/\(model.badges.count) 已解锁",
+                        title: model.localizer.text("我的徽章"),
+                        detail: model.localizer.formatted("challenges.badges.unlocked.format", model.badges.filter(\.isUnlocked).count, model.badges.count),
                         symbol: "medal.fill"
                     )
                     AppCard {
@@ -72,7 +76,7 @@ struct ChallengesView: View {
                                             .font(.title2)
                                             .foregroundColor(badge.isUnlocked ? AppColor.challenge : .secondary)
                                     }
-                                    Text(badge.title)
+                                    Text(model.localizer.text(badge.title))
                                         .font(.caption2)
                                         .multilineTextAlignment(.center)
                                         .lineLimit(2)
@@ -82,15 +86,15 @@ struct ChallengesView: View {
                         }
                     }
 
-                    Text("本机挑战与服务端挑战互不混用；服务端进度由后台计算，排行榜请进入服务端挑战查看。")
+                    Text(model.localizer.text("本机挑战与服务端挑战互不混用；服务端进度由后台计算，排行榜请进入服务端挑战查看。"))
                         .font(.footnote)
                         .foregroundColor(.secondary)
                 }
                 .padding()
             }
             .background(AppColor.pageBackground.ignoresSafeArea())
-            .navigationTitle("挑战")
-            .searchable(text: $query, prompt: "搜索五公里、减脂、骑行或恢复")
+            .navigationTitle(model.localizer.text("挑战"))
+            .searchable(text: $query, prompt: model.localizer.text("搜索五公里、减脂、骑行或恢复"))
             .task {
                 if remote.challengeStatus == .notLoaded {
                     await remote.refreshChallenges(locale: model.contentLocale)
@@ -101,13 +105,13 @@ struct ChallengesView: View {
 
     private var remoteChallenges: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            HealthSectionHeader(title: "服务端挑战", detail: "已发布目录", symbol: "cloud.fill")
+            HealthSectionHeader(title: model.localizer.text("服务端挑战"), detail: model.localizer.text("已发布目录"), symbol: "cloud.fill")
             switch remote.challengeStatus {
             case .loading:
-                ProgressView("正在读取服务端挑战…")
+                ProgressView(model.localizer.text("正在读取服务端挑战…"))
             case .remote, .cached:
                 if remote.challengeStatus == .cached {
-                    Text("当前离线，以下为本次打开应用时读取的服务端数据。")
+                    Text(model.localizer.text("当前离线，以下为本次打开应用时读取的服务端数据。"))
                         .font(.footnote).foregroundColor(.secondary)
                 }
                 ForEach(remote.challenges) { challenge in
@@ -116,9 +120,9 @@ struct ChallengesView: View {
                             VStack(alignment: .leading, spacing: AppSpacing.small) {
                                 Text(challenge.title).font(.headline)
                                 Text(challenge.summary).font(.footnote).foregroundColor(.secondary)
-                                Text("目标 \(AppFormat.decimal(challenge.goalValue)) \(challenge.goalUnit)")
+                                Text(model.localizer.formatted("challenges.remote.goal.format", AppFormat.decimal(challenge.goalValue), challenge.goalUnit))
                                     .font(.caption)
-                                Text("截止 \(challenge.endsAt.formatted(date: .abbreviated, time: .shortened))")
+                                Text(model.localizer.formatted("challenges.remote.deadline.format", challenge.endsAt.formatted(date: .abbreviated, time: .shortened)))
                                     .font(.caption).foregroundColor(.secondary)
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -127,18 +131,18 @@ struct ChallengesView: View {
                     .buttonStyle(.plain)
                 }
                 if remote.canLoadMoreChallenges {
-                    Button("加载更多服务端挑战") {
+                    Button(model.localizer.text("加载更多服务端挑战")) {
                         Task { await remote.loadMoreChallenges(locale: model.contentLocale) }
                     }
                     .disabled(remote.isLoadingMoreChallenges)
                 }
             case .notLoaded:
-                Text("等待服务端挑战目录。")
+                Text(model.localizer.text("等待服务端挑战目录。"))
                     .font(.footnote).foregroundColor(.secondary)
             case .localFallback, .unavailable, .signInRequired:
-                Text("服务端暂无已发布挑战或当前不可用；下方仅为本机挑战，不代表服务器参与状态。")
+                Text(model.localizer.text("服务端暂无已发布挑战或当前不可用；下方仅为本机挑战，不代表服务器参与状态。"))
                     .font(.footnote).foregroundColor(.secondary)
-                Button("重试读取服务端挑战") {
+                Button(model.localizer.text("重试读取服务端挑战")) {
                     Task { await remote.refreshChallenges(locale: model.contentLocale) }
                 }
             }
@@ -156,8 +160,8 @@ struct ChallengesView: View {
                     .background(AppColor.orange.opacity(0.12))
                     .clipShape(Circle())
                 VStack(alignment: .leading, spacing: AppSpacing.tiny) {
-                    Text("坚持让每一步都有意义").font(.headline)
-                    Text("已加入 \(model.challenges.filter(\.isJoined).count) 个挑战 · 已解锁 \(model.badges.filter(\.isUnlocked).count) 枚徽章")
+                    Text(model.localizer.text("坚持让每一步都有意义")).font(.headline)
+                    Text(model.localizer.formatted("challenges.summary.format", model.challenges.filter(\.isJoined).count, model.badges.filter(\.isUnlocked).count))
                         .font(.footnote)
                         .foregroundColor(.secondary)
                 }
@@ -187,10 +191,10 @@ struct ChallengesView: View {
         return GradientCard(colors: [color, color.opacity(0.72), AppColor.challenge]) {
             VStack(alignment: .leading, spacing: AppSpacing.medium) {
                 HStack {
-                    Label("精选挑战", systemImage: "sparkles")
+                    Label(model.localizer.text("精选挑战"), systemImage: "sparkles")
                         .font(.caption.bold())
                     Spacer()
-                    Text(challenge.isJoined ? "进行中" : "可加入")
+                    Text(model.localizer.text(challenge.isJoined ? "进行中" : "可加入"))
                         .font(.caption.bold())
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
@@ -199,9 +203,13 @@ struct ChallengesView: View {
                 }
                 Spacer(minLength: 22)
                 Image(systemName: challenge.symbol).font(.system(size: 40))
-                Text(challenge.title).font(.largeTitle.bold())
-                Text(challenge.detail).font(.subheadline).opacity(0.88)
-                Text("\(challenge.category.rawValue) · \(challenge.difficulty.rawValue)")
+                Text(model.localizer.text(challenge.title)).font(.largeTitle.bold())
+                Text(model.localizer.text(challenge.detail)).font(.subheadline).opacity(0.88)
+                Text(model.localizer.formatted(
+                    "challenges.category.difficulty.format",
+                    model.localizer.text(challenge.category.rawValue),
+                    model.localizer.text(challenge.difficulty.rawValue)
+                ))
                     .font(.caption.bold())
                     .padding(.horizontal, 9)
                     .padding(.vertical, 5)
@@ -212,7 +220,7 @@ struct ChallengesView: View {
                 HStack {
                     Text(progressText(challenge))
                     Spacer()
-                    Text("目标 \(goalText(challenge))")
+                    Text(model.localizer.formatted("challenges.featured.goal.format", goalText(challenge)))
                 }
                 .font(.caption.bold())
             }
@@ -233,17 +241,17 @@ struct ChallengesView: View {
                     .background(color)
                     .clipShape(Circle())
                 Spacer()
-                HealthStatusPill(title: challenge.isJoined ? "已加入" : "可加入", tint: color)
+                HealthStatusPill(title: model.localizer.text(challenge.isJoined ? "已加入" : "可加入"), tint: color)
             }
-            Text(challenge.category.rawValue).font(.caption.bold()).foregroundColor(color)
-            Text(challenge.title).font(.headline).lineLimit(2)
-            Text(challenge.detail)
+            Text(model.localizer.text(challenge.category.rawValue)).font(.caption.bold()).foregroundColor(color)
+            Text(model.localizer.text(challenge.title)).font(.headline).lineLimit(2)
+            Text(model.localizer.text(challenge.detail))
                 .font(.footnote)
                 .foregroundColor(.secondary)
                 .lineLimit(2)
             ProgressView(value: challenge.progress ?? 0, total: challenge.goal).tint(color)
             HStack {
-                Text(challenge.difficulty.rawValue).font(.caption2).foregroundColor(.secondary)
+                Text(model.localizer.text(challenge.difficulty.rawValue)).font(.caption2).foregroundColor(.secondary)
                 Spacer()
                 Text(progressText(challenge)).font(.caption.bold()).foregroundColor(color)
             }
@@ -253,11 +261,11 @@ struct ChallengesView: View {
         }
 
     private func progressText(_ challenge: Challenge) -> String {
-        guard let progress = challenge.progress else { return "暂无可用数据" }
-        return "\(AppFormat.decimal(progress)) \(challenge.unit)"
+        guard let progress = challenge.progress else { return model.localizer.text("暂无可用数据") }
+        return "\(AppFormat.decimal(progress)) \(model.localizer.text(challenge.unit))"
     }
 
     private func goalText(_ challenge: Challenge) -> String {
-        "\(AppFormat.decimal(challenge.goal)) \(challenge.unit)"
+        "\(AppFormat.decimal(challenge.goal)) \(model.localizer.text(challenge.unit))"
     }
 }

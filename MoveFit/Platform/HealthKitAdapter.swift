@@ -55,39 +55,32 @@ final class HealthKitAdapter: HealthDataProviding {
             options: .strictStartDate
         )
 
-        async let stepsValue = cumulativeValue(for: .stepCount, unit: .count(), predicate: predicate)
-        async let distanceValue = cumulativeValue(for: .distanceWalkingRunning, unit: .meter(), predicate: predicate)
-        async let energyValue = cumulativeValue(for: .activeEnergyBurned, unit: .kilocalorie(), predicate: predicate)
-        async let exerciseValue = cumulativeValue(for: .appleExerciseTime, unit: .minute(), predicate: predicate)
-        async let standValue = standHours(predicate: predicate)
-        async let heartRateValue = latestValue(
+        // 顺序执行：并发激活多个 HKStatisticsQuery 曾在 HealthKit 内部的
+        // 谓词格式化路径触发过偶发 SIGSEGV（Apple 框架栈），串行可避开竞争窗口。
+        let stepsValue = try await cumulativeValue(for: .stepCount, unit: .count(), predicate: predicate)
+        let distanceValue = try await cumulativeValue(for: .distanceWalkingRunning, unit: .meter(), predicate: predicate)
+        let energyValue = try await cumulativeValue(for: .activeEnergyBurned, unit: .kilocalorie(), predicate: predicate)
+        let exerciseValue = try await cumulativeValue(for: .appleExerciseTime, unit: .minute(), predicate: predicate)
+        let standValue = try await standHours(predicate: predicate)
+        let heartRateValue = try await latestValue(
             for: .heartRate,
             unit: HKUnit.count().unitDivided(by: .minute()),
             predicate: predicate
         )
-        async let restingHeartRateValue = latestValue(
+        let restingHeartRateValue = try await latestValue(
             for: .restingHeartRate,
             unit: HKUnit.count().unitDivided(by: .minute()),
             predicate: predicate
         )
 
-        let values = try await (
-            stepsValue,
-            distanceValue,
-            energyValue,
-            exerciseValue,
-            standValue,
-            heartRateValue,
-            restingHeartRateValue
-        )
         let summary = HealthSummary(
-            activeEnergy: values.2.map { Measurement(value: $0, unit: .kilocalories) },
-            exerciseMinutes: values.3.map { Int($0.rounded()) },
-            standHours: values.4,
-            steps: values.0.map { Int($0.rounded()) },
-            distance: values.1.map { Measurement(value: $0, unit: .meters) },
-            heartRate: values.5.map { Int($0.rounded()) },
-            restingHeartRate: values.6.map { Int($0.rounded()) }
+            activeEnergy: energyValue.map { Measurement(value: $0, unit: .kilocalories) },
+            exerciseMinutes: exerciseValue.map { Int($0.rounded()) },
+            standHours: standValue,
+            steps: stepsValue.map { Int($0.rounded()) },
+            distance: distanceValue.map { Measurement(value: $0, unit: .meters) },
+            heartRate: heartRateValue.map { Int($0.rounded()) },
+            restingHeartRate: restingHeartRateValue.map { Int($0.rounded()) }
         )
         return summary.hasAnyValue ? summary : nil
     }

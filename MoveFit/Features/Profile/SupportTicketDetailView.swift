@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SupportTicketDetailView: View {
     @EnvironmentObject private var remote: RemoteFeatureViewModel
+    @EnvironmentObject private var model: AppModel
     let ticketID: UUID
 
     @State private var detail: RemoteSupportTicketDetail?
@@ -74,7 +75,7 @@ struct SupportTicketDetailView: View {
             detail = try await remote.ticket(id: ticketID)
         } catch {
             detail = nil
-            message = "无法读取工单，请检查网络后重试。"
+            message = model.localizer.text("无法读取工单，请检查网络后重试。")
         }
     }
 
@@ -92,7 +93,7 @@ struct SupportTicketDetailView: View {
             await load()
         } else {
             pendingReplyBody = replyText
-            message = "服务端未确认回复，请检查网络后用原操作重试。"
+            message = model.localizer.text("服务端未确认回复，请检查网络后用原操作重试。")
         }
     }
 
@@ -101,7 +102,7 @@ struct SupportTicketDetailView: View {
             closeOperationID = UUID()
             await load()
         } else {
-            message = "服务端未确认关闭，请检查网络后用原操作重试。"
+            message = model.localizer.text("服务端未确认关闭，请检查网络后用原操作重试。")
         }
     }
 }

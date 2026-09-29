@@ -2,16 +2,17 @@ import MapKit
 import SwiftUI
 
 struct RouteSummaryView: View {
+    @EnvironmentObject private var model: AppModel
     let workout: WorkoutRecord
 
     var body: some View {
         AppCard {
             VStack(alignment: .leading, spacing: AppSpacing.medium) {
                 HStack {
-                    Label("最近路线", systemImage: "map.fill")
+                    Label(model.localizer.text("最近路线"), systemImage: "map.fill")
                         .font(.headline)
                     Spacer()
-                    Text(workout.type.rawValue)
+                    Text(model.localizer.text(workout.type.rawValue))
                         .foregroundColor(.secondary)
                 }
                 RouteMapView(coordinates: workout.route)

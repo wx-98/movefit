@@ -13,20 +13,28 @@ struct RemoteHelpArticleDetailView: View {
             VStack(alignment: .leading, spacing: AppSpacing.large) {
                 if let article {
                     Text(article.title).font(.largeTitle.bold())
-                    Text("\(article.category) · 更新于 \(article.updatedAt.formatted(date: .abbreviated, time: .omitted))")
+                    Text(model.localizer.formatted(
+                        "articles.updated.format",
+                        article.category,
+                        article.updatedAt.formatted(date: .abbreviated, time: .omitted)
+                    ))
                         .font(.caption).foregroundColor(.secondary)
                     Text(article.bodyMarkdown).font(.body)
                 } else if isLoading {
-                    ProgressView("正在读取帮助文章…")
+                    ProgressView(model.localizer.text("正在读取帮助文章…"))
                 } else {
-                    EmptyStateView(title: "帮助文章暂不可用", message: "请检查网络后重试。", symbol: "questionmark.circle")
-                    Button("重试") { Task { await load() } }
+                    EmptyStateView(
+                        title: model.localizer.text("帮助文章暂不可用"),
+                        message: model.localizer.text("请检查网络后重试。"),
+                        symbol: "questionmark.circle"
+                    )
+                    Button(model.localizer.text("重试")) { Task { await load() } }
                 }
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .navigationTitle("帮助文章")
+        .navigationTitle(model.localizer.text("帮助文章"))
         .navigationBarTitleDisplayMode(.inline)
         .task { await load() }
     }

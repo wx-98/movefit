@@ -9,23 +9,23 @@ struct WellnessView: View {
 
     var body: some View {
         List {
-            Section("今日建议") {
+            Section(model.localizer.text("今日建议")) {
                 if model.wellnessRecommendations.isEmpty {
-                    Label("暂无足够的 Apple 健康数据，请先连接或刷新健康数据。", systemImage: "heart.text.square")
+                    Label(model.localizer.text("暂无足够的 Apple 健康数据，请先连接或刷新健康数据。"), systemImage: "heart.text.square")
                 } else {
                     ForEach(model.wellnessRecommendations, id: \.self) { recommendation in
-                        Label(recommendation.rawValue, systemImage: recommendation.symbol)
+                        Label(model.localizer.text(recommendation.rawValue), systemImage: recommendation.symbol)
                     }
                 }
             }
             if remote.articleStatus == .loading {
-                Section("服务端文章") {
-                    ProgressView("正在读取已发布文章…")
+                Section(model.localizer.text("服务端文章")) {
+                    ProgressView(model.localizer.text("正在读取已发布文章…"))
                 }
             } else if remote.articleStatus == .remote || remote.articleStatus == .cached {
-                Section("服务端已发布内容") {
+                Section(model.localizer.text("服务端已发布内容")) {
                     if remote.articleStatus == .cached {
-                        Text("当前离线，以下为本次打开应用时读取的内容；收藏写入需要联网。")
+                        Text(model.localizer.text("当前离线，以下为本次打开应用时读取的内容；收藏写入需要联网。"))
                             .font(.footnote).foregroundColor(.secondary)
                     }
                     ForEach(remote.articles) { article in
@@ -48,33 +48,33 @@ struct WellnessView: View {
                         }
                     }
                     if remote.canLoadMoreArticles {
-                        Button("加载更多文章") {
+                        Button(model.localizer.text("加载更多文章")) {
                             Task { await remote.loadMoreArticles(locale: model.contentLocale) }
                         }
                     }
                 }
             } else {
-                Section("本机基础内容") {
-                    Text("服务端暂无已发布文章或当前不可用；以下仅为随包内容。")
+                Section(model.localizer.text("本机基础内容")) {
+                    Text(model.localizer.text("服务端暂无已发布文章或当前不可用；以下仅为随包内容。"))
                         .font(.footnote).foregroundColor(.secondary)
                     ForEach(model.articles) { article in
                         VStack(alignment: .leading) {
-                            Text(article.title).font(.headline)
-                            Text(article.summary).font(.caption).foregroundColor(.secondary)
+                            Text(model.localizer.text(article.title)).font(.headline)
+                            Text(model.localizer.text(article.summary)).font(.caption).foregroundColor(.secondary)
                         }
                     }
-                    Button("重试读取服务端文章") {
+                    Button(model.localizer.text("重试读取服务端文章")) {
                         Task { await remote.refreshArticles(locale: model.contentLocale) }
                     }
                 }
             }
             Section {
-                Text("内容仅供健康生活参考，不能替代专业医疗诊断。如有持续不适或异常变化，请咨询合格专业人员。")
+                Text(model.localizer.text("内容仅供健康生活参考，不能替代专业医疗诊断。如有持续不适或异常变化，请咨询合格专业人员。"))
                     .font(.footnote)
                     .foregroundColor(.secondary)
             }
         }
-        .navigationTitle("养护建议")
+        .navigationTitle(model.localizer.text("养护建议"))
         .task {
             if remote.articleStatus == .notLoaded { await remote.refreshArticles(locale: model.contentLocale) }
             if model.accountSession != nil { await remote.refreshFavorites(locale: model.contentLocale) }
@@ -88,7 +88,7 @@ struct WellnessView: View {
 
     private func toggleRemoteFavorite(articleID: UUID) async {
         guard model.accountSession != nil else {
-            message = "请先登录后端账号。"
+            message = model.localizer.text("请先登录后端账号。")
             return
         }
         let isFavorite = remote.favorites.contains { $0.id == articleID }
@@ -106,7 +106,7 @@ struct WellnessView: View {
             favoriteOperations[articleID] = nil
             favoriteTargets[articleID] = nil
         } else {
-            message = "收藏操作未获服务端确认，请检查网络后重试。"
+            message = model.localizer.text("收藏操作未获服务端确认，请检查网络后重试。")
         }
     }
 }

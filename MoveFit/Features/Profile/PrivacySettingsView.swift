@@ -6,41 +6,41 @@ struct PrivacySettingsView: View {
 
     var body: some View {
         Form {
-            Section("Apple 健康") {
-                Text("按功能申请最小读取权限。无样本或未授权时显示暂无数据，不会使用演示健康数值。")
+            Section(model.localizer.text("Apple 健康")) {
+                Text(model.localizer.text("按功能申请最小读取权限。无样本或未授权时显示暂无数据，不会使用演示健康数值。"))
                     .font(.footnote)
                     .foregroundColor(.secondary)
-                Button("连接或刷新 Apple 健康") {
+                Button(model.localizer.text("连接或刷新 Apple 健康")) {
                     Task { await model.connectHealth() }
                 }
             }
-            Section("敏感数据保护") {
+            Section(model.localizer.text("敏感数据保护")) {
                 Toggle(
-                    "在个人页遮挡身体指标",
+                    model.localizer.text("在个人页遮挡身体指标"),
                     isOn: Binding(
                         get: { model.hidesSensitiveMetrics },
                         set: { value in Task { await model.setHidesSensitiveMetrics(value) } }
                     )
                 )
-                Text("账号凭据不写入 UserDefaults；当前版本不保存真实账号令牌，也不会把健康数据上传到服务端。")
+                Text(model.localizer.text("账号凭据不写入 UserDefaults；访问令牌只保存在 Keychain。Apple 健康原始样本不会上传；登录后的资料与 MoveFit 运动记录会同步到服务端。"))
                     .font(.footnote)
                     .foregroundColor(.secondary)
             }
-            Section("本地缓存") {
-                Button("清理可重建缓存", role: .destructive) {
+            Section(model.localizer.text("本地缓存")) {
+                Button(model.localizer.text("清理可重建缓存"), role: .destructive) {
                     confirmsCacheClear = true
                 }
-                Text("只清理离线操作缓存，保留运动记录和健康指标。")
+                Text(model.localizer.text("只清理离线操作缓存，保留运动记录和健康指标。"))
                     .font(.footnote)
                     .foregroundColor(.secondary)
             }
         }
-        .navigationTitle("隐私与缓存")
-        .confirmationDialog("确认清理可重建缓存？", isPresented: $confirmsCacheClear) {
-            Button("确认清理", role: .destructive) {
+        .navigationTitle(model.localizer.text("隐私与缓存"))
+        .confirmationDialog(model.localizer.text("确认清理可重建缓存？"), isPresented: $confirmsCacheClear) {
+            Button(model.localizer.text("确认清理"), role: .destructive) {
                 Task { _ = await model.clearRebuildableCache() }
             }
-            Button("取消", role: .cancel) {}
+            Button(model.localizer.text("取消"), role: .cancel) {}
         }
     }
 }

@@ -6,9 +6,14 @@ The existing Chinese `Localizable.strings` had 92 entries but there was no Engli
 
 Run `python3 scripts/check_english_localization_coverage.py --report` to see the remaining
 presentation literals not represented by an English resource key. The strict invocation
-without `--report` exits unsuccessfully while gaps remain. After adding the English bundle,
-translating the original resource keys, and covering shell/preferences and the Home overview,
-the strict check still reports 551 literal occurrences; this is an open gap, not release approval.
+without `--report` exits unsuccessfully while gaps remain.
+
+**Current baseline (2026-09-29): the strict check reports 0 gaps.** All released presentation
+literals — static labels, runtime messages, formatted values and the bundled training,
+exercise, challenge and wellness fallback content — are registered in `en.lproj` (994 keys,
+parity-checked against `zh-Hans.lproj`). The scanner normalizes `LocalizedStringKey`
+interpolation to SwiftUI's runtime `%@`/`%lld` pattern keys before comparing. Key parity
+still does not verify meaning or visual fit: see the release review paragraph below.
 
 The scanner intentionally reports runtime interpolation and bundled content as well as static
 SwiftUI labels. Static labels need paired `.strings` entries. Runtime messages and formatted
