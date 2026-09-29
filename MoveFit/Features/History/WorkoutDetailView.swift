@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct WorkoutDetailView: View {
+    @EnvironmentObject private var model: AppModel
     let workout: WorkoutRecord
 
     var body: some View {
@@ -9,8 +10,11 @@ struct WorkoutDetailView: View {
                 GradientCard(colors: [sourceColor, sourceColor.opacity(0.62)]) {
                     VStack(spacing: AppSpacing.medium) {
                         Image(systemName: workout.type.symbol).font(.system(size: 48))
-                        Text(workout.type.rawValue).font(.largeTitle.bold())
-                        Text(workout.startedAt.formatted(date: .long, time: .shortened))
+                        Text(model.localizer.text(workout.type.rawValue)).font(.largeTitle.bold())
+                        Text(workout.startedAt.formatted(
+                            .dateTime.year().month().day().hour().minute()
+                                .locale(Locale(identifier: model.contentLocale))
+                        ))
                             .font(.subheadline)
                             .opacity(0.86)
                     }
@@ -20,15 +24,31 @@ struct WorkoutDetailView: View {
 
                 AppCard {
                     VStack(alignment: .leading, spacing: AppSpacing.medium) {
-                        Text("运动指标").font(.headline)
+                        Text(model.localizer.text("运动指标")).font(.headline)
                         HStack {
-                            MetricView(title: "时长", value: AppFormat.duration(workout.duration), detail: "总计")
-                            MetricView(title: "距离", value: AppFormat.distance(workout.distance), detail: "可用时显示")
+                            MetricView(
+                                title: model.localizer.text("时长"),
+                                value: model.localizer.duration(seconds: workout.duration),
+                                detail: model.localizer.text("总计")
+                            )
+                            MetricView(
+                                title: model.localizer.text("距离"),
+                                value: distanceText,
+                                detail: model.localizer.text("可用时显示")
+                            )
                         }
                         Divider()
                         HStack {
-                            MetricView(title: "能量", value: energyText, detail: "活动能量")
-                            MetricView(title: "来源", value: workout.source.rawValue, detail: "数据提供方")
+                            MetricView(
+                                title: model.localizer.text("能量"),
+                                value: energyText,
+                                detail: model.localizer.text("活动能量")
+                            )
+                            MetricView(
+                                title: model.localizer.text("来源"),
+                                value: model.localizer.text(workout.source.rawValue),
+                                detail: model.localizer.text("数据提供方")
+                            )
                         }
                     }
                 }
@@ -38,7 +58,7 @@ struct WorkoutDetailView: View {
                 } else {
                     AppCard {
                         VStack(alignment: .leading, spacing: AppSpacing.small) {
-                            Label("没有可用路线", systemImage: "map")
+                            Label(model.localizer.text("没有可用路线"), systemImage: "map")
                                 .font(.headline)
                             Text(routeMessage).font(.footnote).foregroundColor(.secondary)
                         }
@@ -47,11 +67,13 @@ struct WorkoutDetailView: View {
 
                 AppCard {
                     VStack(alignment: .leading, spacing: AppSpacing.small) {
-                        Text("数据说明").font(.headline)
-                        Text("本记录使用来源 UUID 与来源类型作为稳定标识合并，不依赖标题、距离等展示字段去重。")
+                        Text(model.localizer.text("数据说明")).font(.headline)
+                        Text(model.localizer.text("本记录使用来源 UUID 与来源类型作为稳定标识合并，不依赖标题、距离等展示字段去重。"))
                             .font(.footnote)
                             .foregroundColor(.secondary)
-                        Text("记录 ID：\(workout.id.uuidString)")
+                        Text(model.localizer.formatted(
+                            "history.workout.id.format", workout.id.uuidString
+                        ))
                             .font(.caption2.monospaced())
                             .foregroundColor(.secondary)
                             .textSelection(.enabled)
@@ -61,7 +83,7 @@ struct WorkoutDetailView: View {
             .padding()
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .navigationTitle("运动详情")
+        .navigationTitle(model.localizer.text("运动详情"))
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -71,12 +93,22 @@ struct WorkoutDetailView: View {
 
     private var energyText: String {
         guard let energy = workout.energy?.converted(to: .kilocalories).value else { return "—" }
-        return "\(Int(energy)) 千卡"
+        return model.localizer.formatted("history.kcal.format", Int(energy))
     }
 
     private var routeMessage: String {
         workout.source == .appleHealth
-            ? "Apple 健康训练样本未提供可读取路线，时长、距离和能量仍会正常展示。"
-            : "本次 MoveFit 训练未记录到有效定位点；可能是室内运动、权限未开启或定位质量不足。"
+            ? model.localizer.text("Apple 健康训练样本未提供可读取路线，时长、距离和能量仍会正常展示。")
+            : model.localizer.text("本次 MoveFit 训练未记录到有效定位点；可能是室内运动、权限未开启或定位质量不足。")
+    }
+
+    private var distanceText: String {
+        guard let distance = workout.distance else { return "—" }
+        let kilometers = distance.converted(to: .kilometers).value
+        let value = kilometers.formatted(
+            .number.precision(.fractionLength(1))
+                .locale(Locale(identifier: model.contentLocale))
+        )
+        return model.localizer.formatted("history.distance.format", value)
     }
 }

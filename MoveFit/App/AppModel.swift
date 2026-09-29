@@ -58,9 +58,9 @@ final class AppModel: ObservableObject {
             .compactMap { $0.distance?.converted(to: .kilometers).value }
             .reduce(0, +)
         return [
-            Badge(id: StableID.firstFiveK, title: "首次 5K", symbol: hasFiveKilometerRun ? "star.fill" : "lock.fill", isUnlocked: hasFiveKilometerRun),
-            Badge(id: StableID.sevenActiveDays, title: "累计七天", symbol: activeDays >= 7 ? "flame.fill" : "lock.fill", isUnlocked: activeDays >= 7),
-            Badge(id: StableID.hundredKilometerCycling, title: "百公里骑行", symbol: cyclingKilometers >= 100 ? "bicycle" : "lock.fill", isUnlocked: cyclingKilometers >= 100)
+            Badge(id: StableID.firstFiveK, title: localizer.text("首次 5K"), symbol: hasFiveKilometerRun ? "star.fill" : "lock.fill", isUnlocked: hasFiveKilometerRun),
+            Badge(id: StableID.sevenActiveDays, title: localizer.text("累计七天"), symbol: activeDays >= 7 ? "flame.fill" : "lock.fill", isUnlocked: activeDays >= 7),
+            Badge(id: StableID.hundredKilometerCycling, title: localizer.text("百公里骑行"), symbol: cyclingKilometers >= 100 ? "bicycle" : "lock.fill", isUnlocked: cyclingKilometers >= 100)
         ]
     }
 
@@ -123,7 +123,9 @@ final class AppModel: ObservableObject {
         remoteWorkoutProvider: RemoteWorkoutProviding? = nil,
         clientConfigurationProvider: ClientConfigurationProviding? = nil,
         trainingCatalogProvider: TrainingCatalogProviding = BundledTrainingCatalog(),
-        preferredSystemLanguage: String = Locale.preferredLanguages.first ?? Locale.current.identifier,
+        preferredSystemLanguage: String = Locale.preferredLanguages.first(where: {
+            $0.lowercased().hasPrefix("en") || $0.lowercased().hasPrefix("zh")
+        }) ?? Locale.current.identifier,
         exerciseCatalogProvider: ExerciseCatalogProviding = BundledExerciseCatalog(),
         healthInsightProvider: AIHealthInsightProviding = LocalHealthInsightProvider(),
         personalHealthRecordProvider: PersonalHealthRecordProviding? = nil,
@@ -203,7 +205,7 @@ final class AppModel: ObservableObject {
                 await remoteFeatures.refreshPrivate(isAuthenticated: false, locale: contentLocale)
             }
         } catch {
-            loadError = "本地数据读取失败，请稍后重试。"
+            loadError = localizer.text("本地数据读取失败，请稍后重试。")
             alertMessage = loadError
         }
         await loadHealthData()
@@ -326,11 +328,11 @@ final class AppModel: ObservableObject {
         do {
             electrocardiogramWaveform = try await healthProvider.electrocardiogramWaveform(for: recordID)
             if electrocardiogramWaveform == nil {
-                electrocardiogramWaveformMessage = "这条记录没有可读取的导联 I 波形。请确认 Apple 健康已授权 ECG 读取，且该设备记录支持波形访问。"
+                electrocardiogramWaveformMessage = localizer.text("这条记录没有可读取的导联 I 波形。请确认 Apple 健康已授权 ECG 读取，且该设备记录支持波形访问。")
             }
         } catch {
             electrocardiogramWaveform = nil
-            electrocardiogramWaveformMessage = "无法读取这条心电图波形；请在 Apple 健康中确认该记录可用。"
+            electrocardiogramWaveformMessage = localizer.text("无法读取这条心电图波形；请在 Apple 健康中确认该记录可用。")
             alertMessage = electrocardiogramWaveformMessage
         }
     }
@@ -365,7 +367,7 @@ final class AppModel: ObservableObject {
         guard !normalizedTitle.isEmpty, normalizedTitle.count <= 80,
               detail.count <= 500,
               [primaryValue, secondaryValue, tertiaryValue].allSatisfy({ ($0 ?? 0) >= 0 }) else {
-            alertMessage = "请填写有效名称，并检查数值和备注长度。"
+            alertMessage = localizer.text("请填写有效名称，并检查数值和备注长度。")
             return false
         }
         let record = PersonalHealthRecord(
@@ -384,7 +386,7 @@ final class AppModel: ObservableObject {
             personalHealthRecords.insert(record, at: 0)
             return true
         } catch {
-            alertMessage = "健康管理记录保存失败，请重试。"
+            alertMessage = localizer.text("健康管理记录保存失败，请重试。")
             return false
         }
     }
@@ -408,7 +410,7 @@ final class AppModel: ObservableObject {
             try await personalHealthRecordProvider?.savePersonalHealthRecord(updated)
         } catch {
             personalHealthRecords[index] = previous
-            alertMessage = "用药状态保存失败，请重试。"
+            alertMessage = localizer.text("用药状态保存失败，请重试。")
         }
     }
 
@@ -419,7 +421,7 @@ final class AppModel: ObservableObject {
             try await personalHealthRecordProvider?.deletePersonalHealthRecord(id: id)
         } catch {
             personalHealthRecords.insert(record, at: index)
-            alertMessage = "健康管理记录删除失败，请重试。"
+            alertMessage = localizer.text("健康管理记录删除失败，请重试。")
         }
     }
 
@@ -469,9 +471,11 @@ final class AppModel: ObservableObject {
             exercisePage = nextPage
             canLoadMoreExercises = page.hasMore
         } catch let error as LocalizedError {
-            exerciseCatalogMessage = error.errorDescription ?? "更多动作加载失败。"
+            exerciseCatalogMessage = localizer.text(
+                error.errorDescription ?? "更多动作加载失败。"
+            )
         } catch {
-            exerciseCatalogMessage = "更多动作加载失败。"
+            exerciseCatalogMessage = localizer.text("更多动作加载失败。")
         }
     }
 
@@ -482,8 +486,8 @@ final class AppModel: ObservableObject {
         } catch {
             healthStatus = healthProvider.isAvailable ? .failed : .unavailable
             alertMessage = healthProvider.isAvailable
-                ? "Apple 健康授权未完成，请在系统设置中检查后重试。"
-                : "此设备不支持 Apple 健康。"
+                ? localizer.text("Apple 健康授权未完成，请在系统设置中检查后重试。")
+                : localizer.text("此设备不支持 Apple 健康。")
         }
     }
 
@@ -527,7 +531,7 @@ final class AppModel: ObservableObject {
             try await persistenceController?.saveChallenge(id: challengeID, isJoined: isJoined)
         } catch {
             challenges[index].isJoined = previousValue
-            alertMessage = "挑战状态保存失败，请重试。"
+            alertMessage = localizer.text("挑战状态保存失败，请重试。")
         }
     }
 
@@ -541,7 +545,7 @@ final class AppModel: ObservableObject {
             )
         } catch {
             articles[index].isFavorite.toggle()
-            alertMessage = "收藏状态保存失败，请重试。"
+            alertMessage = localizer.text("收藏状态保存失败，请重试。")
         }
     }
 
@@ -555,7 +559,7 @@ final class AppModel: ObservableObject {
             )
         } catch {
             hidesSensitiveMetrics = previousValue
-            alertMessage = "隐私偏好保存失败，请重试。"
+            alertMessage = localizer.text("隐私偏好保存失败，请重试。")
         }
     }
 
@@ -569,7 +573,7 @@ final class AppModel: ObservableObject {
             )
         } catch {
             appearance = previous
-            alertMessage = "外观偏好保存失败，请重试。"
+            alertMessage = localizer.text("外观偏好保存失败，请重试。")
         }
     }
 
@@ -588,7 +592,7 @@ final class AppModel: ObservableObject {
             }
         } catch {
             appLanguage = previous
-            alertMessage = "语言偏好保存失败，请重试。"
+            alertMessage = localizer.text("语言偏好保存失败，请重试。")
         }
     }
 
@@ -607,7 +611,7 @@ final class AppModel: ObservableObject {
             )
             if accountSession != nil {
                 guard let remoteProfileProvider else {
-                    alertMessage = "当前构建未配置个人资料服务。"
+                    alertMessage = localizer.text("当前构建未配置个人资料服务。")
                     return false
                 }
                 if remoteProfileVersion == nil {
@@ -615,7 +619,7 @@ final class AppModel: ObservableObject {
                     remoteProfileVersion = snapshot.version
                 }
                 guard let version = remoteProfileVersion else {
-                    alertMessage = "无法确认服务端资料版本，请刷新后重试。"
+                    alertMessage = localizer.text("无法确认服务端资料版本，请刷新后重试。")
                     return false
                 }
                 let snapshot = try await remoteProfileProvider.updateProfile(
@@ -629,10 +633,10 @@ final class AppModel: ObservableObject {
             profile = updatedProfile
             return true
         } catch let error as LocalizedError {
-            alertMessage = error.errorDescription ?? "健康指标保存失败。"
+            alertMessage = localizer.text(error.errorDescription ?? "健康指标保存失败。")
             return false
         } catch {
-            alertMessage = "健康指标保存失败，请重试。"
+            alertMessage = localizer.text("健康指标保存失败，请重试。")
             return false
         }
     }
@@ -647,13 +651,13 @@ final class AppModel: ObservableObject {
                 password: password
             )
             await loadRemoteAccountData()
-            alertMessage = "已连接真实服务端账号。"
+            alertMessage = localizer.text("已连接真实服务端账号。")
             return true
         } catch let error as LocalizedError {
-            alertMessage = error.errorDescription ?? "登录失败，请重试。"
+            alertMessage = localizer.text(error.errorDescription ?? "登录失败，请重试。")
             return false
         } catch {
-            alertMessage = "登录失败，请重试。"
+            alertMessage = localizer.text("登录失败，请重试。")
             return false
         }
     }
@@ -661,7 +665,7 @@ final class AppModel: ObservableObject {
     func signInSocial(provider: SocialProvider) async -> Bool {
         guard !accountOperationInProgress else { return false }
         guard let socialIdentityProvider else {
-            alertMessage = NSLocalizedString("社交登录服务尚未配置。", comment: "Social login unavailable")
+            alertMessage = localizer.text("社交登录服务尚未配置。")
             return false
         }
         accountOperationInProgress = true
@@ -690,7 +694,7 @@ final class AppModel: ObservableObject {
             remoteFeatures.clearPrivate()
             accountSession = newSession
             await loadRemoteAccountData()
-            alertMessage = NSLocalizedString("已连接真实服务端账号。", comment: "Social sign-in success")
+            alertMessage = localizer.text("已连接真实服务端账号。")
             return true
         } catch {
             alertMessage = socialActionMessage(for: error)
@@ -700,12 +704,12 @@ final class AppModel: ObservableObject {
 
     func linkSocial(provider: SocialProvider) async -> Bool {
         guard accountSession != nil else {
-            alertMessage = NSLocalizedString("请先登录后端账号。", comment: "Binding requires sign-in")
+            alertMessage = localizer.text("请先登录后端账号。")
             return false
         }
         guard !accountOperationInProgress else { return false }
         guard let socialIdentityProvider else {
-            alertMessage = NSLocalizedString("社交登录服务尚未配置。", comment: "Social binding unavailable")
+            alertMessage = localizer.text("社交登录服务尚未配置。")
             return false
         }
         accountOperationInProgress = true
@@ -743,7 +747,7 @@ final class AppModel: ObservableObject {
             }
             pendingSocialLinks.removeValue(forKey: provider)
             await remoteFeatures.refreshIdentities()
-            alertMessage = NSLocalizedString("账号绑定成功。", comment: "Social binding success")
+            alertMessage = localizer.text("账号绑定成功。")
             return true
         } catch {
             if !shouldRetainSocialAttempt(after: error) {
@@ -756,12 +760,12 @@ final class AppModel: ObservableObject {
 
     func unlinkSocial(provider: SocialProvider) async -> Bool {
         guard accountSession != nil else {
-            alertMessage = NSLocalizedString("请先登录后端账号。", comment: "Unlink requires sign-in")
+            alertMessage = localizer.text("请先登录后端账号。")
             return false
         }
         guard !accountOperationInProgress else { return false }
         guard let socialIdentityProvider else {
-            alertMessage = NSLocalizedString("社交登录服务尚未配置。", comment: "Social unlink unavailable")
+            alertMessage = localizer.text("社交登录服务尚未配置。")
             return false
         }
         accountOperationInProgress = true
@@ -772,7 +776,7 @@ final class AppModel: ObservableObject {
             try await socialIdentityProvider.unlink(provider: provider, operationID: operationID)
             pendingSocialUnlinks.removeValue(forKey: provider)
             await remoteFeatures.refreshIdentities()
-            alertMessage = NSLocalizedString("账号已解绑。", comment: "Social unlink success")
+            alertMessage = localizer.text("账号已解绑。")
             return true
         } catch {
             if !shouldRetainSocialAttempt(after: error) {
@@ -798,13 +802,13 @@ final class AppModel: ObservableObject {
                 password: password,
                 verificationProof: verificationProof
             )
-            alertMessage = "注册成功，请使用新账号登录。"
+            alertMessage = localizer.text("注册成功，请使用新账号登录。")
             return true
         } catch let error as LocalizedError {
-            alertMessage = error.errorDescription ?? "注册失败，请重试。"
+            alertMessage = localizer.text(error.errorDescription ?? "注册失败，请重试。")
             return false
         } catch {
-            alertMessage = "注册失败，请重试。"
+            alertMessage = localizer.text("注册失败，请重试。")
             return false
         }
     }
@@ -824,10 +828,10 @@ final class AppModel: ObservableObject {
     func clearRebuildableCache() async -> Bool {
         do {
             try await persistenceController?.clearRebuildableCache()
-            alertMessage = "可重建缓存已清理，运动记录和个人资料均已保留。"
+            alertMessage = localizer.text("可重建缓存已清理，运动记录和个人资料均已保留。")
             return true
         } catch {
-            alertMessage = "缓存清理失败，请重试。"
+            alertMessage = localizer.text("缓存清理失败，请重试。")
             return false
         }
     }
@@ -881,7 +885,7 @@ final class AppModel: ObservableObject {
 
     func saveManual(type: WorkoutType, durationMinutes: Int, distanceKilometers: Double?) async -> Bool {
         guard durationMinutes > 0 else {
-            alertMessage = "请输入有效的运动时长。"
+            alertMessage = localizer.text("请输入有效的运动时长。")
             return false
         }
         let record = WorkoutRecord(
@@ -901,7 +905,7 @@ final class AppModel: ObservableObject {
             await uploadWorkoutIfPossible(record, source: .manual)
             return true
         } catch {
-            alertMessage = "运动记录保存失败，请重试。"
+            alertMessage = localizer.text("运动记录保存失败，请重试。")
             return false
         }
     }
@@ -929,8 +933,8 @@ final class AppModel: ObservableObject {
             _ = session.send(.saved(id))
             return true
         } catch {
-            _ = session.send(.fail("运动记录保存失败，请重试。"))
-            alertMessage = "运动记录保存失败，请重试。"
+            _ = session.send(.fail(localizer.text("运动记录保存失败，请重试。")))
+            alertMessage = localizer.text("运动记录保存失败，请重试。")
             return false
         }
     }
@@ -1002,9 +1006,11 @@ final class AppModel: ObservableObject {
             let configuration = try await clientConfigurationProvider.configuration(appVersion: version)
             backendConnectionStatus = .connected(revision: configuration.revision)
         } catch let error as LocalizedError {
-            backendConnectionStatus = .unavailable(message: error.errorDescription ?? "主服务不可用。")
+            backendConnectionStatus = .unavailable(
+                message: localizer.text(error.errorDescription ?? "主服务不可用。")
+            )
         } catch {
-            backendConnectionStatus = .unavailable(message: "主服务不可用。")
+            backendConnectionStatus = .unavailable(message: localizer.text("主服务不可用。"))
         }
     }
 
@@ -1015,10 +1021,11 @@ final class AppModel: ObservableObject {
     }
 
     var contentLocale: String {
-        if appLanguage == .simplifiedChinese || preferredSystemLanguage.hasPrefix("zh") {
-            return "zh-Hans"
-        }
-        return "en"
+        appLanguage.resolvedIdentifier(preferredSystemLanguage: preferredSystemLanguage)
+    }
+
+    var localizer: AppLocalizer {
+        AppLocalizer(language: appLanguage, preferredSystemLanguage: preferredSystemLanguage)
     }
 
     private func shouldRetainSocialAttempt(after error: Error) -> Bool {
@@ -1038,49 +1045,49 @@ final class AppModel: ObservableObject {
         if let authorization = error as? SocialAuthorizationError {
             switch authorization {
             case .cancelled:
-                return NSLocalizedString("已取消授权，当前账号未改变。", comment: "Authorization cancelled")
+                return localizer.text("已取消授权，当前账号未改变。")
             case .providerNotConfigured:
-                return NSLocalizedString("微信授权尚未配置 SDK 和 Universal Link。", comment: "WeChat unavailable")
+                return localizer.text("微信授权尚未配置 SDK 和 Universal Link。")
             case .authorizationFailed, .unavailable:
-                return NSLocalizedString("无法完成第三方授权，请稍后重试。", comment: "Provider failure")
+                return localizer.text("无法完成第三方授权，请稍后重试。")
             }
         }
         if let google = error as? GoogleOAuthError {
             switch google {
             case .cancelled:
-                return NSLocalizedString("已取消授权，当前账号未改变。", comment: "Google cancelled")
+                return localizer.text("已取消授权，当前账号未改变。")
             case .notConfigured:
-                return NSLocalizedString("Google 回调地址尚未配置。", comment: "Google redirect unavailable")
+                return localizer.text("Google 回调地址尚未配置。")
             case .invalidCallback, .stateMismatch, .expiredHandoff:
-                return NSLocalizedString("Google 授权已失效，请重新开始。", comment: "Google authorization invalid")
+                return localizer.text("Google 授权已失效，请重新开始。")
             case .unavailable:
-                return NSLocalizedString("无法打开 Google 授权页面。", comment: "Google browser unavailable")
+                return localizer.text("无法打开 Google 授权页面。")
             }
         }
         if let remote = error as? RemoteServiceError {
             switch remote {
             case .networkUnavailable:
-                return NSLocalizedString("服务暂时不可用，请稍后重试。", comment: "Network unavailable")
+                return localizer.text("服务暂时不可用，请稍后重试。")
             case .authenticationRequired:
-                return NSLocalizedString("登录已失效，请重新登录。", comment: "Auth required")
+                return localizer.text("登录已失效，请重新登录。")
             case let .server(_, code, _):
                 switch code {
                 case "social_identity_conflict":
-                    return NSLocalizedString("该身份已绑定其他账号。", comment: "Social identity conflict")
+                    return localizer.text("该身份已绑定其他账号。")
                 case "last_login_identity_required", "last_login_method_required":
-                    return NSLocalizedString("不能解绑最后一种登录方式。", comment: "Last login method")
+                    return localizer.text("不能解绑最后一种登录方式。")
                 case "social_provider_unavailable", "google_provider_unavailable":
-                    return NSLocalizedString("服务端尚未配置该授权方式。", comment: "Provider not configured")
+                    return localizer.text("服务端尚未配置该授权方式。")
                 case "social_idempotency_in_progress":
-                    return NSLocalizedString("请求仍在处理，请稍后重试。", comment: "Idempotency in progress")
+                    return localizer.text("请求仍在处理，请稍后重试。")
                 default:
-                    return NSLocalizedString("授权失败，请重新尝试。", comment: "Social authorization failed")
+                    return localizer.text("授权失败，请重新尝试。")
                 }
             case .invalidRequest, .invalidResponse:
-                return NSLocalizedString("授权失败，请重新尝试。", comment: "Social authorization failed")
+                return localizer.text("授权失败，请重新尝试。")
             }
         }
-        return NSLocalizedString("授权失败，请重新尝试。", comment: "Social authorization failed")
+        return localizer.text("授权失败，请重新尝试。")
     }
 
     private func loadRemoteProfile() async {
@@ -1103,9 +1110,9 @@ final class AppModel: ObservableObject {
                 try? await persistenceController?.save(profile: mergedProfile)
             }
         } catch let error as LocalizedError {
-            alertMessage = error.errorDescription ?? "服务端个人资料加载失败。"
+            alertMessage = localizer.text(error.errorDescription ?? "服务端个人资料加载失败。")
         } catch {
-            alertMessage = "服务端个人资料加载失败。"
+            alertMessage = localizer.text("服务端个人资料加载失败。")
         }
     }
 
@@ -1113,11 +1120,13 @@ final class AppModel: ObservableObject {
         guard let remoteWorkoutProvider else { return }
         do {
             remoteWorkouts = try await remoteWorkoutProvider.workouts()
-            remoteWorkoutMessage = "已合并服务端全部运动记录。"
+            remoteWorkoutMessage = localizer.text("已合并服务端全部运动记录。")
         } catch let error as LocalizedError {
-            remoteWorkoutMessage = error.errorDescription ?? "服务端运动历史未加载。"
+            remoteWorkoutMessage = localizer.text(
+                error.errorDescription ?? "服务端运动历史未加载。"
+            )
         } catch {
-            remoteWorkoutMessage = "服务端运动历史未加载。"
+            remoteWorkoutMessage = localizer.text("服务端运动历史未加载。")
         }
         mergeWorkouts()
         updateDerivedData()
@@ -1127,16 +1136,19 @@ final class AppModel: ObservableObject {
         guard accountSession != nil, let remoteWorkoutProvider else { return }
         do {
             try await remoteWorkoutProvider.upload(workout, source: source, operationID: workout.id)
-            remoteWorkoutMessage = "最近运动已同步到服务端。"
+            remoteWorkoutMessage = localizer.text("最近运动已同步到服务端。")
             await loadRemoteWorkouts()
         } catch let error as BackendError where error == .unsupportedWorkoutType {
-            remoteWorkoutMessage = error.localizedDescription
-            alertMessage = error.localizedDescription
+            remoteWorkoutMessage = localizer.text(error.localizedDescription)
+            alertMessage = remoteWorkoutMessage
         } catch let error as LocalizedError {
-            remoteWorkoutMessage = "本地已保存；服务端同步失败：\(error.errorDescription ?? "未知错误")"
+            remoteWorkoutMessage = localizer.formatted(
+                "workout.sync.partial.failure.format",
+                localizer.text(error.errorDescription ?? "未知错误")
+            )
             alertMessage = remoteWorkoutMessage
         } catch {
-            remoteWorkoutMessage = "本地已保存；服务端同步失败。"
+            remoteWorkoutMessage = localizer.text("本地已保存；服务端同步失败。")
             alertMessage = remoteWorkoutMessage
         }
     }

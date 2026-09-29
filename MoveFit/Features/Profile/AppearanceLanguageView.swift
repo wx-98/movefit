@@ -8,7 +8,8 @@ struct AppearanceLanguageView: View {
             Section("外观") {
                 Picker("显示模式", selection: appearanceBinding) {
                     ForEach(AppAppearance.allCases) { value in
-                        Label(value.rawValue, systemImage: value.symbol).tag(value)
+                        Label(model.localizer.appearanceName(value), systemImage: value.symbol)
+                            .tag(value)
                     }
                 }
                 .pickerStyle(.inline)
@@ -18,10 +19,12 @@ struct AppearanceLanguageView: View {
             }
             Section("语言") {
                 Picker("应用语言", selection: languageBinding) {
-                    ForEach(AppLanguage.allCases) { value in Text(value.rawValue).tag(value) }
+                    ForEach(AppLanguage.allCases) { value in
+                        Text(model.localizer.languageName(value)).tag(value)
+                    }
                 }
                 .pickerStyle(.inline)
-                Text("当前发布包提供简体中文。选择跟随系统时，系统不支持的语言仍回退到简体中文。")
+                Text("当前发布包提供简体中文和英语。选择跟随系统时，其他语言仍回退到简体中文。")
                     .font(.footnote)
                     .foregroundColor(.secondary)
             }

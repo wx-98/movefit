@@ -8,13 +8,17 @@ struct HealthTrendDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: AppSpacing.large) {
-                Picker("指标", selection: $metric) {
-                    ForEach(HealthTrendMetric.allCases) { Text($0.title).tag($0) }
+                Picker(model.localizer.text("指标"), selection: $metric) {
+                    ForEach(HealthTrendMetric.allCases) {
+                        Text(model.localizer.text($0.title)).tag($0)
+                    }
                 }
                 .pickerStyle(.segmented)
 
-                Picker("周期", selection: $period) {
-                    ForEach(HealthTrendPeriod.allCases) { Text($0.title).tag($0) }
+                Picker(model.localizer.text("周期"), selection: $period) {
+                    ForEach(HealthTrendPeriod.allCases) {
+                        Text(model.localizer.text($0.title)).tag($0)
+                    }
                 }
                 .pickerStyle(.segmented)
 
@@ -25,7 +29,7 @@ struct HealthTrendDetailView: View {
             .padding()
         }
         .background(AppColor.pageBackground.ignoresSafeArea())
-        .navigationTitle("健康趋势")
+        .navigationTitle(model.localizer.text("健康趋势"))
         .navigationBarTitleDisplayMode(.inline)
         .task(id: selectionID) { await model.loadTrend(metric: metric, period: period) }
     }
@@ -33,19 +37,23 @@ struct HealthTrendDetailView: View {
     private var summaryCard: some View {
         GradientCard(colors: [metricColor, metricColor.opacity(0.68)]) {
             VStack(alignment: .leading, spacing: AppSpacing.medium) {
-                Text("\(period.title) · \(metric.title)")
+                Text("\(model.localizer.text(period.title)) · \(model.localizer.text(metric.title))")
                     .font(.headline)
                     .foregroundColor(.white.opacity(0.85))
                 HStack(alignment: .firstTextBaseline) {
                     Text(format(model.healthTrend.average))
                         .font(.system(size: 42, weight: .bold, design: .rounded))
-                    Text("日均 \(metric.unit)").font(.caption)
+                    Text(model.localizer.formatted(
+                        "trend.daily.average.format",
+                        model.localizer.text(metric.unit)
+                    ))
+                    .font(.caption)
                 }
                 .foregroundColor(.white)
                 HStack {
-                    summaryItem("总量", value: format(model.healthTrend.total))
-                    summaryItem("有效天数", value: "\(model.healthTrend.availablePoints.count)")
-                    summaryItem("最佳日", value: bestDate)
+                    summaryItem(model.localizer.text("总量"), value: format(model.healthTrend.total))
+                    summaryItem(model.localizer.text("有效天数"), value: "\(model.healthTrend.availablePoints.count)")
+                    summaryItem(model.localizer.text("最佳日"), value: bestDate)
                 }
             }
         }
@@ -54,11 +62,11 @@ struct HealthTrendDetailView: View {
     private var chartCard: some View {
         AppCard {
             VStack(alignment: .leading, spacing: AppSpacing.medium) {
-                Text("每日数据").font(.headline)
+                Text(model.localizer.text("每日数据")).font(.headline)
                 if model.healthTrend.availablePoints.isEmpty {
                     EmptyStateView(
-                        title: "暂无趋势数据",
-                        message: "当前周期没有可读取的 Apple 健康样本。",
+                        title: model.localizer.text("暂无趋势数据"),
+                        message: model.localizer.text("当前周期没有可读取的 Apple 健康样本。"),
                         symbol: "chart.bar"
                     )
                 } else {
@@ -81,8 +89,9 @@ struct HealthTrendDetailView: View {
     private var sourceCard: some View {
         AppCard {
             VStack(alignment: .leading, spacing: AppSpacing.small) {
-                Label("数据来源", systemImage: "heart.text.square.fill").font(.headline)
-                Text("按本地日历边界从 Apple 健康实时聚合。无样本与未授权无法可靠区分，因此统一显示暂无数据。")
+                Label(model.localizer.text("数据来源"), systemImage: "heart.text.square.fill")
+                    .font(.headline)
+                Text(model.localizer.text("按本地日历边界从 Apple 健康实时聚合。无样本与未授权无法可靠区分，因此统一显示暂无数据。"))
                     .font(.footnote)
                     .foregroundColor(.secondary)
             }
@@ -100,12 +109,17 @@ struct HealthTrendDetailView: View {
     private func format(_ value: Double?) -> String {
         guard let value else { return "—" }
         let digits = metric == .distance ? 1 : 0
-        return AppFormat.decimal(value, digits: digits)
+        return value.formatted(
+            .number.precision(.fractionLength(digits))
+                .locale(Locale(identifier: model.contentLocale))
+        )
     }
 
     private var bestDate: String {
         guard let date = model.healthTrend.bestPoint?.date else { return "—" }
-        return date.formatted(.dateTime.month().day())
+        return date.formatted(
+            .dateTime.month().day().locale(Locale(identifier: model.contentLocale))
+        )
     }
 
     private var metricColor: Color {

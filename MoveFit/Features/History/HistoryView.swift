@@ -11,23 +11,32 @@ struct HistoryView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: AppSpacing.large) {
                     historyIntro
-                    Picker("统计周期", selection: $period) {
-                        ForEach(HistoryPeriod.allCases) { Text($0.rawValue).tag($0) }
+                    Picker(model.localizer.text("统计周期"), selection: $period) {
+                        ForEach(HistoryPeriod.allCases) {
+                            Text(model.localizer.text($0.rawValue)).tag($0)
+                        }
                     }
                     .pickerStyle(.segmented)
 
                     GradientCard(colors: [AppColor.stand, AppColor.challenge]) {
                         VStack(alignment: .leading, spacing: AppSpacing.medium) {
                             HStack {
-                                Text("运动汇总").font(.subheadline.bold())
+                                Text(model.localizer.text("运动汇总"))
+                                    .font(.subheadline.bold())
                                 Spacer()
-                                Text(period.rawValue).font(.caption.bold())
+                                Text(model.localizer.text(period.rawValue)).font(.caption.bold())
                             }
-                            Text("\(periodWorkouts.count) 次").font(.largeTitle.bold())
+                            Text(model.localizer.formatted(
+                                "history.workout.count.format", periodWorkouts.count
+                            ))
+                            .font(.largeTitle.bold())
                             HStack {
-                                summaryMetric(title: "时长", value: AppFormat.duration(totalDuration))
-                                summaryMetric(title: "距离", value: AppFormat.distance(totalDistance))
-                                summaryMetric(title: "能量", value: energyText)
+                                summaryMetric(
+                                    title: model.localizer.text("时长"),
+                                    value: model.localizer.duration(seconds: totalDuration)
+                                )
+                                summaryMetric(title: model.localizer.text("距离"), value: distanceText(totalDistance))
+                                summaryMetric(title: model.localizer.text("能量"), value: energyText)
                             }
                         }
                         .foregroundColor(.white)
@@ -36,12 +45,17 @@ struct HistoryView: View {
                     AppCard {
                         VStack(alignment: .leading, spacing: AppSpacing.medium) {
                             HealthSectionHeader(
-                                title: "步数趋势",
-                                detail: comparison.average.map { "日均 \(Int($0).formatted()) 步" } ?? "暂无数据",
+                                title: model.localizer.text("步数趋势"),
+                                detail: comparison.average.map {
+                                    model.localizer.formatted(
+                                        "history.average.steps.format",
+                                        Int($0).formatted(.number.locale(Locale(identifier: model.contentLocale)))
+                                    )
+                                } ?? model.localizer.text("暂无数据"),
                                 symbol: "chart.bar.xaxis"
                             )
                             if model.healthTrend.availablePoints.isEmpty {
-                                Text("授权 Apple 健康且设备有步数样本后显示。")
+                                Text(model.localizer.text("授权 Apple 健康且设备有步数样本后显示。"))
                                     .font(.footnote)
                                     .foregroundColor(.secondary)
                                     .frame(maxWidth: .infinity, minHeight: 90)
@@ -59,7 +73,7 @@ struct HistoryView: View {
                                 HStack(alignment: .top, spacing: AppSpacing.small) {
                                     Image(systemName: "chart.line.uptrend.xyaxis")
                                         .foregroundColor(AppColor.exercise)
-                                    Text(comparison.message)
+                                    Text(model.localizer.text(comparison.message))
                                         .font(.footnote)
                                         .foregroundColor(.secondary)
                                 }
@@ -67,7 +81,7 @@ struct HistoryView: View {
                                 if let bucket = selectedTrendBucket {
                                     selectedBucketDetail(bucket)
                                 } else {
-                                    Text("点击柱体查看对应日期的步数和相对平均值。")
+                                    Text(model.localizer.text("点击柱体查看对应日期的步数和相对平均值。"))
                                         .font(.footnote)
                                         .foregroundColor(.secondary)
                                 }
@@ -80,13 +94,22 @@ struct HistoryView: View {
                     }
 
                     HStack {
-                        HealthSectionHeader(title: "最近运动", detail: nil, symbol: "clock.arrow.circlepath")
-                        NavigationLink("手动添加", destination: ManualWorkoutView().environmentObject(model))
+                        HealthSectionHeader(
+                            title: model.localizer.text("最近运动"),
+                            detail: nil,
+                            symbol: "clock.arrow.circlepath"
+                        )
+                        NavigationLink(
+                            model.localizer.text("手动添加"),
+                            destination: ManualWorkoutView().environmentObject(model)
+                        )
                             .font(.subheadline.weight(.semibold))
                     }
 
-                    Picker("数据来源", selection: $source) {
-                        ForEach(WorkoutSourceFilter.allCases) { Text($0.rawValue).tag($0) }
+                    Picker(model.localizer.text("数据来源"), selection: $source) {
+                        ForEach(WorkoutSourceFilter.allCases) {
+                            Text(model.localizer.text($0.rawValue)).tag($0)
+                        }
                     }
                     .pickerStyle(.segmented)
 
@@ -98,7 +121,7 @@ struct HistoryView: View {
 
                     if filteredWorkouts.isEmpty {
                         EmptyStateView(
-                            title: "暂无运动记录",
+                            title: model.localizer.text("暂无运动记录"),
                             message: emptyMessage,
                             symbol: "figure.walk"
                         )
@@ -117,7 +140,7 @@ struct HistoryView: View {
                 .padding()
             }
             .background(AppColor.pageBackground.ignoresSafeArea())
-            .navigationTitle("历史")
+            .navigationTitle(model.localizer.text("历史"))
             .onChange(of: period) { value in
                 selectedBucketID = nil
                 Task { await model.loadTrend(metric: .steps, period: value.healthTrendPeriod) }
@@ -129,8 +152,9 @@ struct HistoryView: View {
     private var historyIntro: some View {
         HStack(alignment: .lastTextBaseline) {
             VStack(alignment: .leading, spacing: AppSpacing.tiny) {
-                Text("活动记录").font(.largeTitle.bold())
-                Text("回顾每一次真实运动与进步").font(.subheadline).foregroundColor(.secondary)
+                Text(model.localizer.text("活动记录")).font(.largeTitle.bold())
+                Text(model.localizer.text("回顾每一次真实运动与进步"))
+                    .font(.subheadline).foregroundColor(.secondary)
             }
             Spacer()
             Image(systemName: "chart.line.uptrend.xyaxis.circle.fill")
@@ -185,13 +209,13 @@ struct HistoryView: View {
 
     private var energyText: String {
         let value = periodWorkouts.compactMap { $0.energy?.converted(to: .kilocalories).value }.reduce(0, +)
-        return value > 0 ? "\(Int(value)) 千卡" : "—"
+        return value > 0 ? model.localizer.formatted("history.kcal.format", Int(value)) : "—"
     }
 
     private var emptyMessage: String {
         model.healthStatus == .unavailable
-            ? "此设备不支持 Apple 健康；MoveFit 本地运动仍会显示。"
-            : "请授权 Apple 健康读取运动，或开始一次 MoveFit 运动。"
+            ? model.localizer.text("此设备不支持 Apple 健康；MoveFit 本地运动仍会显示。")
+            : model.localizer.text("请授权 Apple 健康读取运动，或开始一次 MoveFit 运动。")
     }
 
     private func summaryMetric(title: String, value: String) -> some View {
@@ -203,15 +227,19 @@ struct HistoryView: View {
     }
 
     private func selectedBucketDetail(_ bucket: HistoryTrendBucket) -> some View {
-        let value = bucket.value.map { "\(Int($0.rounded()).formatted()) 步" } ?? "暂无样本"
+        let value = bucket.value.map {
+            model.localizer.formatted("history.steps.format", Int($0.rounded()))
+        } ?? model.localizer.text("暂无样本")
         let difference = (bucket.value ?? 0) - (comparison.average ?? 0)
         let relativeText: String
         if bucket.value == nil || comparison.average == nil {
-            relativeText = "没有足够数据计算相对平均值。"
+            relativeText = model.localizer.text("没有足够数据计算相对平均值。")
         } else if abs(difference) < max(100, (comparison.average ?? 0) * 0.05) {
-            relativeText = "与当前周期平均水平接近。"
+            relativeText = model.localizer.text("与当前周期平均水平接近。")
         } else {
-            relativeText = difference > 0 ? "高于当前周期平均水平。" : "低于当前周期平均水平。"
+            relativeText = model.localizer.text(
+                difference > 0 ? "高于当前周期平均水平。" : "低于当前周期平均水平。"
+            )
         }
         return VStack(alignment: .leading, spacing: AppSpacing.tiny) {
             Text(bucketDateRange(bucket)).font(.subheadline.bold())
@@ -227,9 +255,13 @@ struct HistoryView: View {
     private func bucketDateRange(_ bucket: HistoryTrendBucket) -> String {
         let end = trendCalendar.date(byAdding: .second, value: -1, to: bucket.endDate) ?? bucket.endDate
         if trendCalendar.isDate(bucket.startDate, inSameDayAs: end) {
-            return bucket.startDate.formatted(.dateTime.year().month().day())
+            return bucket.startDate.formatted(
+                .dateTime.year().month().day().locale(Locale(identifier: model.contentLocale))
+            )
         }
-        return "\(bucket.startDate.formatted(.dateTime.month().day())) – \(end.formatted(.dateTime.month().day()))"
+        let dateStyle = Date.FormatStyle.dateTime.month().day()
+            .locale(Locale(identifier: model.contentLocale))
+        return "\(bucket.startDate.formatted(dateStyle)) – \(end.formatted(dateStyle))"
     }
 
     private func workoutCard(_ workout: WorkoutRecord) -> some View {
@@ -243,24 +275,41 @@ struct HistoryView: View {
                     .clipShape(RoundedRectangle(cornerRadius: AppRadius.small))
                 VStack(alignment: .leading, spacing: AppSpacing.tiny) {
                     HStack {
-                        Text(workout.type.rawValue).font(.headline)
-                        Text(workout.source.rawValue)
+                        Text(model.localizer.text(workout.type.rawValue)).font(.headline)
+                        Text(model.localizer.text(workout.source.rawValue))
                             .font(.caption2.bold())
                             .padding(.horizontal, 6)
                             .padding(.vertical, 3)
                             .background(AppColor.raisedSurface)
                             .clipShape(Capsule())
                     }
-                    Text(workout.startedAt.formatted(date: .abbreviated, time: .shortened))
+                    Text(workout.startedAt.formatted(
+                        .dateTime.year().month().day().hour().minute()
+                            .locale(Locale(identifier: model.contentLocale))
+                    ))
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    Text("\(AppFormat.duration(workout.duration)) · \(AppFormat.distance(workout.distance))")
+                    Text(model.localizer.formatted(
+                        "history.workout.summary.format",
+                        model.localizer.duration(seconds: workout.duration),
+                        distanceText(workout.distance)
+                    ))
                         .font(.caption.bold())
                 }
                 Spacer()
                 Image(systemName: "chevron.right").foregroundColor(.secondary)
             }
         }
+    }
+
+    private func distanceText(_ distance: Measurement<UnitLength>?) -> String {
+        guard let distance else { return "—" }
+        let kilometers = distance.converted(to: .kilometers).value
+        let value = kilometers.formatted(
+            .number.precision(.fractionLength(1))
+                .locale(Locale(identifier: model.contentLocale))
+        )
+        return model.localizer.formatted("history.distance.format", value)
     }
 }
 

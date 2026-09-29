@@ -17,7 +17,7 @@ struct ProfileView: View {
                 .padding()
             }
             .background(AppColor.pageBackground.ignoresSafeArea())
-            .navigationTitle("我的")
+            .navigationTitle(model.localizer.text("我的"))
         }
     }
 
@@ -30,9 +30,13 @@ struct ProfileView: View {
                     .frame(width: 78, height: 78)
                     .clipShape(Circle())
                 VStack(alignment: .leading, spacing: AppSpacing.tiny) {
-                    Text(model.profile?.nickname ?? "MoveFit 用户").font(.title2.bold()).foregroundColor(.primary)
+                    Text(model.profile?.nickname ?? model.localizer.text("MoveFit 用户"))
+                        .font(.title2.bold()).foregroundColor(.primary)
                     Text(accountCaption).font(.footnote).foregroundColor(.secondary)
-                    NavigationLink("编辑健康档案", destination: HealthMetricsFormView().environmentObject(model))
+                    NavigationLink(
+                        model.localizer.text("编辑健康档案"),
+                        destination: HealthMetricsFormView().environmentObject(model)
+                    )
                         .font(.caption.bold()).foregroundColor(AppColor.primary)
                         .padding(.top, AppSpacing.tiny)
                 }
@@ -45,14 +49,18 @@ struct ProfileView: View {
         AppCard {
             VStack(alignment: .leading, spacing: AppSpacing.medium) {
                 HStack {
-                    HealthSectionHeader(title: "身体指标", detail: nil, symbol: "figure.arms.open")
+                    HealthSectionHeader(
+                        title: model.localizer.text("身体指标"),
+                        detail: nil,
+                        symbol: "figure.arms.open"
+                    )
                     Image(systemName: model.hidesSensitiveMetrics ? "eye.slash.fill" : "eye.fill")
                         .foregroundColor(.secondary)
                 }
                 HStack {
-                    MetricView(title: "体重", value: protectedWeight, detail: "千克")
-                    MetricView(title: "身高", value: protectedHeight, detail: "厘米")
-                    MetricView(title: "BMI", value: protectedBMI, detail: "指数")
+                    MetricView(title: model.localizer.text("体重"), value: protectedWeight, detail: model.localizer.text("千克"))
+                    MetricView(title: model.localizer.text("身高"), value: protectedHeight, detail: model.localizer.text("厘米"))
+                    MetricView(title: "BMI", value: protectedBMI, detail: model.localizer.text("指数"))
                 }
                 .privacySensitive()
             }
@@ -62,11 +70,15 @@ struct ProfileView: View {
     private var achievementSummary: some View {
         AppCard {
             VStack(alignment: .leading, spacing: AppSpacing.medium) {
-                HealthSectionHeader(title: "运动与成就", detail: "本机与设备数据", symbol: "medal.fill")
+                HealthSectionHeader(
+                    title: model.localizer.text("运动与成就"),
+                    detail: model.localizer.text("本机与设备数据"),
+                    symbol: "medal.fill"
+                )
                 HStack {
-                    MetricView(title: "运动", value: "\(model.workouts.count)", detail: "全部来源")
-                    MetricView(title: "挑战", value: "\(model.challenges.filter(\.isJoined).count)", detail: "已加入")
-                    MetricView(title: "徽章", value: "\(model.badges.filter(\.isUnlocked).count)", detail: "已解锁")
+                    MetricView(title: model.localizer.text("运动"), value: "\(model.workouts.count)", detail: model.localizer.text("全部来源"))
+                    MetricView(title: model.localizer.text("挑战"), value: "\(model.challenges.filter(\.isJoined).count)", detail: model.localizer.text("已加入"))
+                    MetricView(title: model.localizer.text("徽章"), value: "\(model.badges.filter(\.isUnlocked).count)", detail: model.localizer.text("已解锁"))
                 }
             }
         }
@@ -74,7 +86,7 @@ struct ProfileView: View {
 
     private var settingsGroup: some View {
         VStack(alignment: .leading, spacing: AppSpacing.small) {
-            HealthSectionHeader(title: "账户与偏好", symbol: "person.crop.circle")
+            HealthSectionHeader(title: model.localizer.text("账户与偏好"), symbol: "person.crop.circle")
             AppCard {
                 VStack(spacing: 0) {
                 settingLink(
@@ -101,7 +113,7 @@ struct ProfileView: View {
 
     private var supportGroup: some View {
         VStack(alignment: .leading, spacing: AppSpacing.small) {
-            HealthSectionHeader(title: "支持与说明", symbol: "questionmark.circle")
+            HealthSectionHeader(title: model.localizer.text("支持与说明"), symbol: "questionmark.circle")
             AppCard {
                 VStack(spacing: 0) {
                 settingLink("帮助与支持", symbol: "questionmark.circle.fill", destination: HelpSupportView())
@@ -119,28 +131,43 @@ struct ProfileView: View {
         symbol: String,
         destination: Destination
     ) -> some View {
-        HealthSettingsRow(title: title, symbol: symbol) {
+        HealthSettingsRow(title: model.localizer.text(title), symbol: symbol) {
             destination.environmentObject(model)
         }
     }
 
     private var accountCaption: String {
-        guard let session = model.accountSession else { return "本地健康模式 · 未登录后端账号" }
-        return "\(session.method.rawValue)服务端会话 · \(session.displayName)"
+        guard let session = model.accountSession else {
+            return model.localizer.text("本地健康模式 · 未登录后端账号")
+        }
+        return model.localizer.formatted(
+            "profile.server.session.format",
+            model.localizer.text(session.method.rawValue),
+            session.displayName
+        )
     }
 
     private var protectedWeight: String {
         guard let profile = model.profile else { return "—" }
-        return model.hidesSensitiveMetrics ? "••" : String(format: "%.1f", profile.weight.value)
+        return model.hidesSensitiveMetrics ? "••" : profile.weight.value.formatted(
+            .number.precision(.fractionLength(1))
+                .locale(Locale(identifier: model.contentLocale))
+        )
     }
 
     private var protectedHeight: String {
         guard let profile = model.profile else { return "—" }
-        return model.hidesSensitiveMetrics ? "••" : String(format: "%.0f", profile.height.value)
+        return model.hidesSensitiveMetrics ? "••" : profile.height.value.formatted(
+            .number.precision(.fractionLength(0))
+                .locale(Locale(identifier: model.contentLocale))
+        )
     }
 
     private var protectedBMI: String {
         guard let profile = model.profile else { return "—" }
-        return model.hidesSensitiveMetrics ? "••" : String(format: "%.1f", profile.bmi)
+        return model.hidesSensitiveMetrics ? "••" : profile.bmi.formatted(
+            .number.precision(.fractionLength(1))
+                .locale(Locale(identifier: model.contentLocale))
+        )
     }
 }

@@ -58,6 +58,44 @@ final class TrainingCatalogAppModelTests: XCTestCase {
     }
 
     @MainActor
+    func testExplicitEnglishOverridesChineseSystemLanguageImmediately() async {
+        let catalog = RecordingTrainingCatalog(results: [
+            TrainingCatalogResult(plans: [], source: .remote)
+        ])
+        let model = makeModel(catalog: catalog, persistence: nil, preferredSystemLanguage: "zh-CN")
+
+        await model.setAppLanguage(.english)
+
+        XCTAssertEqual(model.contentLocale, "en")
+        let locales = await catalog.locales()
+        XCTAssertEqual(locales, ["en"])
+    }
+
+    @MainActor
+    func testExplicitEnglishPreferencePersistsAcrossModelReload() async throws {
+        let persistence = PersistenceController(inMemory: true)
+        let first = makeModel(
+            catalog: RecordingTrainingCatalog(results: []),
+            persistence: persistence,
+            preferredSystemLanguage: "zh-CN"
+        )
+        await first.setAppLanguage(.english)
+
+        let stored = try await persistence.loadStringPreference(key: "language")
+        XCTAssertEqual(stored, AppLanguage.english.rawValue)
+        let restored = makeModel(
+            catalog: RecordingTrainingCatalog(results: [
+                TrainingCatalogResult(plans: [], source: .remote)
+            ]),
+            persistence: persistence,
+            preferredSystemLanguage: "zh-CN"
+        )
+        await restored.load()
+        XCTAssertEqual(restored.appLanguage, .english)
+        XCTAssertEqual(restored.contentLocale, "en")
+    }
+
+    @MainActor
     func testRetryReplacesLocalFallbackWithRemoteCatalog() async throws {
         let catalog = RecordingTrainingCatalog(results: [
             TrainingCatalogResult(

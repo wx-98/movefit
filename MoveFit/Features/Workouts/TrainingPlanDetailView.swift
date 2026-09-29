@@ -10,12 +10,15 @@ struct TrainingPlanDetailView: View {
                 GradientCard(colors: [AppColor.tint(plan.tint), AppColor.tint(plan.tint).opacity(0.62)]) {
                     VStack(alignment: .leading, spacing: AppSpacing.medium) {
                         Image(systemName: plan.type.symbol).font(.system(size: 44))
-                        Text(plan.title).font(.largeTitle.bold())
-                        Text(plan.subtitle).opacity(0.86)
+                        Text(model.localizer.text(plan.title)).font(.largeTitle.bold())
+                        Text(model.localizer.text(plan.subtitle)).opacity(0.86)
                         HStack {
-                            Label("\(plan.durationMinutes) 分钟", systemImage: "clock")
+                            Label(model.localizer.minutes(plan.durationMinutes), systemImage: "clock")
                             Spacer()
-                            Label(plan.difficulty.rawValue, systemImage: "chart.bar.fill")
+                            Label(
+                                model.localizer.text(plan.difficulty.rawValue),
+                                systemImage: "chart.bar.fill"
+                            )
                         }
                         .font(.subheadline.bold())
                     }
@@ -24,15 +27,15 @@ struct TrainingPlanDetailView: View {
 
                 AppCard {
                     VStack(alignment: .leading, spacing: AppSpacing.small) {
-                        Text("训练目标").font(.headline)
-                        Text(plan.goal)
+                        Text(model.localizer.text("训练目标")).font(.headline)
+                        Text(model.localizer.text(plan.goal))
                         Divider()
-                        Text("适合人群").font(.headline)
-                        Text(plan.suitableFor)
+                        Text(model.localizer.text("适合人群")).font(.headline)
+                        Text(model.localizer.text(plan.suitableFor))
                     }
                 }
 
-                Text("训练流程").font(.title3.bold())
+                Text(model.localizer.text("训练流程")).font(.title3.bold())
                 ForEach(Array(plan.steps.enumerated()), id: \.element.id) { index, step in
                     HStack(alignment: .top, spacing: AppSpacing.medium) {
                         Text("\(index + 1)")
@@ -43,32 +46,34 @@ struct TrainingPlanDetailView: View {
                             .clipShape(Circle())
                         VStack(alignment: .leading, spacing: AppSpacing.tiny) {
                             HStack {
-                                Text(step.title).font(.headline)
+                                Text(model.localizer.text(step.title)).font(.headline)
                                 Spacer()
-                                Text("\(step.durationMinutes) 分钟").font(.caption).foregroundColor(.secondary)
+                                Text(model.localizer.minutes(step.durationMinutes))
+                                    .font(.caption).foregroundColor(.secondary)
                             }
-                            Text(step.detail).font(.subheadline).foregroundColor(.secondary)
+                            Text(model.localizer.text(step.detail))
+                                .font(.subheadline).foregroundColor(.secondary)
                         }
                     }
                 }
 
                 AppCard {
                     VStack(alignment: .leading, spacing: AppSpacing.small) {
-                        Label("安全提示", systemImage: "exclamationmark.shield.fill")
+                        Label(model.localizer.text("安全提示"), systemImage: "exclamationmark.shield.fill")
                             .font(.headline)
                             .foregroundColor(AppColor.orange)
                         ForEach(plan.safetyNotes, id: \.self) { note in
-                            Label(note, systemImage: "checkmark.circle")
+                            Label(model.localizer.text(note), systemImage: "checkmark.circle")
                                 .font(.subheadline)
                         }
-                        Text("内容用于一般运动指导，不能替代医疗诊断或个体化专业建议。")
+                        Text(model.localizer.text("内容用于一般运动指导，不能替代医疗诊断或个体化专业建议。"))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
                 }
 
                 NavigationLink(destination: WorkoutSessionView(type: plan.type).environmentObject(model)) {
-                    Text("开始这项训练")
+                    Text(model.localizer.text("开始这项训练"))
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -79,7 +84,7 @@ struct TrainingPlanDetailView: View {
             .padding()
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .navigationTitle("方案详情")
+        .navigationTitle(model.localizer.text("方案详情"))
         .navigationBarTitleDisplayMode(.inline)
     }
 }

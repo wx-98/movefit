@@ -90,7 +90,7 @@ struct MoveFitApp: App {
                 .environmentObject(model)
                 .environmentObject(model.remoteFeatures)
                 .preferredColorScheme(model.appearance.colorScheme)
-                .environment(\.locale, model.appLanguage.locale)
+                .environment(\.locale, Locale(identifier: model.contentLocale))
         }
     }
 }
@@ -109,15 +109,6 @@ private extension AppAppearance {
         case .system: return nil
         case .light: return .light
         case .dark: return .dark
-        }
-    }
-}
-
-private extension AppLanguage {
-    var locale: Locale {
-        switch self {
-        case .system: return .current
-        case .simplifiedChinese: return Locale(identifier: "zh-Hans")
         }
     }
 }

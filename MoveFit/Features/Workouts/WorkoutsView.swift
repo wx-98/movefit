@@ -13,7 +13,9 @@ struct WorkoutsView: View {
         }
         return query.isEmpty
             ? supported
-            : supported.filter { $0.rawValue.localizedCaseInsensitiveContains(query) }
+            : supported.filter {
+                model.localizer.text($0.rawValue).localizedCaseInsensitiveContains(query)
+            }
     }
 
     private var filteredPlans: [TrainingPlan] {
@@ -43,8 +45,8 @@ struct WorkoutsView: View {
                                     .background(AppColor.challenge)
                                     .clipShape(RoundedRectangle(cornerRadius: AppRadius.small))
                                 VStack(alignment: .leading, spacing: AppSpacing.tiny) {
-                                    Text("动作库").font(.headline)
-                                    Text("查看标准步骤、目标肌群与安全提示")
+                                    Text(model.localizer.text("动作库")).font(.headline)
+                                    Text(model.localizer.text("查看标准步骤、目标肌群与安全提示"))
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                 }
@@ -55,7 +57,11 @@ struct WorkoutsView: View {
                     }
                     .buttonStyle(.plain)
                     .accessibilityIdentifier("exerciseCatalogLink")
-                    HealthSectionHeader(title: "运动分类", detail: "按目标选择", symbol: "square.grid.2x2.fill")
+                    HealthSectionHeader(
+                        title: model.localizer.text("运动分类"),
+                        detail: model.localizer.text("按目标选择"),
+                        symbol: "square.grid.2x2.fill"
+                    )
                     LazyVGrid(columns: columns, spacing: AppSpacing.medium) {
                         ForEach(filteredTypes) { type in
                             NavigationLink(destination: WorkoutCategoryDetailView(type: type)) {
@@ -67,17 +73,14 @@ struct WorkoutsView: View {
                     }
 
                     HealthSectionHeader(
-                        title: "为你推荐",
+                        title: model.localizer.text("为你推荐"),
                         detail: trainingCatalogSourceTitle,
                         symbol: "sparkles"
                     )
                     if model.trainingCatalogStatus == .empty {
                         EmptyStateView(
-                            title: NSLocalizedString("暂无已发布训练方案", comment: "Training catalog empty title"),
-                            message: NSLocalizedString(
-                                "服务端尚未发布当前语言的方案，请稍后重试。",
-                                comment: "Training catalog empty detail"
-                            ),
+                            title: model.localizer.text("暂无已发布训练方案"),
+                            message: model.localizer.text("服务端尚未发布当前语言的方案，请稍后重试。"),
                             symbol: "list.bullet.rectangle"
                         )
                         .accessibilityIdentifier("trainingCatalogEmptyState")
@@ -93,7 +96,11 @@ struct WorkoutsView: View {
                         }
                     }
 
-                    HealthSectionHeader(title: "心肺专项", detail: "循序渐进", symbol: "heart.circle.fill")
+                    HealthSectionHeader(
+                        title: model.localizer.text("心肺专项"),
+                        detail: model.localizer.text("循序渐进"),
+                        symbol: "heart.circle.fill"
+                    )
                     ForEach(model.trainingPlans.filter { [.running, .walking, .cycling].contains($0.type) }.prefix(3)) { plan in
                         NavigationLink(destination: TrainingPlanDetailView(plan: plan)) {
                             AppCard {
@@ -106,7 +113,11 @@ struct WorkoutsView: View {
                                         .clipShape(RoundedRectangle(cornerRadius: AppRadius.small))
                                     VStack(alignment: .leading, spacing: AppSpacing.tiny) {
                                         Text(plan.title).font(.headline)
-                                        Text("\(plan.durationMinutes) 分钟 · \(plan.difficulty.rawValue)")
+                                        Text(model.localizer.formatted(
+                                            "workouts.plan.duration.difficulty.format",
+                                            plan.durationMinutes,
+                                            model.localizer.text(plan.difficulty.rawValue)
+                                        ))
                                             .font(.caption)
                                             .foregroundColor(.secondary)
                                     }
@@ -121,7 +132,7 @@ struct WorkoutsView: View {
                 .padding()
             }
             .background(AppColor.pageBackground.ignoresSafeArea())
-            .navigationTitle("运动")
+            .navigationTitle(model.localizer.text("运动"))
             .sheet(isPresented: $showingManual) {
                 ManualWorkoutView().environmentObject(model)
             }
@@ -130,12 +141,12 @@ struct WorkoutsView: View {
 
     private var trainingCatalogSourceTitle: String {
         switch model.trainingCatalogStatus {
-        case .available: return NSLocalizedString("服务端已发布", comment: "Remote training catalog source")
-        case .bundledFallback: return NSLocalizedString("本地离线方案", comment: "Bundled training fallback")
-        case .empty: return NSLocalizedString("暂无已发布方案", comment: "Empty remote training catalog")
-        case .loading: return NSLocalizedString("正在加载训练目录", comment: "Training catalog loading")
-        case .failed: return NSLocalizedString("训练目录不可用", comment: "Training catalog failed")
-        case .notLoaded: return NSLocalizedString("等待加载训练目录", comment: "Training catalog pending")
+        case .available: return model.localizer.text("服务端已发布")
+        case .bundledFallback: return model.localizer.text("本地离线方案")
+        case .empty: return model.localizer.text("暂无已发布方案")
+        case .loading: return model.localizer.text("正在加载训练目录")
+        case .failed: return model.localizer.text("训练目录不可用")
+        case .notLoaded: return model.localizer.text("等待加载训练目录")
         }
     }
 
@@ -147,7 +158,7 @@ struct WorkoutsView: View {
                 .accessibilityIdentifier("trainingCatalogSourceLabel")
             Spacer()
             if model.trainingCatalogStatus != .loading {
-                Button(NSLocalizedString("重试训练目录", comment: "Retry training catalog")) {
+                Button(model.localizer.text("重试训练目录")) {
                     Task { await model.reloadTrainingPlans() }
                 }
                 .font(.footnote)
@@ -159,8 +170,9 @@ struct WorkoutsView: View {
     private var workoutIntro: some View {
         HStack(alignment: .lastTextBaseline) {
             VStack(alignment: .leading, spacing: AppSpacing.tiny) {
-                Text("为今天动起来").font(.largeTitle.bold())
-                Text("选择一种适合此刻的运动方式").font(.subheadline).foregroundColor(.secondary)
+                Text(model.localizer.text("为今天动起来")).font(.largeTitle.bold())
+                Text(model.localizer.text("选择一种适合此刻的运动方式"))
+                    .font(.subheadline).foregroundColor(.secondary)
             }
             Spacer()
             Image(systemName: "figure.run.circle.fill")
@@ -172,7 +184,7 @@ struct WorkoutsView: View {
     private var searchField: some View {
         HStack {
             Image(systemName: "magnifyingglass").foregroundColor(.secondary)
-            TextField("搜索运动或训练方案", text: $query)
+            TextField(model.localizer.text("搜索运动或训练方案"), text: $query)
             if !query.isEmpty {
                 Button { query = "" } label: {
                     Image(systemName: "xmark.circle.fill").foregroundColor(.secondary)
@@ -187,17 +199,27 @@ struct WorkoutsView: View {
     private var actionCards: some View {
         HStack(spacing: AppSpacing.medium) {
             NavigationLink(destination: WorkoutSessionView(type: .running).environmentObject(model)) {
-                actionCard(title: "快速开始", detail: "户外跑步", symbol: "play.fill", color: AppColor.move)
+                actionCard(
+                    title: model.localizer.text("快速开始"),
+                    detail: model.localizer.text("户外跑步"),
+                    symbol: "play.fill",
+                    color: AppColor.move
+                )
             }
             .buttonStyle(.plain)
             .accessibilityIdentifier("quickStartButton")
             Button {
                 showingManual = true
             } label: {
-                actionCard(title: "手动记录", detail: "补充训练", symbol: "plus", color: AppColor.stand)
+                actionCard(
+                    title: model.localizer.text("手动记录"),
+                    detail: model.localizer.text("补充训练"),
+                    symbol: "plus",
+                    color: AppColor.stand
+                )
             }
             .buttonStyle(.plain)
-            .accessibilityLabel("手动记录")
+            .accessibilityLabel(model.localizer.text("手动记录"))
         }
     }
 
@@ -221,8 +243,12 @@ struct WorkoutsView: View {
             Image(systemName: type.symbol)
                 .font(.system(size: 30))
                 .foregroundColor(.white)
-            Text(type.rawValue).font(.subheadline.bold()).foregroundColor(.white)
-            Text("\(model.trainingPlans.filter { $0.type == type }.count) 个方案")
+            Text(model.localizer.text(type.rawValue))
+                .font(.subheadline.bold()).foregroundColor(.white)
+            Text(model.localizer.formatted(
+                "workouts.plan.count.format",
+                model.trainingPlans.filter { $0.type == type }.count
+            ))
                 .font(.caption2)
                 .foregroundColor(.white.opacity(0.82))
         }
@@ -237,7 +263,7 @@ struct WorkoutsView: View {
             HStack {
                 Image(systemName: plan.type.symbol).font(.largeTitle)
                 Spacer()
-                Text(plan.difficulty.rawValue)
+                Text(model.localizer.text(plan.difficulty.rawValue))
                     .font(.caption.bold())
                     .padding(.horizontal, 9)
                     .padding(.vertical, 5)
@@ -247,7 +273,8 @@ struct WorkoutsView: View {
             Spacer()
             Text(plan.title).font(.title2.bold())
             Text(plan.subtitle).font(.footnote).lineLimit(2).opacity(0.86)
-            Label("\(plan.durationMinutes) 分钟", systemImage: "clock.fill").font(.caption.bold())
+            Label(model.localizer.minutes(plan.durationMinutes), systemImage: "clock.fill")
+                .font(.caption.bold())
         }
         .foregroundColor(.white)
         .padding(AppSpacing.large)

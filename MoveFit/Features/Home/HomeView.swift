@@ -60,7 +60,7 @@ struct HomeView: View {
                     .background(AppColor.raisedSurface)
                     .clipShape(Circle())
             }
-            .accessibilityLabel("连接或刷新 Apple 健康")
+            .accessibilityLabel(Text("连接或刷新 Apple 健康"))
         }
         .padding(AppSpacing.small)
         .background(AppColor.raisedSurface)
@@ -71,7 +71,11 @@ struct HomeView: View {
         AppCard {
             VStack(spacing: AppSpacing.large) {
                 HStack {
-                    HealthSectionHeader(title: "今日活动", detail: "来自 Apple 健康", symbol: "figure.mixed.cardio")
+                    HealthSectionHeader(
+                        title: model.localizer.text("今日活动"),
+                        detail: model.localizer.text("来自 Apple 健康"),
+                        symbol: "figure.mixed.cardio"
+                    )
                     Spacer()
                 }
 
@@ -88,7 +92,8 @@ struct HomeView: View {
                                 .font(.headline.monospacedDigit())
                                 .foregroundColor(metric.color)
                                 .minimumScaleFactor(0.7)
-                            Text("目标 \(metric.goalText)").font(.caption2).foregroundColor(.secondary)
+                            Text(model.localizer.formatted("home.goal.format", metric.goalText))
+                                .font(.caption2).foregroundColor(.secondary)
                         }
                         .frame(maxWidth: .infinity)
                     }
@@ -146,9 +151,15 @@ struct HomeView: View {
                             Image(systemName: "chevron.right")
                         }
                         if let summary = model.sleepSummary {
-                            Text(summary.score.map { "\($0) 分" } ?? "评分数据不足")
+                            Text(summary.score.map {
+                                model.localizer.formatted("home.score.format", $0)
+                            } ?? model.localizer.text("评分数据不足"))
                                 .font(.title.bold())
-                            Text("睡眠 \(AppFormat.duration(summary.totalSleep)) · 效率 \(percent(summary.efficiency))")
+                            Text(model.localizer.formatted(
+                                "home.sleep.summary.format",
+                                model.localizer.duration(seconds: summary.totalSleep),
+                                percent(summary.efficiency)
+                            ))
                                 .font(.caption)
                         } else {
                             Text("暂无睡眠数据").font(.title3.bold())
@@ -166,12 +177,16 @@ struct HomeView: View {
 
     private var healthMetrics: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            HealthSectionHeader(title: "重点指标", detail: "点击查看详情", symbol: "heart.text.square")
+            HealthSectionHeader(
+                title: model.localizer.text("重点指标"),
+                detail: model.localizer.text("点击查看详情"),
+                symbol: "heart.text.square"
+            )
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: AppSpacing.medium) {
-            metricCard(metric: .steps, value: integerText(model.health.steps), detail: "今日", color: AppColor.stand)
-            metricCard(metric: .distance, value: distanceText, detail: "公里", color: AppColor.exercise)
-            metricCard(metric: .heartRate, value: bpmText(model.health.heartRate), detail: "最新样本", color: AppColor.move)
-            metricCard(metric: .restingHeartRate, value: bpmText(model.health.restingHeartRate), detail: "最新样本", color: AppColor.orange)
+            metricCard(metric: .steps, value: integerText(model.health.steps), detail: model.localizer.text("今日"), color: AppColor.stand)
+            metricCard(metric: .distance, value: distanceText, detail: model.localizer.text("公里"), color: AppColor.exercise)
+            metricCard(metric: .heartRate, value: bpmText(model.health.heartRate), detail: model.localizer.text("最新样本"), color: AppColor.move)
+            metricCard(metric: .restingHeartRate, value: bpmText(model.health.restingHeartRate), detail: model.localizer.text("最新样本"), color: AppColor.orange)
             }
         }
     }
@@ -183,7 +198,7 @@ struct HomeView: View {
         color: Color
     ) -> some View {
         NavigationLink(destination: HealthMetricDetailView(metric: metric).environmentObject(model)) {
-            HealthMetricCard(title: metric.title, value: value, detail: detail, symbol: metric.symbol, tint: color)
+            HealthMetricCard(title: model.localizer.text(metric.title), value: value, detail: detail, symbol: metric.symbol, tint: color)
         }
         .buttonStyle(.plain)
         .accessibilityIdentifier("healthMetric-\(metric.rawValue)")
@@ -191,7 +206,11 @@ struct HomeView: View {
 
     private var quickStart: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            HealthSectionHeader(title: "快速开始", detail: "开始一次训练", symbol: "play.circle.fill")
+            HealthSectionHeader(
+                title: model.localizer.text("快速开始"),
+                detail: model.localizer.text("开始一次训练"),
+                symbol: "play.circle.fill"
+            )
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: AppSpacing.medium) {
                     quickStartButton(.running, color: AppColor.move)
@@ -204,7 +223,11 @@ struct HomeView: View {
 
     private var personalHealthManagement: some View {
         VStack(alignment: .leading, spacing: AppSpacing.medium) {
-            HealthSectionHeader(title: "健康管理", detail: "仅本机存储", symbol: "cross.case.fill")
+            HealthSectionHeader(
+                title: model.localizer.text("健康管理"),
+                detail: model.localizer.text("仅本机存储"),
+                symbol: "cross.case.fill"
+            )
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: AppSpacing.medium) {
                 personalHealthLink(.symptom, color: AppColor.move)
                 personalHealthLink(.medication, color: AppColor.orange)
@@ -228,7 +251,7 @@ struct HomeView: View {
                         .background(color.opacity(0.13))
                         .clipShape(Circle())
                     VStack(alignment: .leading, spacing: AppSpacing.tiny) {
-                        Text(category.title).font(.subheadline.bold())
+                        Text(model.localizer.text(category.title)).font(.subheadline.bold())
                         Text(personalHealthSummary(category)).font(.caption2).foregroundColor(.secondary)
                     }
                     Spacer(minLength: 0)
@@ -242,10 +265,19 @@ struct HomeView: View {
     private func personalHealthSummary(_ category: PersonalHealthCategory) -> String {
         let statistics = model.personalHealthStatistics
         switch category {
-        case .symptom: return "记录感受与程度"
-        case .medication: return statistics.medicationAdherence.map { "今日完成 \(Int(($0 * 100).rounded()))%" } ?? "管理用药计划"
-        case .nutrition: return statistics.nutritionCalories > 0 ? "今日 \(Int(statistics.nutritionCalories)) 千卡" : "记录每餐营养"
-        case .medicalCheck: return statistics.checkCount > 0 ? "已存 \(statistics.checkCount) 项" : "整理检查结果"
+        case .symptom: return model.localizer.text("记录感受与程度")
+        case .medication:
+            return statistics.medicationAdherence.map {
+                model.localizer.formatted("home.today.completed.format", Int(($0 * 100).rounded()))
+            } ?? model.localizer.text("管理用药计划")
+        case .nutrition:
+            return statistics.nutritionCalories > 0
+                ? model.localizer.formatted("home.today.energy.format", Int(statistics.nutritionCalories))
+                : model.localizer.text("记录每餐营养")
+        case .medicalCheck:
+            return statistics.checkCount > 0
+                ? model.localizer.formatted("home.saved.items.format", statistics.checkCount)
+                : model.localizer.text("整理检查结果")
         }
     }
 
@@ -257,7 +289,7 @@ struct HomeView: View {
                     .frame(width: 52, height: 52)
                     .background(Color.white.opacity(0.18))
                     .clipShape(Circle())
-                Text(type.rawValue).font(.subheadline.bold())
+                Text(model.localizer.text(type.rawValue)).font(.subheadline.bold())
             }
             .frame(width: 126, height: 120)
             .background(color)
@@ -274,25 +306,29 @@ struct HomeView: View {
         return [
             ActivityRingMetric(
                 id: "move",
-                title: "活动",
-                displayValue: energy.map { "\(Int($0.rounded())) 千卡" } ?? "—",
-                goalText: "600 千卡",
+                title: model.localizer.text("活动"),
+                displayValue: energy.map {
+                    model.localizer.formatted("home.energy.format", Int($0.rounded()))
+                } ?? "—",
+                goalText: model.localizer.formatted("home.energy.format", 600),
                 progress: energy.map { $0 / 600 },
                 color: AppColor.move
             ),
             ActivityRingMetric(
                 id: "exercise",
-                title: "锻炼",
-                displayValue: exercise.map { "\(Int($0)) 分钟" } ?? "—",
-                goalText: "30 分钟",
+                title: model.localizer.text("锻炼"),
+                displayValue: exercise.map { model.localizer.minutes(Int($0)) } ?? "—",
+                goalText: model.localizer.minutes(30),
                 progress: exercise.map { $0 / 30 },
                 color: AppColor.exercise
             ),
             ActivityRingMetric(
                 id: "stand",
-                title: "站立",
-                displayValue: stand.map { "\(Int($0)) 小时" } ?? "—",
-                goalText: "12 小时",
+                title: model.localizer.text("站立"),
+                displayValue: stand.map {
+                    model.localizer.formatted("home.hours.format", Int($0))
+                } ?? "—",
+                goalText: model.localizer.formatted("home.hours.format", 12),
                 progress: stand.map { $0 / 12 },
                 color: AppColor.stand
             )
@@ -300,15 +336,23 @@ struct HomeView: View {
     }
 
     private var trendAverageText: String {
-        model.weeklyStepTrend.average.map { Int($0.rounded()).formatted() } ?? "—"
+        model.weeklyStepTrend.average.map {
+            Int($0.rounded()).formatted(.number.locale(Locale(identifier: model.contentLocale)))
+        } ?? "—"
     }
 
     private var distanceText: String {
         guard let distance = model.health.distance else { return "—" }
-        return String(format: "%.1f", distance.converted(to: .kilometers).value)
+        return String(
+            format: "%.1f",
+            locale: Locale(identifier: model.contentLocale),
+            distance.converted(to: .kilometers).value
+        )
     }
 
-    private func integerText(_ value: Int?) -> String { value?.formatted() ?? "—" }
+    private func integerText(_ value: Int?) -> String {
+        value?.formatted(.number.locale(Locale(identifier: model.contentLocale))) ?? "—"
+    }
     private func bpmText(_ value: Int?) -> String { value.map { "\($0) BPM" } ?? "—" }
     private func percent(_ value: Double?) -> String {
         value.map { "\(Int(($0 * 100).rounded()))%" } ?? "—"
@@ -316,21 +360,21 @@ struct HomeView: View {
 
     private var healthStatusTitle: String {
         switch model.healthStatus {
-        case .notLoaded: return "正在读取 Apple 健康"
-        case .unavailable: return "Apple 健康不可用"
-        case .noData: return "暂无可用健康数据"
-        case .available: return "Apple 健康已连接"
-        case .failed: return "健康数据读取失败"
+        case .notLoaded: return model.localizer.text("正在读取 Apple 健康")
+        case .unavailable: return model.localizer.text("Apple 健康不可用")
+        case .noData: return model.localizer.text("暂无可用健康数据")
+        case .available: return model.localizer.text("Apple 健康已连接")
+        case .failed: return model.localizer.text("健康数据读取失败")
         }
     }
 
     private var healthStatusMessage: String {
         switch model.healthStatus {
-        case .notLoaded: return "正在查询真实设备样本"
-        case .unavailable: return "当前设备不支持 HealthKit"
-        case .noData: return "未授权或今天没有样本"
-        case .available: return "今日数据已刷新"
-        case .failed: return "点击右侧按钮重试"
+        case .notLoaded: return model.localizer.text("正在查询真实设备样本")
+        case .unavailable: return model.localizer.text("当前设备不支持 HealthKit")
+        case .noData: return model.localizer.text("未授权或今天没有样本")
+        case .available: return model.localizer.text("今日数据已刷新")
+        case .failed: return model.localizer.text("点击右侧按钮重试")
         }
     }
 

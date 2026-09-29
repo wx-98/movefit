@@ -12,8 +12,8 @@ struct WorkoutCategoryDetailView: View {
                 GradientCard(colors: [AppColor.primary, AppColor.stand]) {
                     HStack {
                         VStack(alignment: .leading, spacing: AppSpacing.small) {
-                            Text(type.rawValue).font(.largeTitle.bold())
-                            Text("选择适合当前能力与目标的方案，也可以直接开始自由训练。")
+                            Text(model.localizer.text(type.rawValue)).font(.largeTitle.bold())
+                            Text(model.localizer.text("选择适合当前能力与目标的方案，也可以直接开始自由训练。"))
                                 .font(.subheadline)
                                 .opacity(0.86)
                         }
@@ -24,7 +24,9 @@ struct WorkoutCategoryDetailView: View {
                 }
 
                 NavigationLink(destination: WorkoutSessionView(type: type).environmentObject(model)) {
-                    Label("开始自由\(type.rawValue)", systemImage: "play.fill")
+                    Label(model.localizer.formatted(
+                        "workouts.free.start.format", model.localizer.text(type.rawValue)
+                    ), systemImage: "play.fill")
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -32,9 +34,13 @@ struct WorkoutCategoryDetailView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(AppColor.primary)
 
-                Text("训练方案").font(.title3.bold())
+                Text(model.localizer.text("训练方案")).font(.title3.bold())
                 if plans.isEmpty {
-                    EmptyStateView(title: "方案准备中", message: "仍可使用上方入口开始自由训练。", symbol: type.symbol)
+                    EmptyStateView(
+                        title: model.localizer.text("方案准备中"),
+                        message: model.localizer.text("仍可使用上方入口开始自由训练。"),
+                        symbol: type.symbol
+                    )
                 } else {
                     ForEach(plans) { plan in
                         NavigationLink(destination: TrainingPlanDetailView(plan: plan)) {
@@ -47,9 +53,14 @@ struct WorkoutCategoryDetailView: View {
                                         .background(AppColor.tint(plan.tint).opacity(0.12))
                                         .clipShape(RoundedRectangle(cornerRadius: AppRadius.small))
                                     VStack(alignment: .leading, spacing: AppSpacing.tiny) {
-                                        Text(plan.title).font(.headline)
-                                        Text(plan.subtitle).font(.footnote).foregroundColor(.secondary).lineLimit(2)
-                                        Text("\(plan.durationMinutes) 分钟 · \(plan.difficulty.rawValue)")
+                                        Text(model.localizer.text(plan.title)).font(.headline)
+                                        Text(model.localizer.text(plan.subtitle))
+                                            .font(.footnote).foregroundColor(.secondary).lineLimit(2)
+                                        Text(model.localizer.formatted(
+                                            "workouts.plan.duration.difficulty.format",
+                                            plan.durationMinutes,
+                                            model.localizer.text(plan.difficulty.rawValue)
+                                        ))
                                             .font(.caption.bold())
                                             .foregroundColor(AppColor.tint(plan.tint))
                                     }
@@ -65,7 +76,7 @@ struct WorkoutCategoryDetailView: View {
             .padding()
         }
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
-        .navigationTitle(type.rawValue)
+        .navigationTitle(model.localizer.text(type.rawValue))
         .navigationBarTitleDisplayMode(.inline)
     }
 }
