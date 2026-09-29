@@ -18,7 +18,7 @@
 
 - [x] 4.1 Run all iOS unit/UI tests and inspect the diff for contract, safety, localization and unrelated changes.
 - [x] 4.2 After backend deployment and reviewed seed data, verify staging training-plan API and physical-device catalog, fallback, retry and language switching; record redacted evidence only.
-- [ ] 4.3 When production is reachable, verify a Release build uses production HTTPS endpoints and passes the public catalog smoke test; record redacted evidence only.
+- [x] 4.3 When production is reachable, verify a Release build uses production HTTPS endpoints and passes the public catalog smoke test; record redacted evidence only.
 
 Verification note (2026-09-27): iOS unit tests 127/127 and UI tests 16/16 passed; Release
 simulator build and production URL inspection passed. Both staging and production public
@@ -112,3 +112,38 @@ staging `GET /api/v1/client-config?platform=ios&app_version=1.0` returned HTTP 4
 degrades without blocking); the backend should confirm the expected parameter set. Combined with
 the earlier catalog, fallback, retry and visual language-toggle evidence above, task 4.2 is
 complete; task 4.3 remains open pending the production release of the training-plan image.
+
+Verification note (2026-09-28, production recheck): the public frontend and core, work and AI
+readiness endpoints returned HTTP 200, while `GET /api/v1/training-plans?locale=zh-Hans`
+returned HTTP 404. Production core-api remained healthy on its earlier `e309b4d919d5` image,
+and `movefit_core.alembic_version` remained `0009_google_authorization`; the training-plan
+schema and image are not yet deployed there. Task 4.3 cannot pass until a separately authorized
+production migration and rollout is complete. No production state was changed.
+
+Verification note (2026-09-28, QA reinstallation follow-up): after the successful English-
+locale acceptance recorded above, a newly rebuilt staging QA app was installed on the same
+device. iOS denied its launch with a development-profile trust/signature message. The renewed
+profile is unexpired, includes the selected device, has the expected app identifier and matches
+the available Apple Development signing identity. Device-side trust has not yet been confirmed;
+the installed QA app may need its developer profile trusted again before it can launch. This
+later signing issue does not change the earlier request-line acceptance evidence, but should be
+resolved before further on-device testing. No app data was intentionally removed.
+
+Verification note (2026-09-29, production read-only recheck): the core, work and AI public
+`/health/ready` endpoints returned HTTP 200. Both `zh-Hans` and `en` production training-plan
+list requests returned HTTP 404. The production core-api and challenge-worker containers were
+healthy but still used the previous `e309b4d919d5` image. No production state was changed, and
+task 4.3 remains open until the separately authorized backend rollout makes the public catalog
+available and a Release build can be smoke-tested against it.
+
+Verification note (2026-09-29, production rollout and Release acceptance): after explicit user
+approval, a fresh off-host MySQL backup completed and its streamed checksum matched. Production
+advanced to migration `0010_training_plan_catalog`, then loaded the reviewed eight-plan
+`zh-Hans` seed. Core API and challenge worker now run the same staging-verified immutable
+`movefit-backed` digest `sha256:31136aef0609f87d1d11dc161ef801f09126045e553948b85cda25eb704e7e6f`
+and both report healthy. The Release simulator build succeeded; its resolved Info.plist uses
+`https://api.movefitgo.com`, `https://exercises.movefitgo.com`, and
+`https://ai.movefitgo.com`. Production public smoke passed 9/9 checks. The training-plan
+catalog returned eight distinct Chinese plans across cursor pages, a selected detail returned
+HTTP 200, and the valid empty English catalog returned HTTP 200. No credentials, personal data,
+response bodies, device screenshots, or health metrics were recorded in this evidence.
